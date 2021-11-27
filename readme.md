@@ -1,0 +1,1 @@
+A simulator of a ninja TRPG

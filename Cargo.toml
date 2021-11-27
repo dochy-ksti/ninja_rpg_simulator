@@ -1,0 +1,22 @@
+[package]
+name = "ninja_rpg_simulator"
+version = "0.1.0"
+authors = ["juzy <dochy.ksti@gmail.com>"]
+edition = "2018"
+
+license = "MIT OR Apache-2.0"
+description = "A kind of ninja TRPG simulator(which means it's a computer RPG)"
+repository = "https://github.com/dochy-ksti/ninja_trpg_simulator"
+readme = "readme.md"
+keywords = ["game-mechanics"]
+categories = ["Games"]
+documentation = "https://docs.rs/ninja_rpg_simulator"
+
+
+[workspace]
+
+
+[dependencies]
+docchi = "0.7.0"
+anyhow = "1.0.34"
+
