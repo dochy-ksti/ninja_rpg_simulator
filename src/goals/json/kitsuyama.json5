@@ -1,0 +1,43 @@
+[
+	{
+		// 彼の名前はキツ山次郎
+		// 父母を殺したヴァンパイアの手先として働いている。
+		// 彼は自分の上司がヴァンパイアであることも、両親を殺したのがヴァンパイアであることも知らない
+		Type : "pc",
+		ID : "kitsuyama",
+		goal : ["Cil",
+			{ // 彼の目的は、ヴァンパイアの殲滅が上位。スコアは100点
+				Ref : { event : "annihilate_vampire" },
+				score : "100"
+			},
+			{ // 上司の言うことを聞いて汚れ仕事を行う。スコアは1点しかもらえない
+				Ref : { event : "vamp_dirty_work" },
+				score : "1",
+			}
+		]
+	},
+	{
+		Type : "event",
+		ID : "annihilate_vampire",
+		Ref : {
+			// vamp_boss_battleをこなすと、ヴァンパイアの殲滅が出来る
+			event : "vampire_boss_battle"
+		}
+	},
+	{
+		Type : "event",
+		ID : "vampire_boss_battle",
+		or : ["Cil", //ヴァンプボスバトルの起動条件は、ヴァンプ手下バトルクリアか、神からボスの情報を聞くか
+			{ Ref : { event : "vamp_henchman_battle" } },
+			{ Ref : { event : "info_vamp_boss_from_god" } }
+		]
+	},
+	{
+		Type : "event",
+		ID : "vamp_henchman_battle",
+		and : ["Cil",
+			{ Ref : { event : "info_vamp_murder" } },
+			{ Ref : { event : "info_parents_cause_of_death" } }
+		]
+	}
+]
