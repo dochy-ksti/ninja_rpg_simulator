@@ -1,4 +1,5 @@
 mod goals;
+mod kumamoto;
 
 #[test]
 fn test(){

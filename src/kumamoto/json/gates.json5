@@ -1,0 +1,81 @@
+[
+  {
+    //Typeがない場合はeventとみなされる
+    ID : "east_gate",
+    difficulty : 80,
+    own : "all",
+    weaks : ["Cil", {
+      Ref: { gates: "west_gate" },
+      val: 10,
+    }, {
+      Ref: { gates: "north_gate"},
+      val: 10,
+    }, {
+      Ref: { gates: "south_gate" },
+      val: 10,
+    }]
+  },
+  {
+    ID : "west_gate",
+    difficulty : 70,
+    own : "all",
+    weak : ["Cil", {
+      Ref: { gates: "east_gate" },
+      val: 10,
+    }, {
+      Ref: { gates: "north_gate"},
+      val: 10,
+    }, {
+      Ref: { gates: "south_gate" },
+      val: 10,
+    }]
+  },
+  {
+    ID : "north_gate",
+    difficulty : 60,
+    own : "all",
+    weak : ["Cil", {
+      Ref: { gates: "east_gate" },
+      val: 10,
+    }, {
+      Ref: { gates: "west_gate"},
+      val: 10,
+    }, {
+      Ref: { gates: "south_gate" },
+      val: 10,
+    }]
+  },
+  {
+    ID : "south_gate",
+    difficulty : 50,
+    own : "all",
+    weak : ["Cil", {
+      Ref: { gates: "east_gate" },
+      val: 10,
+    }, {
+      Ref: { gates: "north_gate"},
+      val: 10,
+    }, {
+      Ref: { gates: "west_gate" },
+      val: 10,
+    }]
+  },
+  {
+    ID : "honmaru",
+    difficulty : 90,
+    own : "all",
+    weak : ["Cil", {
+      Ref: { gates: "east_gate" },
+      val: 10,
+    }, {
+      Ref: { gates: "north_gate"},
+      val: 10,
+    }, {
+      Ref: { gates: "west_gate" },
+      val: 10,
+    },{
+      Ref: { gates: "south_gate" },
+      val: 10,
+    }],
+  }
+]
