@@ -65,7 +65,20 @@ Visibility
 transparentであれば、情報が見える。実行することが出来る。
 lightであれば、基本的な情報は見える。どのイベントをクリアすればtransparentになるか見える。AIはこれを探索できる。
 darkであれば、ヒントが見える。UI上はどのイベントをクリアすれば実行可能になるかわからないが、AIはこれを探索ルートに入れられる
-completely darkであれば、何もわからない。AIも探索ルートに入れられない。
+blackであれば、何もわからない。AIも探索ルートに入れられない。
+
+from : "hoge" hogeイベント所有時にtransparentに
+from : ["hoge", "huga"] hoge or huga イベント所有時にtransparentに
+from_and : ["hoge", "huga"]  hoge and huga 所有時にtransparentに
+from_and : [["hoge", "huga"], ["hego","hemi"]] hoge and huga あるいは hego and hemi 時にtransparentに
+
+light : "hoge" hogeイベント所有時に lightに
+light_and : fromと同じ感じ
+dark, dark_and
+
+vis : lightが初期値
+vis : black, dark, transparentがある
+vis : t, l, d, b と略記できる（transparentはさすがに長過ぎる・・・)
 
 peek キャラAからあるイベントの情報を得ることが出来る
 Aが真のdifficultyを知っていればdifficultyが、weak情報を知っていればweak情報が、
