@@ -42,18 +42,16 @@ dark_weak weakの存在はわかるが、どのイベントを所有すれば弱
 completely_dark_weak weakの存在もUI上わからないもの
 weak:[
     [10,"ev_id"],
-    [10,["ev_id"]], //[]で囲まれた部分は見えない
-    [[10,"ev_id"]], //全部見えない
-    //[[10],"ev_id"], //数字だけ見えなくするのは意味がない fakeで十分
     [10, "ev_id",
     [["fake_num","fake_id"], //fake_difficultyのように、
     ["fake_num2", "fake_id2"],//無数のfake情報を設定できる。そんなに設定する意味ある？
-    ["fake_num3", ["fake_id3"]], //fakeでも見えなくすることが可能
+    ["fake_num3", ["fake_id3"]], //[]で囲われた部分は見えなくすることが可能
+    [[], ["fake_id3"]] //両方消すとなにもないように見える
     //fake_fake つまり fake_idを実行してもfakeが消えない、というweakは必要だろうか
     //わかりにくすぎはしないか？　どう記述すればいいかもよくわからん
 
 objective pcの目的。目的ごとに設定された功績点を求めて戦う。
-dark, completely_dark, light objective。weakと同じように、イベントを実行することで明らかになる目的がある。
+weakと同じように、イベントを所有することで発生する目的がある。
 目的達成のためにAIも動くが、hidden objective を自ら明らかにしようとはしないし、
 誰かのobjectiveを変更することも（それがAIのobjectiveでない限り)しない
 
@@ -69,6 +67,7 @@ visibility:[
     ["black", "ev_name"]]
 blackの場合、AIも存在を認識できない
 darkの場合、UI上で表示されない
+全部クリアすると見えるようになる
 
 from : "hoge" hogeイベント所有時に実行可能に
 
@@ -80,7 +79,7 @@ fake_from:[
 
 from : [],
 
-fromが空リストの場合、いつでも実行可能である
+fromが空リストの場合、最初から実行可能であることを意味する
 
 chain:"hoge",
 chain:["hoge","or_hoge2"],
@@ -106,9 +105,6 @@ usurp これがある場合、イベントの実行時にown=oneのイベント�
 所有者のpowerがdifficultyに関係する？
 
 share これがある場合、イベントの実行時にown=unlimitedのイベントの所有権をコピーする事ができる。
-
-
-
 
 free 行動回数消費無しで実行可能なイベント。実行しないことも出来る。
 
