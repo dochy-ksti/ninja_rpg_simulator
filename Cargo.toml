@@ -17,6 +17,6 @@ documentation = "https://docs.rs/ninja_rpg_simulator"
 
 
 [dependencies]
-docchi = "0.7.0"
-anyhow = "1.0.34"
+# docchi = "0.7.0"
+# anyhow = "1.0.34"
 

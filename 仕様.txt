@@ -41,8 +41,10 @@ light_weak どのイベントを所有すれば、弱点の情報が得られる
 dark_weak weakの存在はわかるが、どのイベントを所有すれば弱点の情報が得られるかわからないもの
 completely_dark_weak weakの存在もUI上わからないもの
 weak:[
-    [10,"ev_id"],
-    [10, "ev_id",
+    [-10,"ev_id"], //difficultyを（なんでも)10下げる
+    [-10, "bu", "ev_id"], //buのdifficultyを10下げる
+    [40, "bu", "ev_id"], //bu-40のdifficultyにする
+    [-10, "ev_id",
     [["fake_num","fake_id"], //fake_difficultyのように、
     ["fake_num2", "fake_id2"],//無数のfake情報を設定できる。そんなに設定する意味ある？
     ["fake_num3", ["fake_id3"]], //[]で囲われた部分は見えなくすることが可能
@@ -59,6 +61,11 @@ own イベントの所有権。
 -all クリアした瞬間全員が所有する
 -unlimited クリアしたものは誰でも所有することが出来る
 -one 最初にクリアしたものが所有権を持つ
+-none 誰も所有権を持たない
+所有しているイベントは実行できない
+oneであり誰かに所有されているイベントも実行できない
+unlimitedは誰かに実行されても自分がやってなければ実行できる
+noneは誰でも何度でも実行できる
 
 
 visibility:[
@@ -70,6 +77,11 @@ darkの場合、UI上で表示されない
 全部クリアすると見えるようになる
 
 from : "hoge" hogeイベント所有時に実行可能に
+from:["hoge","or_hoge2"],
+from_and:["hoge","and_hoge2"],
+from_and:[
+    ["hoge","and_hoge"], //or
+    ["hoge2","and_hoge2"]]
 
 fake_from:[
     ["hoge", "ev_name"],
@@ -109,9 +121,7 @@ share これがある場合、イベントの実行時にown=unlimitedのイベ�
 free 行動回数消費無しで実行可能なイベント。実行しないことも出来る。
 
 deactivate あるイベントを所有させると、そのイベントの所有の事実が消える
-
-repeatableイベント 根本的に間違いでありそうな機能。たとえばこれで強さ+1などしてしまったら、AIはひたすら強さを上げてしまうのでは？
-いらないかもなあ
+oneでもallでもunlimitedでも
 
 name fake_name。
 
