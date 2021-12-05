@@ -77,9 +77,9 @@ darkの場合、UI上で表示されない
 全部クリアすると見えるようになる
 
 from : "hoge" hogeイベント所有時に実行可能に
-from:["hoge","or_hoge2"],
+from_or :["hoge","or_hoge2"],
 from_and:["hoge","and_hoge2"],
-from_and:[
+from:[
     ["hoge","and_hoge"], //or
     ["hoge2","and_hoge2"]]
 

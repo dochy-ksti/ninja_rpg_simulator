@@ -4,78 +4,46 @@
     ID : "east_gate",
     difficulty : 80,
     own : "all",
-    weaks : ["Cil", {
-      Ref: { gates: "west_gate" },
-      val: 10,
-    }, {
-      Ref: { gates: "north_gate"},
-      val: 10,
-    }, {
-      Ref: { gates: "south_gate" },
-      val: 10,
-    }]
+    weak : [
+      [-10,"west_gate",],
+      [-10,"north_gate",],
+      [-10,"south_gate"]],
   },
   {
     ID : "west_gate",
     difficulty : 70,
     own : "all",
-    weak : ["Cil", {
-      Ref: { gates: "east_gate" },
-      val: 10,
-    }, {
-      Ref: { gates: "north_gate"},
-      val: 10,
-    }, {
-      Ref: { gates: "south_gate" },
-      val: 10,
-    }]
+    weak : [
+      [-10,"east_gate",],
+      [-10,"north_gate",],
+      [-10,"south_gate"]],
   },
   {
     ID : "north_gate",
     difficulty : 60,
     own : "all",
-    weak : ["Cil", {
-      Ref: { gates: "east_gate" },
-      val: 10,
-    }, {
-      Ref: { gates: "west_gate"},
-      val: 10,
-    }, {
-      Ref: { gates: "south_gate" },
-      val: 10,
-    }]
+    weak : [
+      [-10,"east_gate",],
+      [-10,"west_gate",],
+      [-10,"south_gate"]],
   },
   {
     ID : "south_gate",
     difficulty : 50,
     own : "all",
-    weak : ["Cil", {
-      Ref: { gates: "east_gate" },
-      val: 10,
-    }, {
-      Ref: { gates: "north_gate"},
-      val: 10,
-    }, {
-      Ref: { gates: "west_gate" },
-      val: 10,
-    }]
+    weak : [
+      [-10,"east_gate",],
+      [-10,"west_gate",],
+      [-10,"north_gate"]],
   },
   {
     ID : "honmaru",
     difficulty : 90,
     own : "all",
-    weak : ["Cil", {
-      Ref: { gates: "east_gate" },
-      val: 10,
-    }, {
-      Ref: { gates: "north_gate"},
-      val: 10,
-    }, {
-      Ref: { gates: "west_gate" },
-      val: 10,
-    },{
-      Ref: { gates: "south_gate" },
-      val: 10,
-    }],
+    weak : [
+      [-10,"east_gate",],
+      [-10,"west_gate",],
+      [-10,"north_gate"],
+      [-10,"south_gate"]]
   }
 ]
