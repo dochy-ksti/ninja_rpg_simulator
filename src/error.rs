@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter, Debug};
 use anyhow::{anyhow};
-use std::time::SystemTimeError;
+use std::error::Error;
 
 
 pub type NpResult<T> = Result<T, NpError>;
@@ -10,7 +10,7 @@ pub struct NpError {
 }
 
 impl NpError {
-    pub fn new(e : impl Into<anyhow::Error>) -> Self{ Self{ error : e.into() } }
+    pub fn new(e : impl Error + Send + Sync + 'static) -> Self{ Self{ error : e.into() } }
 }
 
 impl Display for NpError {
@@ -25,16 +25,12 @@ impl Debug for NpError {
     }
 }
 
-impl Into<anyhow::Error> for NpError {
-    fn into(self) -> anyhow::Error {
-        self.error
+impl Error for NpError{
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        self.error.source()
     }
 }
-impl From<anyhow::Error> for NpError {
-    fn from(e: anyhow::Error) -> Self {
-        Self::new(e)
-    }
-}
+
 
 impl From<std::io::Error> for NpError {
     fn from(e : std::io::Error) -> Self { Self::new(e) }

@@ -42,8 +42,16 @@ dark_weak weakの存在はわかるが、どのイベントを所有すれば弱
 completely_dark_weak weakの存在もUI上わからないもの
 weak:[
     [-10,"ev_id"], //difficultyを（なんでも)10下げる
-    [-10, "bu", "ev_id"], //buのdifficultyを10下げる
-    [40, "bu", "ev_id"], //bu-40のdifficultyにする
+    ["a:-10", "ev_id"], //type:aのdifficultyを10下げる
+    ["a:40", "ev_id"], //difficultyをtype:aの40にする
+    ["b:battle_id", "ev_id"], //battle_id(バトルtableに書かれたアイテムのid)を使用
+    ["b:xxx:battle_id", "ev_id"], //battle_idだけど、表示はxxx
+    [":xxx:-10", "ev_id"], //-10だけど、表示はxxx
+    [-10, "b:???:ev_id"], //event_idがblack(AIからも見えない)、人間から見た表示は???
+    [-10, "d:???:ev_id"], //event_idがdark(AIからも見える)、人間から見た表示は???
+    [-10, "b::ev_id"], //event_idがblackであり、表示テキストがない、この場合何も見えない、存在が匂わされることもない
+    [-10, "d::ev_id"], //event_idがdarkであり、表示テキストがない、この場合何も見えないが、AIからは見える
+    [-10, "ev_id", "ev_id2","ev_id3"], //id3と2と1を実行しないと実行できない 3を実行すると2が、2を実行すると1が表示される
     [-10, "ev_id",
     [["fake_num","fake_id"], //fake_difficultyのように、
     ["fake_num2", "fake_id2"],//無数のfake情報を設定できる。そんなに設定する意味ある？
