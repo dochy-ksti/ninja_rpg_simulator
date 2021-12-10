@@ -1,69 +1,59 @@
-目的はいまのところ
-
-アイテムXを得る
-Xを倒す
-Xの目的を叶える
-
-の3通り
-
-Xの目的を叶える、の場合
-Xの目的が何だと思っているのか、というのが問題になる。それをデータ的にどう管理するのが良いか
-
-アイテムXを得る、だと、Xを得るために何をすればいいのか、というのが問題になる
-
-それぞれのまとまりごとに、書いてから Docchi Src に変換することになると思う
-変換機能をDocchi側に用意するかは謎
-
-difficulty fake_difficulty
-pcのpowerがdifficultyを上回る場合、イベントが起動できる
-fake_difficultyはUI上で表示される見せかけのdifficultyだが、AIもこの数値を見て実行するかを判断する
-万策尽きた場合 fakeであることに賭けてAIも実行を始める
-
-fake_difficulaty :
-    [10, //value
-    "event_name"], //fakeが解除されるイベント
-
-fake_difficulaty : [
-    [10, "event_name"],
-    [20, "ev_name2"],
-    [["info"], //challenge_typeというのがあり、参照する能力値が変わる
-    40,"ev_name3"],
-    ["any_string",//Stringを入れることで、difficultyに任意文字列を設定する
-    "ev_name"]]
+difficulty :[   "e/battle_id", //battleの内容が込み入っている場合、battle tableからID指定で情報を取得
+                "d:a/20:ev_id", //dの場合、UI上a/20と表示されるが、AIはこれに騙されず、上の値を参照する。人間は騙される・・・はず？
+                "f:a/30:ev_id"  //fの場合、UI上の表示にAIも騙される
+                ":anpontan:ev_id",//kindなしの場合、任意の説明文字列。AIは解釈しようがないので騙されない
+                "b:anpontan:ev_id"  //bの場合、AIにとっても不明になる。任意文字列を設定可能
+                "::ev_id"] //空白
 
 上から優先的にfakeが表示される。全部解除されたら真のdifficultyが表示される
 （多重フェイクなんかやる必要あるんかいな・・・？）
 
 weak 特定のイベントを所有しているとdifficultyが下がる
 
-weak_info 特定のイベントを所有している場合、weakの情報がUI上で見える
-light_weak どのイベントを所有すれば、弱点の情報が得られるかわかるもの
-dark_weak weakの存在はわかるが、どのイベントを所有すれば弱点の情報が得られるかわからないもの
-completely_dark_weak weakの存在もUI上わからないもの
-weak:[
-    [-10,"ev_id"], //difficultyを（なんでも)10下げる
-    ["a:-10", "ev_id"], //type:aのdifficultyを10下げる
-    ["a:40", "ev_id"], //difficultyをtype:aの40にする
-    ["b:battle_id", "ev_id"], //battle_id(バトルtableに書かれたアイテムのid)を使用
-    ["b:xxx:battle_id", "ev_id"], //battle_idだけど、表示はxxx
-    [":xxx:-10", "ev_id"], //-10だけど、表示はxxx
-    [-10, "b:???:ev_id"], //event_idがblack(AIからも見えない)、人間から見た表示は???
-    [-10, "d:???:ev_id"], //event_idがdark(AIからも見える)、人間から見た表示は???
-    [-10, "b::ev_id"], //event_idがblackであり、表示テキストがない、この場合何も見えない、存在が匂わされることもない
-    [-10, "d::ev_id"], //event_idがdarkであり、表示テキストがない、この場合何も見えないが、AIからは見える
-    [-10, "ev_id", "ev_id2","ev_id3"], //id3と2と1を実行しないと実行できない 3を実行すると2が、2を実行すると1が表示される
-    [-10, "ev_id",
-    [["fake_num","fake_id"], //fake_difficultyのように、
-    ["fake_num2", "fake_id2"],//無数のfake情報を設定できる。そんなに設定する意味ある？
-    ["fake_num3", ["fake_id3"]], //[]で囲われた部分は見えなくすることが可能
-    [[], ["fake_id3"]] //両方消すとなにもないように見える
-    //fake_fake つまり fake_idを実行してもfakeが消えない、というweakは必要だろうか
-    //わかりにくすぎはしないか？　どう記述すればいいかもよくわからん
+weak:[{
+        n: "hoge", //weakの名前
+        v: -10,    //value。-10の場合、difficultyをなんでも10下げる
+        e: "id"    //このweakが起動するイベントのID。UI上はイベント名が表示される
+        d: "hogehoge" //description。
+    },
+    {
+        n: ["hoge",
+            "hogehoge:ev_id", //下の方が優先される。ev_idが所有されている場合剥がれて下のがでてくる
+            ":ev_id"] //名前なし
+        v: ["e/battle_id", //battleの内容が込み入っている場合、battle tableからID指定で情報を取得。どのバトルをするかは選べる
+            "d:-20:ev_id", //dの場合、UI上-20と表示されるが、AIはこれに騙されず、上の値を参照する。人間は騙される・・・はず？
+            "f:-30:ev_id"  //fの場合、UI上の表示にAIも騙される
+            "d:k/20:ev_id",//k/20 type Kのdifficulty20 どのtypeのbattleをするかは選べる。この場合はfakeなので選べないが・・・
+            ":anpontan:ev_id",//kindなしの場合、任意の説明文字列。AIは解釈しようがないので騙されない
+            "b:anpontan:ev_id"  //bの場合、AIにとっても不明になる。任意文字列を設定可能
+            "::ev_id"] //空白。全情報が空白の場合、UI上ではweakが存在することも匂わされない
+       e: ["ev_id",
+           "f:ev_id", //fakeなので、AIはこれが起動条件だと思いこむ。人間も思い込むだろう
+           "d:ev_id", //人間は騙されるが、AIは騙されない形式
+           ":anpontan:ev_id" //任意文字列を表示する。AIは騙されない
+           "b:anpontan:ev_id", //AIもわからない、任意文字列
+           "::ev_id"]         //空白
+       d: ["hugehuge",
+            "hogehoe:ev_id",
+            ":ev_id"] //空白
+    }]
 
-objective pcの目的。目的ごとに設定された功績点を求めて戦う。
-weakと同じように、イベントを所有することで発生する目的がある。
-目的達成のためにAIも動くが、hidden objective を自ら明らかにしようとはしないし、
-誰かのobjectiveを変更することも（それがAIのobjectiveでない限り)しない
+name :[ //eventの名前
+    "anponten", //名前は任意文字列を基本とする(当たり前
+    ":anpontan:ev_id", //dは表示上の名前を変更するだけでAIには影響しない
+    "::ev_id", //名前が空白の場合、UI上にイベントが表示されない。しかしAIはこのイベントが見える
+    "b:anpontan:ev_id"], //AIはこのイベントの存在を認識できない。だからここからのルートが見えない
+    "b::ev_id"], //プレイヤーもAIもイベントの存在を認識できない
+
+objective:[ //npcの目的
+    ["ev_id", // ev_idを実行することを目的にする。fromとかchainをたどって何をすればいいのか探る
+    "d:ev_id:ev_id", //dなので、表示上はev_idを目標にしているように見えるが、AIは上を目的にする
+    ":anpontan:ev_id" //任意文字列を表示
+    "b:anpontan:ev_id", //bだとAIも何を目的にしていいかわからなくなる
+    "f:ev_id:ev_id"], //fなのでev_idをAIは目指す。fakeもクソもないわけだが・・・ある条件で目的を変更することができて便利かも
+    ["ev_id"]] //より下にある目的が優先される。これがbになって何をしていいかわからない時、上の目的を目指す
+
+
 
 own イベントの所有権。
 -all クリアした瞬間全員が所有する
@@ -76,23 +66,29 @@ unlimitedは誰かに実行されても自分がやってなければ実行で�
 noneは誰でも何度でも実行できる
 
 
-visibility:[
-    ["black", "ev_name"],
-    ["dark","ev_name"],
-    ["black", "ev_name"]]
-blackの場合、AIも存在を認識できない
-darkの場合、UI上で表示されない
-全部クリアすると見えるようになる
-
 from : "hoge" hogeイベント所有時に実行可能に
 from_or :["hoge","or_hoge2"],
 from_and:["hoge","and_hoge2"],
-from:[
+from2:[
     ["hoge","and_hoge"], //or
     ["hoge2","and_hoge2"]]
 
+fromオブジェクト
+    { f:"hoge" }// hogeイベント所有時に実行可能に
+    { o:["hoge","or_hoge2"] },//or条件
+    { a:["hoge","and_hoge2"] },//and条件
+    { f2:[["hoge","and_hoge"], //and,or条件
+          ["hoge2","and_hoge2"]] },
+from:[
+    { f:"hoge" }
+    ["b:ev_id", {f:"hoge"}],
+    ["d:ev_id", {f:"hoge"}],
+    ["f:ev_id", {f:"hoge"}],
+    ["b:ev_id", "anpontan"], //任意文字列の表示
+    ["d:ev_id", ""], //空白。見えない。fの任意文字列はない。
+
 fake_from:[
-    ["hoge", "ev_name"],
+    "ev_id:ev_id"
     ["hoge2", "ev_name"]]
 
 いつもの感じ
