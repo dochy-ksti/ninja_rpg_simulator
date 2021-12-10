@@ -74,16 +74,16 @@ from2:[
     ["hoge2","and_hoge2"]]
 
 fromオブジェクト
-    { f:"hoge" }// hogeイベント所有時に実行可能に
+    { i:"hoge" }// hogeイベント所有時に実行可能に iはitem
     { o:["hoge","or_hoge2"] },//or条件
     { a:["hoge","and_hoge2"] },//and条件
-    { f2:[["hoge","and_hoge"], //and,or条件
+    { ao:[["hoge","and_hoge"], //and,or条件
           ["hoge2","and_hoge2"]] },
 from:[
-    { f:"hoge" }
-    ["b:ev_id", {f:"hoge"}],
-    ["d:ev_id", {f:"hoge"}],
-    ["f:ev_id", {f:"hoge"}],
+    { i:"hoge" }
+    ["b:ev_id", {i:"hoge"}],
+    ["d:ev_id", {i:"hoge"}],
+    ["f:ev_id", {i:"hoge"}],
     ["b:ev_id", "anpontan"], //任意文字列の表示
     ["d:ev_id", ""], //空白。見えない。fの任意文字列はない。
 
