@@ -2,7 +2,7 @@
 name = "ninja_rpg_simulator"
 version = "0.1.0"
 authors = ["juzy <dochy.ksti@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 license = "MIT OR Apache-2.0"
 description = "A kind of ninja TRPG simulator(which means it's a computer RPG)"
@@ -14,7 +14,9 @@ documentation = "https://docs.rs/ninja_rpg_simulator"
 
 
 [workspace]
-
+members=[
+    "ninja_lang"
+]
 
 [dependencies]
 docchi_json5 = "0.8"
