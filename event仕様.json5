@@ -33,11 +33,13 @@
     own:"all",
 
     //これらのイベントが実行されると、このイベントも即時実行される
-    chain:{o:["e1","e2"]},
+    chain:{o:["e1","e2"]}, //or条件
     //自分が持っているone,unlimitedのイベントを渡す
     give:{c: "chara", i: "event"},
     //相手が持っているone,unlimitedのイベントを奪う/シェアする
     take: {c:"chara",i:"event"},
+    //one, unlimitedのイベントを失う
+    lose: {i: "event"},
     //freeの場合、行動回数を消費しないで実行可能
     free: true,
     //キャラの目標を見る
