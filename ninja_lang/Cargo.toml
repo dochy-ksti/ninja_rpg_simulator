@@ -1,0 +1,15 @@
+[package]
+name = "ninja_lang"
+version = "0.1.0"
+edition = "2021"
+authors = ["juzy <dochy.ksti@gmail.com>"]
+
+license = "MIT OR Apache-2.0"
+description = "One of the ccomponents of ninja_rpg_simulator"
+repository = "https://github.com/dochy-ksti/ninja_trpg_simulator"
+documentation = "https://docs.rs/ninja_lang"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+docchi_json5 = "0.8"
+anyhow="1.0"
