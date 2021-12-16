@@ -1,4 +1,8 @@
+#![warn(unreachable_pub)]
+#![warn(unused_crate_dependencies)]
+
 mod error;
+mod imp;
 
 #[cfg(test)]
 mod tests {
