@@ -1,8 +1,6 @@
 use std::fmt::{Display, Formatter, Debug};
 use std::error::Error;
-
-
-pub type NlResult<T> = Result<T, NlError>;
+use std::time::SystemTimeError;
 
 pub struct NlError {
     error : anyhow::Error,
@@ -33,6 +31,10 @@ impl Error for NlError {
 
 impl From<std::io::Error> for NlError {
     fn from(e : std::io::Error) -> Self { Self::new(e) }
+}
+
+impl From<SystemTimeError> for NlError {
+    fn from(e : SystemTimeError) -> Self { Self::new(e) }
 }
 
 impl From<docchi_json5::MyError> for NlError {
