@@ -41,6 +41,10 @@ impl From<docchi_json5::MyError> for NlError {
     fn from(e : docchi_json5::MyError) -> Self { Self::new(e) }
 }
 
+impl From<serde_json::Error> for NlError {
+    fn from(e : serde_json::Error) -> Self { Self::new(e) }
+}
+
 impl From<anyhow::Error> for NlError{
     fn from(e: anyhow::Error) -> Self {
         Self{ error: e }
