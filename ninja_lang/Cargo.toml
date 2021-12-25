@@ -11,7 +11,7 @@ documentation = "https://docs.rs/ninja_lang"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-docchi_json5 = "0.8"
+json5="0.4.1"
 anyhow="1.0"
 serde={ version="1.0", features=["derive"]}
 serde_json="1.0"

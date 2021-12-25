@@ -1,5 +1,4 @@
 use std::fmt::{Display, Formatter, Debug};
-use anyhow::{anyhow};
 use std::error::Error;
 
 
@@ -40,10 +39,16 @@ impl From<docchi_json5::MyError> for NpError {
     fn from(e : docchi_json5::MyError) -> Self { Self::new(e) }
 }
 
+impl From<anyhow::Error> for NpError{
+    fn from(e: anyhow::Error) -> Self {
+        Self{ error: e }
+    }
+}
+
 impl From<&str> for NpError {
-    fn from(e : &str) -> Self{ Self::new(anyhow!("{}", e)) }
+    fn from(e : &str) -> Self{ anyhow::Error::msg(e.to_string()).into() }
 }
 
 impl From<String> for NpError {
-    fn from(e : String) -> Self{ Self::new(anyhow!("{}", e)) }
+    fn from(e : String) -> Self{ anyhow::Error::msg(e).into() }
 }
