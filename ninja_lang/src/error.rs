@@ -37,8 +37,12 @@ impl From<SystemTimeError> for NlError {
     fn from(e : SystemTimeError) -> Self { Self::new(e) }
 }
 
-impl From<docchi_json5::MyError> for NlError {
-    fn from(e : docchi_json5::MyError) -> Self { Self::new(e) }
+// impl From<docchi_json5::MyError> for NlError {
+//     fn from(e : docchi_json5::MyError) -> Self { Self::new(e) }
+// }
+
+impl From<json5::Error> for NlError {
+    fn from(e : json5::Error) -> Self { Self::new(e) }
 }
 
 impl From<serde_json::Error> for NlError {
