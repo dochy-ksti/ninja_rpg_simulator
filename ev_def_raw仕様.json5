@@ -4,12 +4,12 @@
       "d?": ["Str", null],
       "n?": ["Str", null],
       "v": ["CilDef",[{
-        type: "",
+        kind: "",
         "txt?": ["Str", null],
         bd: "", //battle description
       }]],
       "c": ["CilDef",[{
-        type: "",
+        kind: "",
         "txt?": ["Str", null],
         Ref: { ev: ""},
       }]],
