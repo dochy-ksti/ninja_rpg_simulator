@@ -5,8 +5,7 @@
       "n?": ["Str", null],
       "v": ["CilDef",[{
         kind: "",
-        "txt?": ["Str", null],
-        bd: "", //battle description
+        txt: "",
       }]],
       "c": ["CilDef",[{
         kind: "",

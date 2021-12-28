@@ -1,6 +1,7 @@
 use serde_json::{Map, Value};
 use crate::NlResult;
 use crate::imp::compiler::convert_value_str::convert_value_str;
+use crate::imp::structs::weak_value::WeakValue;
 
 pub(crate) fn convert_weak(array : Vec<Value>, filename : &str) -> NlResult<Vec<Value>>{
     let mut r : Vec<Value> = Vec::with_capacity(array.len() + 1);
@@ -39,10 +40,16 @@ fn convert_inner_v(array : Vec<Value>, filename : &str, index : usize) -> NlResu
 }
 
 fn convert_weak_obj(mut map : Map<String, Value>, filename : &str) -> NlResult<Map<String, Value>>{
-    let hoge = match map.remove("v"){
+    let v = map.remove("v");
+    match v{
         Some(Value::String(s)) =>{
             let value_str = convert_value_str(&s, filename)?;
-        }
-    };
-    unimplemented!()
+            let wv = WeakValue::from(value_str, filename)?;
+            map.insert("v".to_string(), wv.to_json());
+        },
+        Some(v) => Err(format!("{}: invalid value str {}", filename, v))?,
+        None =>{}
+    }
+    let c = map.remove("c");
+    todo!()
 }

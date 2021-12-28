@@ -1,5 +1,6 @@
 use crate::NlResult;
 use serde_json::{Map, Value};
+use crate::imp::compiler::convert_weak::convert_weak;
 
 pub(crate) fn convert(s : &str, filename : &str) -> NlResult<String>{
     let value : Value = json5::from_str(s)?;
