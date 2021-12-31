@@ -20,7 +20,7 @@ pub fn compile<P: AsRef<Path>>(ev_dir : P, target_dir : P) -> NlResult<()>{
             let mut file = File::open(entry.path())?;
             let mut s = String::new();
             file.read_to_string(&mut s)?;
-            let compiled = convert(&s)?;
+            let compiled = convert(&s, filename.to_string_lossy().as_ref())?;
         }
     }
     Ok(())

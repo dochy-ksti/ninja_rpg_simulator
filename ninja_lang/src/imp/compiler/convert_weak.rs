@@ -2,6 +2,7 @@ use serde_json::{Map, Value};
 use crate::NlResult;
 use crate::imp::compiler::convert_value_str::convert_value_str;
 use crate::imp::structs::weak_value::WeakValue;
+use crate::imp::structs::cond_value::CondValue;
 
 pub(crate) fn convert_weak(array : Vec<Value>, filename : &str) -> NlResult<Vec<Value>>{
     let mut r : Vec<Value> = Vec::with_capacity(array.len() + 1);
@@ -32,7 +33,7 @@ fn convert_inner_v(array : Vec<Value>, filename : &str, index : usize) -> NlResu
                 r.push(Value::Object(map));
             },
             _ =>{
-                Err(format!("{}:index {} has a non-object", filename, index))
+                Err(format!("{}:index {} has a non-object", filename, index))?
             }
         }
     }
@@ -47,9 +48,28 @@ fn convert_weak_obj(mut map : Map<String, Value>, filename : &str) -> NlResult<M
             let wv = WeakValue::from(value_str, filename)?;
             map.insert("v".to_string(), wv.to_json());
         },
-        Some(v) => Err(format!("{}: invalid value str {}", filename, v))?,
+        Some(v) => Err(format!("{}: v must be String {}", filename, v))?,
         None =>{}
     }
     let c = map.remove("c");
+    match c{
+        Some(Value::String(s)) =>{
+            let value_str = convert_value_str(&s, filename)?;
+            let cv = CondValue::from(value_str, filename)?;
+            map.insert("c".to_string(), cv.to_json());
+        },
+        Some(v) => Err(format!("{}: c must be String {}", filename, v))?,
+        None =>{}
+    }
+    let run = map.remove("run");
+    match run{
+        Some(Value::String(s)) =>{
+            let value_str = convert_value_str(&s, filename)?;
+            let cv = CondValue::from(value_str, filename)?;
+            map.insert("c".to_string(), cv.to_json());
+        },
+        Some(v) => Err(format!("{}: c must be String {}", filename, v))?,
+        None =>{}
+    }
     todo!()
 }

@@ -11,7 +11,7 @@ impl ValueStr{
     }
     pub(crate) fn kind(&self) -> Option<u8>{ self.kind }
     pub(crate) fn first(&self) -> &str{ &self.first }
-    pub(crate) fn second(&self) -> Option<&str>{ self.second.as_ref().map(|s|s) }
+    pub(crate) fn second(&self) -> Option<&str>{ self.second.as_ref().map(|s|s.as_str()) }
     pub(crate) fn deconstruct(self) -> (Option<u8>, String, Option<String>){ (self.kind, self.first, self.second) }
 
     pub(crate) fn to_string(&self) -> String{

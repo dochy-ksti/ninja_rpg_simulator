@@ -12,7 +12,12 @@
         "txt?": ["Str", null],
         Ref: { ev: ""},
       }]],
-      "run?": ["Str", null],
+      "run": ["CilDef", [{
+        Ref: {ev: ""}
+      }]],
+      "bonus": ["CilDef", [{
+        Ref: {ev: ""}
+      }]]
     }]],
   }]],
   own: "",

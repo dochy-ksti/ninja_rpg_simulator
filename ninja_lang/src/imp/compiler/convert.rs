@@ -6,7 +6,7 @@ pub(crate) fn convert(s : &str, filename : &str) -> NlResult<String>{
     let value : Value = json5::from_str(s)?;
     match value{
         Value::Object(map) =>{
-            return convert_map(map, filename);
+            return convert_top(map, filename);
         },
         _ =>{
             Err(format!("file:{} is not an object", filename))?
@@ -24,7 +24,7 @@ fn convert_top(mut map : Map<String,Value>, filename : &str) -> NlResult<String>
         },
         _ =>{ Err(format!("{}: v must be an array", filename))? },
     };
-    if let Some(v) = opt{
+    if let Some(c) = opt{
         map.insert("v".to_string(), Value::Array(v));
     }
     Ok(Value::Object(map).to_string())
