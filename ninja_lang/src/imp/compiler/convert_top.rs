@@ -25,7 +25,7 @@ fn convert_top(mut map : Map<String,Value>, filename : &str) -> NlResult<String>
         _ =>{ Err(format!("{}: v must be an array", filename))? },
     };
     if let Some(c) = opt{
-        map.insert("v".to_string(), Value::Array(v));
+        map.insert("v".to_string(), Value::Array(c));
     }
     Ok(Value::Object(map).to_string())
 }

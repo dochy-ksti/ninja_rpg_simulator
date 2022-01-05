@@ -3,7 +3,7 @@ use std::fs::{read_dir, File};
 use crate::imp::compiler::get_inc_info::get_inc_info;
 use crate::imp::structs::inc_compile_info::IncCompileInfo;
 use crate::NlResult;
-use crate::imp::compiler::convert::convert;
+use crate::imp::compiler::convert_top::convert;
 use std::io::Read;
 
 pub fn compile<P: AsRef<Path>>(ev_dir : P, target_dir : P) -> NlResult<()>{

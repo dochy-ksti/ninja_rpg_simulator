@@ -5,36 +5,61 @@ use crate::imp::structs::weak_value::WeakValue;
 use crate::imp::structs::cond_value::CondValue;
 use crate::imp::compiler::create_ref_ev_json_array::create_rev_ev_json_array;
 
-pub(crate) fn convert_weak(array : Vec<Value>, filename : &str) -> NlResult<Vec<Value>>{
+pub(crate) fn convert_chain(mut obj : Map<String, Value>, filename : &str) -> NlResult<Vec<Value>> {
+    let mut r: Vec<Value> = Vec::new();
+    r.push(Value::String("Cil".to_string()));
+    let o = obj.remove("o");
+    let a = obj.remove("a");
+    if o.is_some() && a.is_some(){
+        Err(format!("{}: chain has o and a", filename))?;
+    }
+    if obj.is_empty() == false{
+        Err(format!("{}: chain can only have o or a", filename))?;
+    }
+
+    match o {
+        Value::Array(v) => {
+            let v = convert_o(v, filename, index)?;
+            let mut map: Map<String, Value> = Map::with_capacity(1);
+            map.insert("seq".to_string(), Value::Array(v));
+            r.push(Value::Object(map));
+        },
+        _ => {
+            Err(format!("{}: v has a non-array item", filename))?;
+        }
+    }
+
+    match a {
+        Value::Array(v) => {
+            let v = convert_o(v, filename)?;
+            let mut map: Map<String, Value> = Map::with_capacity(1);
+            map.insert("seq".to_string(), Value::Array(v));
+            r.push(Value::Object(map));
+        },
+        _ => {
+            Err(format!("{}: v has a non-array item", filename))?;
+        }
+    }
+
+    Ok(r)
+}
+
+fn convert_o(array : Vec<Value>, filename : &str, index : usize) -> NlResult<Vec<Value>>{
+    if array.len() == 0{
+        Err(format!("{}:chain:o: array is empty", filename))?
+    }
     let mut r : Vec<Value> = Vec::with_capacity(array.len() + 1);
     r.push(Value::String("Cil".to_string()));
     for (index, item) in array.into_iter().enumerate(){
         match item{
-            Value::Array(v) =>{
-                let v = convert_inner_v(v, filename, index)?;
-                let mut map : Map<String, Value> = Map::with_capacity(1);
-                map.insert("seq".to_string(), Value::Array(v));
+            Value::String(id) =>{
+                let and = create_rev_ev_json_array(vec![id]);
+                let mut map = Map::new();
+                map.insert("and".to_string(), Value::Array(and))
                 r.push(Value::Object(map));
             },
             _ =>{
-                Err(format!("{}: v has a non-array item", filename))?;
-            }
-        }
-    }
-    Ok(r)
-}
-
-fn convert_inner_v(array : Vec<Value>, filename : &str, index : usize) -> NlResult<Vec<Value>>{
-    let mut r : Vec<Value> = Vec::with_capacity(array.len() + 1);
-    r.push(Value::String("Cil".to_string()));
-    for item in array{
-        match item{
-            Value::Object(map) =>{
-                let map= convert_weak_obj(map, filename)?;
-                r.push(Value::Object(map));
-            },
-            _ =>{
-                Err(format!("{}:index {} has a non-object", filename, index))?
+                Err(format!("{}:chain:o: index {} is not a string", filename, index))?
             }
         }
     }

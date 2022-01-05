@@ -36,6 +36,11 @@
 
     //これらのイベントが実行されると、このイベントも即時実行される
     chain:{o:["e1","e2"]}, //or条件
+    //chain:{a:["e1","e2"]}, //and条件
+    //chain:{o:[["e1","e2"], ["e3","e4"]}, //or and条件
+    //chain event を複数使えば複雑なand / orを構成できるので、
+    //1イベントでは or and までの対応にとどめる
+
     //自分が持っているone,unlimitedのイベントを渡す
     give:{c: "chara", i: "event"},
     //相手が持っているone,unlimitedのイベントを奪う/シェアする
