@@ -4,9 +4,12 @@
 pub use imp::compiler::compile::compile;
 
 pub use crate::error::NlError;
+pub type NlResult<T> = Result<T, NlError>;
 
 pub mod error;
 mod imp;
+#[cfg(test)]
+mod testing;
 
-pub type NlResult<T> = Result<T, NlError>;
+
 

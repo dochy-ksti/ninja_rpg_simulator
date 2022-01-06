@@ -42,16 +42,16 @@
     //1イベントでは or and までの対応にとどめる
 
     //自分が持っているone,unlimitedのイベントを渡す
-    give:{c: "chara", i: "event"},
+    //give:{c: "chara", i: "event"},
     //相手が持っているone,unlimitedのイベントを奪う/シェアする
-    take: {c:"chara",i:"event"},
+    //take: {c:"chara",i:"event"},
     //one, unlimitedのイベントを失う
-    lose: {i: "event"},
+    //lose: {i: "event"},
     //freeの場合、行動回数を消費しないで実行可能
     free: true,
     //キャラの目標を見る
-    peek: {c: "chara"},
+    //peek: {c: "chara"},
     //キャラの行動を1ターン見る。キャラが見ている情報を見られる(全部見えるの？)
-    observe: {c: "chara"}
+    //observe: {c: "chara"}
 
 }
