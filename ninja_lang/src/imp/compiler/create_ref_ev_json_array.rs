@@ -9,7 +9,7 @@ pub(crate) fn create_rev_ev_json_array(ev_ids : Vec<String>) -> Vec<Value>{
     vec
 }
 
-fn create_ref_ev_json_obj(ev_id : String) -> Map<String, Value>{
+pub(crate) fn create_ref_ev_json_obj(ev_id : String) -> Map<String, Value>{
     let mut map = Map::new();
     let mut obj = Map::new();
     obj.insert("ev".to_string(), Value::String(ev_id));

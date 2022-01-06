@@ -17,7 +17,7 @@ pub(crate) fn get_inc_info<P : AsRef<Path>>(target_dir : P) -> NlResult<IncCompi
         Err(_) => return Ok(IncCompileInfo::new()),
     };
     let mut s= String::new();
-    f.read_to_string(&mut s);
+    f.read_to_string(&mut s)?;
 
     Ok(serde_json::from_str(&s)?)
 }
