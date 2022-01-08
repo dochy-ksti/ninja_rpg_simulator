@@ -63,7 +63,7 @@ fn cond_item(kind : Option<&str>, txt : Option<&str>, ev_id : String) -> Map<Str
     if let Some(txt) = txt {
         map.insert("txt?".to_string(), Value::String(txt.to_string()));
     }
-    map.insert("Ref?".to_string(), Value::Object(cond_ref(ev_id)));
+    map.insert("Ref".to_string(), Value::Object(cond_ref(ev_id)));
     map
 }
 

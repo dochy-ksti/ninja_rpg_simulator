@@ -3,7 +3,7 @@ use serde_json::{Map, Value};
 use crate::imp::compiler::convert_weak::convert_weak;
 use crate::imp::compiler::convert_chain::convert_chain;
 
-pub(crate) fn convert(s : &str, filename : &str) -> NlResult<String>{
+pub(crate) fn convert(s : &str, filename : &str) -> NlResult<Value>{
     let value : Value = json5::from_str(s)?;
     match value{
         Value::Object(map) =>{
@@ -16,7 +16,7 @@ pub(crate) fn convert(s : &str, filename : &str) -> NlResult<String>{
 
 }
 
-fn convert_top(mut map : Map<String,Value>, filename : &str) -> NlResult<String>{
+fn convert_top(mut map : Map<String,Value>, filename : &str) -> NlResult<Value>{
     map.insert("ID".to_string(), Value::String(filename.to_string()));
     let opt = match map.remove("v"){
         None =>{ None },
@@ -38,5 +38,5 @@ fn convert_top(mut map : Map<String,Value>, filename : &str) -> NlResult<String>
     if let Some(chain) = opt{
         map.insert("chain".to_string(), Value::Array(chain));
     }
-    Ok(Value::Object(map).to_string())
+    Ok(Value::Object(map))
 }
