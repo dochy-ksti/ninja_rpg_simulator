@@ -1,9 +1,9 @@
 use serde_json::{Map, Value};
 use crate::NlResult;
-use crate::imp::compiler::convert_value_str::convert_value_str;
 use crate::imp::structs::weak_value::WeakValue;
 use crate::imp::structs::cond_value::CondValue;
-use crate::imp::compiler::create_ref_ev_json_array::create_rev_ev_json_array;
+use crate::imp::translator::convert_value_str::convert_value_str;
+use crate::imp::translator::create_ref_ev_json_array::create_rev_ev_json_array;
 
 pub(crate) fn convert_weak(array : Vec<Value>, filename : &str) -> NlResult<Vec<Value>>{
     let mut r : Vec<Value> = Vec::with_capacity(array.len() + 1);

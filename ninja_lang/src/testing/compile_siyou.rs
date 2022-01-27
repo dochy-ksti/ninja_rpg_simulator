@@ -1,6 +1,6 @@
 use serde_json::to_string_pretty;
 use crate::NlResult;
-use crate::imp::compiler::convert_top::convert;
+use crate::imp::translator::convert_top::convert;
 
 #[test]
 fn compile_siyou() -> NlResult<()>{

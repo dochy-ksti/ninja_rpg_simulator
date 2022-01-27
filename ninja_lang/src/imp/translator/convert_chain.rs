@@ -1,7 +1,7 @@
 use serde_json::{Map, Value};
 use crate::NlResult;
-use crate::imp::compiler::create_ref_ev_json_array::create_rev_ev_json_array;
 use crate::imp::util::json_array_to_string_vec::json_array_to_string_vec;
+use crate::imp::translator::create_ref_ev_json_array::create_rev_ev_json_array;
 
 pub(crate) fn convert_chain(mut obj : Map<String, Value>, filename : &str) -> NlResult<Vec<Value>> {
     let mut r: Vec<Value> = Vec::new();
