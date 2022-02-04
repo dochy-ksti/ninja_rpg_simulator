@@ -62,3 +62,7 @@ impl From<&str> for NlError {
 impl From<String> for NlError {
     fn from(e : String) -> Self{ anyhow::Error::msg(e).into() }
 }
+
+impl From<> for NlError {
+    fn from(e : String) -> Self{ anyhow::Error::msg(e).into() }
+}

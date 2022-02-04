@@ -8,7 +8,7 @@ use std::ffi::OsStr;
 use crate::imp::translator::get_inc_info::get_inc_info;
 use crate::imp::translator::convert_top::convert;
 
-pub fn translate<P: AsRef<Path>>(ev_dir : P, target_dir : P) -> NlResult<()>{
+pub fn translate<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<()>{
     let target_dir = target_dir.as_ref();
     let src = read_dir(ev_dir)?;
     let inc_info = get_inc_info(target_dir)?;
