@@ -17,7 +17,6 @@ pub(crate) fn convert(s : &str, filename : &str) -> NlResult<Value>{
 }
 
 fn convert_top(mut map : Map<String,Value>, filename : &str) -> NlResult<Value>{
-    map.insert("ID".to_string(), Value::String(filename.to_string()));
     let opt = match map.remove("v"){
         None =>{ None },
         Some(Value::Array(v)) =>{

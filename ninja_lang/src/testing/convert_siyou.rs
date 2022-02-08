@@ -2,7 +2,7 @@ use crate::NlResult;
 use crate::imp::translator::convert_top::convert;
 
 
-#[test]
+//#[test]
 fn convert_siyou() -> NlResult<()>{
     let s = std::fs::read_to_string("event仕様.json5")?;
     let _hoge = convert(&s, "siyou.json5")?;

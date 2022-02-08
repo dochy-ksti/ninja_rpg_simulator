@@ -11,7 +11,7 @@ pub use crate::imp::compiler::compile::compile;
 
 pub mod error;
 mod imp;
-#[cfg(test)]
+#[cfg(test)]#[allow(dead_code)]
 mod testing;
 
 

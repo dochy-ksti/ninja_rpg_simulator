@@ -11,5 +11,7 @@ pub fn compile<P1 : AsRef<Path>, P2 : AsRef<Path>>(src_dir : P1, target_dir : P2
     let parent = target_dir.parent().ok_or_else(|| format!("Target_dir doesn't have its parent {:?}", target_dir))?;
     let mut file = std::fs::File::create(parent.join("event.json5"))?;
     file.write_all(crate::ev_def_specifications().as_bytes())?;
+    let mut file = std::fs::File::create(parent.join("root.json5"))?;
+    file.write_all("{}".as_bytes())?;
     Ok(docchi::core::json_dir_to_root(parent, true)?)
 }
