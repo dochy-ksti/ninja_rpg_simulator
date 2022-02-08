@@ -1,4 +1,4 @@
-pub(crate) enum EvOwn{
+pub(crate) enum _EvOwn{
     All,
     One,
     Unlimited,

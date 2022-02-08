@@ -7,6 +7,7 @@ pub(crate) mod ev_def_specifications;
 pub use crate::error::NlError;
 pub type NlResult<T> = Result<T, NlError>;
 pub use crate::ev_def_specifications::ev_def_specifications;
+pub use crate::imp::compiler::compile::compile;
 
 pub mod error;
 mod imp;

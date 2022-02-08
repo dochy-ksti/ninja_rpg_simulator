@@ -63,6 +63,6 @@ impl From<String> for NlError {
     fn from(e : String) -> Self{ anyhow::Error::msg(e).into() }
 }
 
-impl From<> for NlError {
-    fn from(e : String) -> Self{ anyhow::Error::msg(e).into() }
+impl From<docchi::core::CoreError> for NlError {
+    fn from(e : docchi::core::CoreError) -> Self{ Self::new(e) }
 }

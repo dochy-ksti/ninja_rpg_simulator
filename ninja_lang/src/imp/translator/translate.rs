@@ -8,7 +8,7 @@ use std::ffi::OsStr;
 use crate::imp::translator::get_inc_info::get_inc_info;
 use crate::imp::translator::convert_top::convert;
 
-pub fn translate<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<()>{
+pub(crate) fn translate<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<()>{
     let target_dir = target_dir.as_ref();
     let src = read_dir(ev_dir)?;
     let inc_info = get_inc_info(target_dir)?;
@@ -34,6 +34,6 @@ fn write_file(value : &Value, target_dir : &Path, filename : &OsStr) -> NlResult
     let path = target_dir.join(filename);
     let s = to_string_pretty(value)?;
     let mut file = File::create(path)?;
-    file.write_all(s.as_bytes());
+    file.write_all(s.as_bytes())?;
     Ok(())
 }
