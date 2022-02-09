@@ -5,10 +5,10 @@ use crate::NlResult;
 use std::io::{Read, Write};
 use serde_json::{Value, to_string_pretty};
 use std::ffi::OsStr;
-use crate::imp::translator::get_inc_info::get_inc_info;
-use crate::imp::translator::convert_top::convert;
+use crate::imp::translate_ev::get_inc_info::get_inc_info;
+use crate::imp::translate_ev::convert_top::convert;
 
-pub(crate) fn translate<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<()>{
+pub(crate) fn translate_ev<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<()>{
     let target_dir = target_dir.as_ref();
     let src = read_dir(ev_dir)?;
     let inc_info = get_inc_info(target_dir)?;
