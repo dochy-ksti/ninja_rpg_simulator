@@ -8,26 +8,30 @@ use std::ffi::OsStr;
 use crate::imp::translate_ev::get_inc_info::get_inc_info;
 use crate::imp::translate_ev::convert_top::convert;
 
-pub(crate) fn translate_ev<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<()>{
+/// file_stemをVecに入れて返す
+pub(crate) fn translate_ev<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<Vec<String>> {
     let target_dir = target_dir.as_ref();
     let src = read_dir(ev_dir)?;
     let inc_info = get_inc_info(target_dir)?;
     let mut current_inc_info = IncCompileInfo::new();
-    for entry in src{
+    let mut file_stems: Vec<String> = vec![];
+    for entry in src {
         let entry = entry?;
         let meta = entry.metadata()?;
         let modified_time = meta.modified()?;
         let filename = entry.file_name();
         current_inc_info.add(&filename, modified_time)?;
-        if inc_info.contains(&filename, modified_time)? == false{
+        if inc_info.contains(&filename, modified_time)? == false {
             let mut file = File::open(entry.path())?;
             let mut s = String::new();
             file.read_to_string(&mut s)?;
+
             let compiled = convert(&s, filename.to_string_lossy().as_ref())?;
             write_file(&compiled, target_dir, &filename)?;
+            file_stems.push(entry.path().file_stem().map_or_else(|| "".to_string(), |stem| stem.to_string_lossy().to_string()));
         }
     }
-    Ok(())
+    Ok(file_stems)
 }
 
 fn write_file(value : &Value, target_dir : &Path, filename : &OsStr) -> NlResult<()>{
