@@ -9,12 +9,11 @@ use crate::imp::translate_ev::get_inc_info::get_inc_info;
 use crate::imp::translate_ev::convert_top::convert;
 
 /// file_stemをVecに入れて返す
-pub(crate) fn translate_ev<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<Vec<String>> {
+pub(crate) fn translate_ev<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target_dir : P2) -> NlResult<()> {
     let target_dir = target_dir.as_ref();
     let src = read_dir(ev_dir)?;
     let inc_info = get_inc_info(target_dir)?;
     let mut current_inc_info = IncCompileInfo::new();
-    let mut file_stems: Vec<String> = vec![];
     for entry in src {
         let entry = entry?;
         let meta = entry.metadata()?;
@@ -28,10 +27,9 @@ pub(crate) fn translate_ev<P1: AsRef<Path>, P2: AsRef<Path>>(ev_dir : P1, target
 
             let compiled = convert(&s, filename.to_string_lossy().as_ref())?;
             write_file(&compiled, target_dir, &filename)?;
-            file_stems.push(entry.path().file_stem().map_or_else(|| "".to_string(), |stem| stem.to_string_lossy().to_string()));
         }
     }
-    Ok(file_stems)
+    Ok(())
 }
 
 fn write_file(value : &Value, target_dir : &Path, filename : &OsStr) -> NlResult<()>{
