@@ -1,19 +1,20 @@
 use serde_json::{Map, Value};
+use crate::imp::convert::convert_value_str::convert_value_str;
+use crate::imp::convert::create_ref_ev_json_array::create_rev_ev_json_array;
 use crate::NlResult;
 use crate::imp::structs::weak_value::WeakValue;
 use crate::imp::structs::cond_value::CondValue;
-use crate::imp::translate_ev::convert_value_str::convert_value_str;
-use crate::imp::translate_ev::create_ref_ev_json_array::create_rev_ev_json_array;
+use crate::imp::structs::param_name_map::ParamNameMap;
 
-pub(crate) fn convert_weak(array : Vec<Value>, filename : &str) -> NlResult<Vec<Value>>{
+pub(crate) fn convert_weak(array : Vec<Value>, filename : &str, names : &ParamNameMap) -> NlResult<Vec<Value>>{
     let mut r : Vec<Value> = Vec::with_capacity(array.len() + 1);
     r.push(Value::String("Cil".to_string()));
     for (index, item) in array.into_iter().enumerate(){
         match item{
             Value::Array(v) =>{
-                let v = convert_inner_v(v, filename, index)?;
+                let v = convert_inner_v(v, filename, index, names)?;
                 let mut map : Map<String, Value> = Map::with_capacity(1);
-                map.insert("seq".to_string(), Value::Array(v));
+                map.insert(names.get("seq").to_string(), Value::Array(v));
                 r.push(Value::Object(map));
             },
             _ =>{
@@ -24,13 +25,13 @@ pub(crate) fn convert_weak(array : Vec<Value>, filename : &str) -> NlResult<Vec<
     Ok(r)
 }
 
-fn convert_inner_v(array : Vec<Value>, filename : &str, index : usize) -> NlResult<Vec<Value>>{
+fn convert_inner_v(array : Vec<Value>, filename : &str, index : usize, names : &ParamNameMap) -> NlResult<Vec<Value>>{
     let mut r : Vec<Value> = Vec::with_capacity(array.len() + 1);
     r.push(Value::String("Cil".to_string()));
     for item in array{
         match item{
             Value::Object(map) =>{
-                let map= convert_weak_obj(map, filename)?;
+                let map= convert_weak_obj(map, filename, names)?;
                 r.push(Value::Object(map));
             },
             _ =>{
@@ -41,23 +42,25 @@ fn convert_inner_v(array : Vec<Value>, filename : &str, index : usize) -> NlResu
     Ok(r)
 }
 
-fn convert_weak_obj(mut map : Map<String, Value>, filename : &str) -> NlResult<Map<String, Value>>{
-    let v = map.remove("v");
+fn convert_weak_obj(mut map : Map<String, Value>, filename : &str, names : &ParamNameMap) -> NlResult<Map<String, Value>>{
+    let vp = names.get("v");
+    let v = map.remove(vp);
     match v{
         Some(Value::String(s)) =>{
             let value_str = convert_value_str(&s, filename)?;
             let wv = WeakValue::from(value_str, filename)?;
-            map.insert("v".to_string(), wv.to_json());
+            map.insert(vp.to_string(), wv.to_json());
         },
         Some(v) => Err(format!("{}: v must be String {}", filename, v))?,
         None =>{}
     }
-    let c = map.remove("c");
+    let cp = names.get("c");
+    let c = map.remove(cp);
     match c{
         Some(Value::String(s)) =>{
             let value_str = convert_value_str(&s, filename)?;
             let cv = CondValue::from(value_str, filename)?;
-            map.insert("c".to_string(), cv.to_json());
+            map.insert(cp.to_string(), cv.to_json());
         },
         Some(v) => Err(format!("{}: c must be String {}", filename, v))?,
         None =>{}
@@ -76,6 +79,15 @@ fn convert_weak_obj(mut map : Map<String, Value>, filename : &str) -> NlResult<M
         Some(Value::String(s)) =>{
             let array = create_rev_ev_json_array(vec![s]);
             map.insert("bonus".to_string(), Value::Array(array));
+        },
+        Some(v) => Err(format!("{}: bonus must be String {}", filename, v))?,
+        None =>{}
+    }
+    let action = map.remove("action");
+    match action{
+        Some(Value::String(s)) =>{
+            let array = create_rev_ev_json_array(vec![s]);
+            map.insert("action".to_string(), Value::Array(array));
         },
         Some(v) => Err(format!("{}: bonus must be String {}", filename, v))?,
         None =>{}

@@ -1,23 +1,21 @@
-pub fn ch_def_specifications() -> &'static str{
-    r#"
-["Table",    [{
-  v: ["CilDef", [{
-    seq: ["CilDef",[{
+
+pub(crate) const ch_def_specifications : &str = "["Table",    [{
+  o: ["CilDef", [{
+    cseq: ["CilDef",[{
       "d?": ["Str", null],
       "n?": ["Str", null],
-      "v": ["CilDef",[{
+      "cv": ["CilDef",[{
         kind: "",
         txt: "",
       }]],
-      "c": ["CilDef",[{
+      "cc": ["CilDef",[{
         kind: "",
         "txt?": ["Str", null],
         Ref: { ev: ""},
       }]],
-      "bonus": ["CilDef", [{
+      "action": ["CilDef", [{
         Ref: {ev: ""}
       }]]
     }]],
   }]],
-}]]"#
-}
+}]]";

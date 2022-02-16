@@ -10,6 +10,7 @@ pub(crate) mod ev_def_specifications;
 pub(crate) mod ch_def_specifications;
 pub(crate) mod cv_def_specifications;
 pub(crate) mod generated_src;
+pub(crate) mod calc_const_str_src;
 
 pub use crate::error::NlError;
 pub type NlResult<T> = Result<T, NlError>;

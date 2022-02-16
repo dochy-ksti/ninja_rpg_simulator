@@ -1,15 +1,14 @@
-pub fn ev_def_specifications() -> &'static str{
-    r#"
-["Table",    [{
+
+pub(crate) const ev_def_specifications : &str = "["Table",    [{
   v: ["CilDef", [{
-    seq: ["CilDef",[{
+    eseq: ["CilDef",[{
       "d?": ["Str", null],
       "n?": ["Str", null],
-      "v": ["CilDef",[{
+      "ev": ["CilDef",[{
         kind: "",
         txt: "",
       }]],
-      "c": ["CilDef",[{
+      "ec": ["CilDef",[{
         kind: "",
         "txt?": ["Str", null],
         Ref: { ev: ""},
@@ -45,5 +44,4 @@ pub fn ev_def_specifications() -> &'static str{
 //  observe: ["CilDef",[{
 //    Ref: {ch: ""}
 //  }]]
-}]]"#
-}
+}]]";

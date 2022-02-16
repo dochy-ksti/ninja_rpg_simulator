@@ -3,8 +3,7 @@ use crate::{cv_def_specifications, NlResult};
 use docchi::core::structs::RootObject;
 use std::io::Write;
 
-use crate::imp::translate_ch::translate_ch::translate_ch;
-use crate::imp::translate_ev::translate_ev::translate_ev;
+use crate::imp::translate::translate::{translate_ch, translate_ev};
 
 pub fn compile<P1 : AsRef<Path>, P2 : AsRef<Path>>(src_dir : P1, target_dir : P2) -> NlResult<RootObject>{
     let target_dir = target_dir.as_ref();

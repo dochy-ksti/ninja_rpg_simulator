@@ -1,18 +1,18 @@
 ["Table",    [{
-  v: ["CilDef", [{
-    seq: ["CilDef",[{
+  o: ["CilDef", [{
+    cseq: ["CilDef",[{
       "d?": ["Str", null],
       "n?": ["Str", null],
-      "v": ["CilDef",[{
+      "cv": ["CilDef",[{
         kind: "",
         txt: "",
       }]],
-      "c": ["CilDef",[{
+      "cc": ["CilDef",[{
         kind: "",
         "txt?": ["Str", null],
         Ref: { ev: ""},
       }]],
-      "bonus": ["CilDef", [{
+      "action": ["CilDef", [{
         Ref: {ev: ""}
       }]]
     }]],
