@@ -1,10 +1,8 @@
-pub fn cv_def_specifications() -> &'static str{
-    r#"
+
+pub const cv_def_specifications : &str = r#"//cv means "Character Variables"
 ["MList",[{
   Ref : { ch : ""},
-  own : ["MilDef",[{
+  events : ["MilDef",[{
     Ref : { ev : "" }
   }]]
-}]]
-"#
-}
+}]]"#;

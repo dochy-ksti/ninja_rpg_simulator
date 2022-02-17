@@ -1,5 +1,5 @@
 
-pub(crate) const ev_def_specifications : &str = "["Table",    [{
+pub const ev_def_specifications : &str = r#"["Table",    [{
   v: ["CilDef", [{
     eseq: ["CilDef",[{
       "d?": ["Str", null],
@@ -44,4 +44,4 @@ pub(crate) const ev_def_specifications : &str = "["Table",    [{
 //  observe: ["CilDef",[{
 //    Ref: {ch: ""}
 //  }]]
-}]]";
+}]]"#;

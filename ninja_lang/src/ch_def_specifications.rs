@@ -1,5 +1,5 @@
 
-pub(crate) const ch_def_specifications : &str = "["Table",    [{
+pub const ch_def_specifications : &str = r#"["Table",    [{
   o: ["CilDef", [{
     cseq: ["CilDef",[{
       "d?": ["Str", null],
@@ -18,4 +18,4 @@ pub(crate) const ch_def_specifications : &str = "["Table",    [{
       }]]
     }]],
   }]],
-}]]";
+}]]"#;

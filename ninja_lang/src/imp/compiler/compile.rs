@@ -12,18 +12,18 @@ pub fn compile<P1 : AsRef<Path>, P2 : AsRef<Path>>(src_dir : P1, target_dir : P2
     std::fs::create_dir(&ev_dir).ok();
     translate_ev(src_dir.join("ev"), &ev_dir)?;
     let mut file = std::fs::File::create(target_dir.join("ev.json5"))?;
-    file.write_all(crate::ev_def_specifications().as_bytes())?;
+    file.write_all(crate::ev_def_specifications.as_bytes())?;
     let ch_dir = target_dir.join("ch");
     std::fs::create_dir(&ch_dir).ok();
     translate_ch(src_dir.join("ch"), &ch_dir)?;
     let mut file = std::fs::File::create(target_dir.join("ch.json5"))?;
-    file.write_all(crate::ch_def_specifications().as_bytes())?;
+    file.write_all(crate::ch_def_specifications.as_bytes())?;
 
 
     let mut file = std::fs::File::create(target_dir.join("root.json5"))?;
     file.write_all("{}".as_bytes())?;
 
     let mut file = std::fs::File::create(target_dir.join("cv.json5"))?;
-    file.write_all(cv_def_specifications().as_bytes())?;
+    file.write_all(cv_def_specifications.as_bytes())?;
     Ok(docchi::core::json_dir_to_root(target_dir, true)?)
 }
