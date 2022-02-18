@@ -149,8 +149,8 @@ impl From<CItemPtr> for EseqCItem {
 	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
 }
 impl EseqCItem {
-	pub fn ev(&self) -> CListConst<EvCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "ev").unwrap(), self)
+	pub fn eval(&self) -> CListConst<EvalCItem>{
+		CListConst::new(citem::get_cil(self.ptr, "eval").unwrap(), self)
 	}
 	pub fn bonus(&self) -> CListConst<BonusCItem>{
 		CListConst::new(citem::get_cil(self.ptr, "bonus").unwrap(), self)
@@ -180,13 +180,13 @@ impl EseqCItem {
 	
 }
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct EvCItem {
+pub struct EvalCItem {
 	ptr : CItemPtr,
 }
-impl From<CItemPtr> for EvCItem {
+impl From<CItemPtr> for EvalCItem {
 	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
 }
-impl EvCItem {
+impl EvalCItem {
 	pub fn kind_def_val(&self) -> &String{
 		let qv = citem::get_str_def(self.ptr, "kind").unwrap();
 		qv.into_value().unwrap()
@@ -443,9 +443,6 @@ impl CseqCItem {
 	pub fn action(&self) -> CListConst<ActionCItem>{
 		CListConst::new(citem::get_cil(self.ptr, "action").unwrap(), self)
 	}
-	pub fn cv(&self) -> CListConst<CvCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "cv").unwrap(), self)
-	}
 	pub fn n_def_val(&self) -> NullOr<&String>{
 		let qv = citem::get_str_def(self.ptr, "n").unwrap();
 		NullOr::from_qv(qv).unwrap()
@@ -453,6 +450,9 @@ impl CseqCItem {
 	pub fn n(&self) -> NullOr<&String>{
 		let qv = citem::get_immutable_str(self.ptr, "n").unwrap();
 		NullOr::from_qv(qv).unwrap()
+	}
+	pub fn cval(&self) -> CListConst<CvalCItem>{
+		CListConst::new(citem::get_cil(self.ptr, "cval").unwrap(), self)
 	}
 	pub fn d_def_val(&self) -> NullOr<&String>{
 		let qv = citem::get_str_def(self.ptr, "d").unwrap();
@@ -485,13 +485,13 @@ impl ActionCItem {
 	}
 }
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct CvCItem {
+pub struct CvalCItem {
 	ptr : CItemPtr,
 }
-impl From<CItemPtr> for CvCItem {
+impl From<CItemPtr> for CvalCItem {
 	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
 }
-impl CvCItem {
+impl CvalCItem {
 	pub fn kind_def_val(&self) -> &String{
 		let qv = citem::get_str_def(self.ptr, "kind").unwrap();
 		qv.into_value().unwrap()

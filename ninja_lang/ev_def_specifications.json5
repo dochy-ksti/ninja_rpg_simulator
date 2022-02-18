@@ -3,7 +3,7 @@
     eseq: ["CilDef",[{
       "d?": ["Str", null],
       "n?": ["Str", null],
-      "ev": ["CilDef",[{
+      "eval": ["CilDef",[{
         kind: "",
         txt: "",
       }]],

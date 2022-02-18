@@ -1,10 +1,10 @@
 
-pub const EV_DEF_SPECIFICATIONS: &str = r#"["Table",    [{
+pub const EV_DEF_SPECIFICATIONS : &str = r#"["Table",    [{
   v: ["CilDef", [{
     eseq: ["CilDef",[{
       "d?": ["Str", null],
       "n?": ["Str", null],
-      "ev": ["CilDef",[{
+      "eval": ["CilDef",[{
         kind: "",
         txt: "",
       }]],

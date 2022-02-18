@@ -1,10 +1,10 @@
 
-pub const CH_DEF_SPECIFICATIONS: &str = r#"["Table",    [{
+pub const CH_DEF_SPECIFICATIONS : &str = r#"["Table",    [{
   o: ["CilDef", [{
     cseq: ["CilDef",[{
       "d?": ["Str", null],
       "n?": ["Str", null],
-      "cv": ["CilDef",[{
+      "cval": ["CilDef",[{
         kind: "",
         txt: "",
       }]],

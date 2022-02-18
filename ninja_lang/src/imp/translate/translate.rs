@@ -50,7 +50,7 @@ fn ev_map() -> ParamNameMap{
     let mut map = ParamNameMap::new();
     map.add("value", "v");
     map.add("seq", "eseq");
-    map.add("v", "ev");
+    map.add("v", "eval");
     map.add("c", "ec");
     map
 }
@@ -59,7 +59,7 @@ fn ch_map() -> ParamNameMap{
     let mut map = ParamNameMap::new();
     map.add("value", "o");
     map.add("seq", "cseq");
-    map.add("v", "cv");
+    map.add("v", "cval");
     map.add("c", "cc");
     map
 }
