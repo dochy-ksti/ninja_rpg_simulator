@@ -1,5 +1,5 @@
 
-pub const ch_def_specifications : &str = r#"["Table",    [{
+pub const CH_DEF_SPECIFICATIONS: &str = r#"["Table",    [{
   o: ["CilDef", [{
     cseq: ["CilDef",[{
       "d?": ["Str", null],

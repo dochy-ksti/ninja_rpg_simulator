@@ -44,7 +44,7 @@ fn convert_inner_v(array : Vec<Value>, filename : &str, index : usize, names : &
 
 fn convert_weak_obj(mut map : Map<String, Value>, filename : &str, names : &ParamNameMap) -> NlResult<Map<String, Value>>{
     let vp = names.get("v");
-    let v = map.remove(vp);
+    let v = map.remove("v");
     match v{
         Some(Value::String(s)) =>{
             let value_str = convert_value_str(&s, filename)?;
@@ -55,7 +55,7 @@ fn convert_weak_obj(mut map : Map<String, Value>, filename : &str, names : &Para
         None =>{}
     }
     let cp = names.get("c");
-    let c = map.remove(cp);
+    let c = map.remove("c");
     match c{
         Some(Value::String(s)) =>{
             let value_str = convert_value_str(&s, filename)?;

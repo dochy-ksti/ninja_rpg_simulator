@@ -1,5 +1,5 @@
 
-pub const ev_def_specifications : &str = r#"["Table",    [{
+pub const EV_DEF_SPECIFICATIONS: &str = r#"["Table",    [{
   v: ["CilDef", [{
     eseq: ["CilDef",[{
       "d?": ["Str", null],

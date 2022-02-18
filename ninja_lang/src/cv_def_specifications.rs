@@ -1,5 +1,5 @@
 
-pub const cv_def_specifications : &str = r#"//cv means "Character Variables"
+pub const CV_DEF_SPECIFICATIONS: &str = r#"//cv means "Character Variables"
 ["MList",[{
   Ref : { ch : ""},
   events : ["MilDef",[{
