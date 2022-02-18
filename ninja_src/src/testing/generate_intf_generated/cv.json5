@@ -1,0 +1,7 @@
+//cv means "Character Variables"
+["MList",[{
+  Ref : { ch : ""},
+  events : ["MilDef",[{
+    Ref : { ev : "" }
+  }]]
+}]]

@@ -2,6 +2,5 @@
 mod generated_src;
 #[cfg(test)]#[allow(dead_code)]
 mod testing;
-mod generated_src;
 
 
