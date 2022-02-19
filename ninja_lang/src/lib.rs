@@ -14,6 +14,8 @@ pub mod error;
 mod imp;
 #[cfg(test)]#[allow(dead_code)]
 mod testing;
+#[cfg(test)]#[allow(dead_code)]#[allow(unreachable_pub)]
+mod generated_src;
 
 pub(crate) mod ev_def_specifications;
 pub(crate) mod ch_def_specifications;

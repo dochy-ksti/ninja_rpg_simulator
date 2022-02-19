@@ -1,5 +1,5 @@
 
-pub(crate) const generated_src_text : &str = r#"use docchi::core::intf::*;
+pub(crate) const GENERATED_SRC_TEXT : &str = r#"use docchi::core::intf::*;
 use docchi::core::structs::*;
 unsafe impl Send for RootIntf {}
 unsafe impl Sync for RootIntf {}

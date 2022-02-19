@@ -1,5 +1,5 @@
 
-pub(crate) const generated_src_text : &str = r#"use docchi::core::intf::*;
+pub(crate) const GENERATED_SRC_TEXT : &str = r#"use docchi::core::intf::*;
 use docchi::core::structs::*;
 unsafe impl Send for RootIntf {}
 unsafe impl Sync for RootIntf {}
@@ -18,8 +18,8 @@ impl RootIntf{
     pub fn root_obj_ref_mut(&mut self) -> &mut RootObject{ self.root.as_mut() }
     pub fn deconstruct(self) -> RootObject{ *self.root }
 
-	pub fn event(&self) -> CTableConst<EventTable>{
-		let t = EventTable::new(root::get_table(self.ptr.def(), "event").unwrap());
+	pub fn ev(&self) -> CTableConst<EvTable>{
+		let t = EvTable::new(root::get_table(self.ptr.def(), "ev").unwrap());
 		CTableConst::new(t, self)
 	}
 	pub fn cv(&self) -> MListConst<CvMItem>{
@@ -34,50 +34,77 @@ impl RootIntf{
 		let t = ChTable::new(root::get_table(self.ptr.def(), "ch").unwrap());
 		CTableConst::new(t, self)
 	}
-	pub fn ev(&self) -> CTableConst<EvTable>{
-		let t = EvTable::new(root::get_table(self.ptr.def(), "ev").unwrap());
-		CTableConst::new(t, self)
-	}
 }
 #[derive(Debug, PartialEq)]
-pub struct EventTable {
+pub struct EvTable {
 	ptr : TablePtr,
 }
-impl EventTable {
-	pub fn new(ptr : TablePtr) -> EventTable{ EventTable{ ptr } } 
+impl EvTable {
+	pub fn new(ptr : TablePtr) -> EvTable{ EvTable{ ptr } } 
+	pub unsafe fn required1_us(&self) -> EvCItem {
+		let ptr = table::get_value(self.ptr, "required1").unwrap();
+		EvCItem::from(ptr)
+	}
+	pub fn required1(&self) -> CItemConst<EvCItem> {
+		let ptr = table::get_value(self.ptr, "required1").unwrap();
+		CItemConst::new(EvCItem::from(ptr), self)
+	}
+	pub unsafe fn sample1_us(&self) -> EvCItem {
+		let ptr = table::get_value(self.ptr, "sample1").unwrap();
+		EvCItem::from(ptr)
+	}
+	pub fn sample1(&self) -> CItemConst<EvCItem> {
+		let ptr = table::get_value(self.ptr, "sample1").unwrap();
+		CItemConst::new(EvCItem::from(ptr), self)
+	}
+	pub unsafe fn get_by_id_us(&self, id : EvTableID) -> EvCItem{
+		match id{
+			EvTableID::Required1 => self.required1_us(),
+			EvTableID::Sample1 => self.sample1_us(),
+		}
+	}
+	pub fn get_by_id(&self, id : EvTableID) -> CItemConst<EvCItem>{
+		CItemConst::new(unsafe{ self.get_by_id_us(id) }, self)
+	}
 }
-#[repr(u64)] pub enum EventTableID{ }
-impl EventTableID{
+#[repr(u64)] pub enum EvTableID{ Required1, Sample1, }
+impl EvTableID{
 	pub fn from_str(id : &str) -> Option<Self>{
 		match id{
+			"required1" => Some(Self::Required1),
+			"sample1" => Some(Self::Sample1),
 			_ =>{ None }
 		}
 	}
 	pub fn from_num(id : usize) -> Self{
 		match id{
-			_ => panic!("invalid ID num {} EventTableID", id),
+			0 => Self::Required1,
+			1 => Self::Sample1,
+			_ => panic!("invalid ID num {} EvTableID", id),
 		}
 	}
-	pub fn len() -> usize{ 0 }
+	pub fn len() -> usize{ 2 }
 	pub fn to_num(&self) -> usize{
 		match self{
+			EvTableID::Required1 => 0,
+			EvTableID::Sample1 => 1,
 		}
 	}
 	pub fn metadata() -> &'static [&'static str]{
-		&[]
+		&["required1", "sample1", ]
 	}
 	pub fn to_str(&self) -> &'static str{
 		Self::metadata()[self.to_num()]
 	}
 }
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct EventCItem {
+pub struct EvCItem {
 	ptr : CItemPtr,
 }
-impl From<CItemPtr> for EventCItem {
+impl From<CItemPtr> for EvCItem {
 	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
 }
-impl EventCItem {
+impl EvCItem {
 	pub fn own_def_val(&self) -> &String{
 		let qv = citem::get_str_def(self.ptr, "own").unwrap();
 		qv.into_value().unwrap()
@@ -110,21 +137,21 @@ impl From<CItemPtr> for VCItem {
 	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
 }
 impl VCItem {
-	pub fn seq(&self) -> CListConst<SeqCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "seq").unwrap(), self)
+	pub fn eseq(&self) -> CListConst<EseqCItem>{
+		CListConst::new(citem::get_cil(self.ptr, "eseq").unwrap(), self)
 	}
 	
 }
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct SeqCItem {
+pub struct EseqCItem {
 	ptr : CItemPtr,
 }
-impl From<CItemPtr> for SeqCItem {
+impl From<CItemPtr> for EseqCItem {
 	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
 }
-impl SeqCItem {
-	pub fn c(&self) -> CListConst<CCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "c").unwrap(), self)
+impl EseqCItem {
+	pub fn eval(&self) -> CListConst<EvalCItem>{
+		CListConst::new(citem::get_cil(self.ptr, "eval").unwrap(), self)
 	}
 	pub fn bonus(&self) -> CListConst<BonusCItem>{
 		CListConst::new(citem::get_cil(self.ptr, "bonus").unwrap(), self)
@@ -137,8 +164,8 @@ impl SeqCItem {
 		let qv = citem::get_immutable_str(self.ptr, "n").unwrap();
 		NullOr::from_qv(qv).unwrap()
 	}
-	pub fn v(&self) -> CListConst<VCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "v").unwrap(), self)
+	pub fn ec(&self) -> CListConst<EcCItem>{
+		CListConst::new(citem::get_cil(self.ptr, "ec").unwrap(), self)
 	}
 	pub fn d_def_val(&self) -> NullOr<&String>{
 		let qv = citem::get_str_def(self.ptr, "d").unwrap();
@@ -154,13 +181,56 @@ impl SeqCItem {
 	
 }
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct CCItem {
+pub struct EvalCItem {
 	ptr : CItemPtr,
 }
-impl From<CItemPtr> for CCItem {
+impl From<CItemPtr> for EvalCItem {
 	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
 }
-impl CCItem {
+impl EvalCItem {
+	pub fn kind_def_val(&self) -> &String{
+		let qv = citem::get_str_def(self.ptr, "kind").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn kind(&self) -> &String{
+		let qv = citem::get_immutable_str(self.ptr, "kind").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn txt_def_val(&self) -> &String{
+		let qv = citem::get_str_def(self.ptr, "txt").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn txt(&self) -> &String{
+		let qv = citem::get_immutable_str(self.ptr, "txt").unwrap();
+		qv.into_value().unwrap()
+	}
+	
+}
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub struct BonusCItem {
+	ptr : CItemPtr,
+}
+impl From<CItemPtr> for BonusCItem {
+	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
+}
+impl BonusCItem {
+	pub fn ref_ev(&self) -> EvCItem{
+		let qv = citem::get_ref(self.ptr, "ev").unwrap();
+		EvCItem::from(qv.into_value().unwrap())
+	}
+	pub fn ref_id_ev(&self) -> &String{
+		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
+		qv.into_value().unwrap()
+	}
+}
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub struct EcCItem {
+	ptr : CItemPtr,
+}
+impl From<CItemPtr> for EcCItem {
+	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
+}
+impl EcCItem {
 	pub fn kind_def_val(&self) -> &String{
 		let qv = citem::get_str_def(self.ptr, "kind").unwrap();
 		qv.into_value().unwrap()
@@ -185,49 +255,6 @@ impl CCItem {
 		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
 		qv.into_value().unwrap()
 	}
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct BonusCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for BonusCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl BonusCItem {
-	pub fn ref_ev(&self) -> EvCItem{
-		let qv = citem::get_ref(self.ptr, "ev").unwrap();
-		EvCItem::from(qv.into_value().unwrap())
-	}
-	pub fn ref_id_ev(&self) -> &String{
-		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
-		qv.into_value().unwrap()
-	}
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct VCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for VCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl VCItem {
-	pub fn kind_def_val(&self) -> &String{
-		let qv = citem::get_str_def(self.ptr, "kind").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn kind(&self) -> &String{
-		let qv = citem::get_immutable_str(self.ptr, "kind").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn txt_def_val(&self) -> &String{
-		let qv = citem::get_str_def(self.ptr, "txt").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn txt(&self) -> &String{
-		let qv = citem::get_immutable_str(self.ptr, "txt").unwrap();
-		qv.into_value().unwrap()
-	}
-	
 }
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct RunCItem {
@@ -508,275 +535,6 @@ impl CcCItem {
 		let qv = citem::get_immutable_str(self.ptr, "txt").unwrap();
 		NullOr::from_qv(qv).unwrap()
 	}
-	pub fn ref_ev(&self) -> EvCItem{
-		let qv = citem::get_ref(self.ptr, "ev").unwrap();
-		EvCItem::from(qv.into_value().unwrap())
-	}
-	pub fn ref_id_ev(&self) -> &String{
-		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
-		qv.into_value().unwrap()
-	}
-}
-
-#[derive(Debug, PartialEq)]
-pub struct EvTable {
-	ptr : TablePtr,
-}
-impl EvTable {
-	pub fn new(ptr : TablePtr) -> EvTable{ EvTable{ ptr } } 
-	pub unsafe fn required1_us(&self) -> EvCItem {
-		let ptr = table::get_value(self.ptr, "required1").unwrap();
-		EvCItem::from(ptr)
-	}
-	pub fn required1(&self) -> CItemConst<EvCItem> {
-		let ptr = table::get_value(self.ptr, "required1").unwrap();
-		CItemConst::new(EvCItem::from(ptr), self)
-	}
-	pub unsafe fn sample1_us(&self) -> EvCItem {
-		let ptr = table::get_value(self.ptr, "sample1").unwrap();
-		EvCItem::from(ptr)
-	}
-	pub fn sample1(&self) -> CItemConst<EvCItem> {
-		let ptr = table::get_value(self.ptr, "sample1").unwrap();
-		CItemConst::new(EvCItem::from(ptr), self)
-	}
-	pub unsafe fn get_by_id_us(&self, id : EvTableID) -> EvCItem{
-		match id{
-			EvTableID::Required1 => self.required1_us(),
-			EvTableID::Sample1 => self.sample1_us(),
-		}
-	}
-	pub fn get_by_id(&self, id : EvTableID) -> CItemConst<EvCItem>{
-		CItemConst::new(unsafe{ self.get_by_id_us(id) }, self)
-	}
-}
-#[repr(u64)] pub enum EvTableID{ Required1, Sample1, }
-impl EvTableID{
-	pub fn from_str(id : &str) -> Option<Self>{
-		match id{
-			"required1" => Some(Self::Required1),
-			"sample1" => Some(Self::Sample1),
-			_ =>{ None }
-		}
-	}
-	pub fn from_num(id : usize) -> Self{
-		match id{
-			0 => Self::Required1,
-			1 => Self::Sample1,
-			_ => panic!("invalid ID num {} EvTableID", id),
-		}
-	}
-	pub fn len() -> usize{ 2 }
-	pub fn to_num(&self) -> usize{
-		match self{
-			EvTableID::Required1 => 0,
-			EvTableID::Sample1 => 1,
-		}
-	}
-	pub fn metadata() -> &'static [&'static str]{
-		&["required1", "sample1", ]
-	}
-	pub fn to_str(&self) -> &'static str{
-		Self::metadata()[self.to_num()]
-	}
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct EvCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for EvCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl EvCItem {
-	pub fn own_def_val(&self) -> &String{
-		let qv = citem::get_str_def(self.ptr, "own").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn own(&self) -> &String{
-		let qv = citem::get_immutable_str(self.ptr, "own").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn v(&self) -> CListConst<VCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "v").unwrap(), self)
-	}
-	pub fn chain(&self) -> CListConst<ChainCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "chain").unwrap(), self)
-	}
-	pub fn free(&self) -> bool{
-		let qv = citem::get_bool(self.ptr, "free").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn free_def_val(&self) -> bool{
-		let qv = citem::get_bool_def(self.ptr, "free").unwrap();
-		qv.into_value().unwrap()
-	}
-	
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct VCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for VCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl VCItem {
-	pub fn eseq(&self) -> CListConst<EseqCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "eseq").unwrap(), self)
-	}
-	
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct EseqCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for EseqCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl EseqCItem {
-	pub fn eval(&self) -> CListConst<EvalCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "eval").unwrap(), self)
-	}
-	pub fn bonus(&self) -> CListConst<BonusCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "bonus").unwrap(), self)
-	}
-	pub fn n_def_val(&self) -> NullOr<&String>{
-		let qv = citem::get_str_def(self.ptr, "n").unwrap();
-		NullOr::from_qv(qv).unwrap()
-	}
-	pub fn n(&self) -> NullOr<&String>{
-		let qv = citem::get_immutable_str(self.ptr, "n").unwrap();
-		NullOr::from_qv(qv).unwrap()
-	}
-	pub fn ec(&self) -> CListConst<EcCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "ec").unwrap(), self)
-	}
-	pub fn d_def_val(&self) -> NullOr<&String>{
-		let qv = citem::get_str_def(self.ptr, "d").unwrap();
-		NullOr::from_qv(qv).unwrap()
-	}
-	pub fn d(&self) -> NullOr<&String>{
-		let qv = citem::get_immutable_str(self.ptr, "d").unwrap();
-		NullOr::from_qv(qv).unwrap()
-	}
-	pub fn run(&self) -> CListConst<RunCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "run").unwrap(), self)
-	}
-	
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct EvalCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for EvalCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl EvalCItem {
-	pub fn kind_def_val(&self) -> &String{
-		let qv = citem::get_str_def(self.ptr, "kind").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn kind(&self) -> &String{
-		let qv = citem::get_immutable_str(self.ptr, "kind").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn txt_def_val(&self) -> &String{
-		let qv = citem::get_str_def(self.ptr, "txt").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn txt(&self) -> &String{
-		let qv = citem::get_immutable_str(self.ptr, "txt").unwrap();
-		qv.into_value().unwrap()
-	}
-	
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct BonusCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for BonusCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl BonusCItem {
-	pub fn ref_ev(&self) -> EvCItem{
-		let qv = citem::get_ref(self.ptr, "ev").unwrap();
-		EvCItem::from(qv.into_value().unwrap())
-	}
-	pub fn ref_id_ev(&self) -> &String{
-		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
-		qv.into_value().unwrap()
-	}
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct EcCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for EcCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl EcCItem {
-	pub fn kind_def_val(&self) -> &String{
-		let qv = citem::get_str_def(self.ptr, "kind").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn kind(&self) -> &String{
-		let qv = citem::get_immutable_str(self.ptr, "kind").unwrap();
-		qv.into_value().unwrap()
-	}
-	pub fn txt_def_val(&self) -> NullOr<&String>{
-		let qv = citem::get_str_def(self.ptr, "txt").unwrap();
-		NullOr::from_qv(qv).unwrap()
-	}
-	pub fn txt(&self) -> NullOr<&String>{
-		let qv = citem::get_immutable_str(self.ptr, "txt").unwrap();
-		NullOr::from_qv(qv).unwrap()
-	}
-	pub fn ref_ev(&self) -> EvCItem{
-		let qv = citem::get_ref(self.ptr, "ev").unwrap();
-		EvCItem::from(qv.into_value().unwrap())
-	}
-	pub fn ref_id_ev(&self) -> &String{
-		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
-		qv.into_value().unwrap()
-	}
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct RunCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for RunCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl RunCItem {
-	pub fn ref_ev(&self) -> EvCItem{
-		let qv = citem::get_ref(self.ptr, "ev").unwrap();
-		EvCItem::from(qv.into_value().unwrap())
-	}
-	pub fn ref_id_ev(&self) -> &String{
-		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
-		qv.into_value().unwrap()
-	}
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct ChainCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for ChainCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl ChainCItem {
-	pub fn and(&self) -> CListConst<AndCItem>{
-		CListConst::new(citem::get_cil(self.ptr, "and").unwrap(), self)
-	}
-	
-}
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct AndCItem {
-	ptr : CItemPtr,
-}
-impl From<CItemPtr> for AndCItem {
-	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
-}
-impl AndCItem {
 	pub fn ref_ev(&self) -> EvCItem{
 		let qv = citem::get_ref(self.ptr, "ev").unwrap();
 		EvCItem::from(qv.into_value().unwrap())

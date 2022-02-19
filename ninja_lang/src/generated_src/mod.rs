@@ -1,2 +1,2 @@
-mod generated_src_txt;
-mod generated_src;
+pub(crate) mod generated_src_txt;
+pub(crate) mod generated_src;

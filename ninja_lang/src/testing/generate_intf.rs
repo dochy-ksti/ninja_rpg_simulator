@@ -1,4 +1,4 @@
-use ninja_lang::{NlResult, make_intf, compile_and_write_generated_src};
+use crate::{NlResult, make_intf, compile_and_write_generated_src};
 
 #[test]
 fn generate_intf() -> NlResult<()>{
