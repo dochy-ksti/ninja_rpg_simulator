@@ -1,12 +1,9 @@
 [package]
-name = "ninja_gui"
+name = "ninja_gui_test"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-piston = "*"
-piston2d-graphics = "*"
-pistoncore-glutin_window = "*"
-piston2d-opengl_graphics = "*"
+ninja_gui = { path="../ninja_gui" }

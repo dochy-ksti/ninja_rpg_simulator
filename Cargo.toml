@@ -19,6 +19,7 @@ members=[
     "ninja_core",
     "ninja_src",
     "ninja_gui",
+    "ninja_gui_test"
 ]
 
 [dependencies]
