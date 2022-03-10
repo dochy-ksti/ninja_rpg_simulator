@@ -1,74 +1,31 @@
+use std::path::Path;
+use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed};
 
 
+pub(crate) fn start_loop<P : AsRef<Path>>(font_path : P) {
 
-use glutin_window::GlutinWindow as Window;
-use opengl_graphics::{GlGraphics, OpenGL};
-use piston::event_loop::{EventSettings, Events};
-use piston::input::{RenderArgs, RenderEvent, UpdateArgs, UpdateEvent};
-use piston::window::WindowSettings;
-
-pub struct App {
-    gl: GlGraphics, // OpenGL drawing backend.
-    rotation: f64,  // Rotation for the square.
-}
-
-impl App {
-    fn render(&mut self, args: &RenderArgs) {
-        use graphics::*;
-
-        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
-        const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
-
-        let square = rectangle::square(0.0, 0.0, 50.0);
-        let rotation = self.rotation;
-        let (x, y) = (args.window_size[0] / 2.0, args.window_size[1] / 2.0);
-
-        self.gl.draw(args.viewport(), |c, gl| {
-            // Clear the screen.
-            clear(GREEN, gl);
-
-            let transform = c
-                .transform
-                .trans(x, y)
-                .rot_rad(rotation)
-                .trans(-25.0, -25.0);
-
-            // Draw a box rotating around the middle of the screen.
-            rectangle(RED, square, transform, gl);
-        });
-    }
-
-    fn update(&mut self, args: &UpdateArgs) {
-        // Rotate 2 radians per second.
-        self.rotation += 2.0 * args.dt;
-    }
-}
-
-pub(crate) fn start_loop(){
-    // Change this to OpenGL::V2_1 if not working.
-    let opengl = OpenGL::V3_2;
-
-    // Create an Glutin window.
-    let mut window: Window = WindowSettings::new("spinning-square", [200, 200])
-        .graphics_api(opengl)
-        .exit_on_esc(true)
+    let mut window: PistonWindow = WindowSettings::new(
+        "test_window",
+        [500, 500]
+    )
         .build()
         .unwrap();
 
-    // Create a new game and run it.
-    let mut app = App {
-        gl: GlGraphics::new(opengl),
-        rotation: 0.0,
-    };
 
-    let mut events = Events::new(EventSettings::new());
-    while let Some(e) = events.next(&mut window) {
-        if let Some(args) = e.render_args() {
-            app.render(&args);
-        }
+    let ts = TextureSettings::new();
+    let mut glyphs = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
+    while let Some(e) = window.next() {
+        window.draw_2d(&e, |c, g, d| {
 
-        if let Some(args) = e.update_args() {
-            app.update(&args);
-        }
+            // Set a white background
+            clear([1.0, 1.0, 1.0, 1.0], g);
+            text::Text::new_color([0.0, 0.0, 0.0, 1.0], 32).draw(
+                "Hello World",
+                &mut glyphs,
+                &c.draw_state,
+                c.transform.trans(100., 100.), g
+            ).unwrap();
+            glyphs.factory.encoder.flush(d);
+        });
     }
 }
