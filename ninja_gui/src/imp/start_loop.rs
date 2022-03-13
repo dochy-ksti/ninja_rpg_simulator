@@ -3,7 +3,7 @@ use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSe
 use crate::GuiItems;
 
 
-pub(crate) fn start_loop<P : AsRef<Path>, F : FnMut(usize)>(font_path : P, gui_items : GuiItems, choice : &mut F) {
+pub fn start_loop<P : AsRef<Path>, F : FnMut(usize)>(font_path : P, gui_items : GuiItems, choice : &mut F) {
 
     let mut window: PistonWindow = WindowSettings::new(
         "test_window",
