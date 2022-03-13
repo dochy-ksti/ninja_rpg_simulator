@@ -11,3 +11,5 @@ mod testing;
 pub fn test_window<P : AsRef<Path>>(font_path : P){
     start_loop(font_path)
 }
+
+pub use imp::gui_item::{GuiItem, GuiItems};
