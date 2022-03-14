@@ -6,7 +6,7 @@ pub use crate::cv_def_specifications::CV_DEF_SPECIFICATIONS;
 pub use crate::error::NlError;
 pub use crate::ev_def_specifications::EV_DEF_SPECIFICATIONS;
 pub use crate::imp::compiler::compile::compile;
-pub use crate::imp::generate::write_generated_src_files::write_generated_src_files;
+pub use crate::imp::generate::write_generated_src_files::write_generated_src_file;
 pub use crate::imp::generate::make_intf::make_intf;
 pub use crate::imp::generate::compile_and_write_generated_src::compile_and_write_generated_src;
 

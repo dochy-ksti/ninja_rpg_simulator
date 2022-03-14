@@ -9,5 +9,6 @@ mod imp;
 mod testing;
 
 pub use imp::gui_item::{GuiItem, GuiItems};
+pub use imp::gui_output::{GuiOutput};
 
 pub use crate::imp::start_loop::start_loop;

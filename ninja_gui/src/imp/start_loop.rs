@@ -1,9 +1,10 @@
 use std::path::Path;
 use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed};
 use crate::GuiItems;
+use crate::imp::gui_output::GuiOutput;
 
 
-pub fn start_loop<P : AsRef<Path>, F : FnMut(usize)>(font_path : P, gui_items : GuiItems, choice : &mut F) {
+pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path : P, gui_items : GuiItems, choice : &mut F) {
 
     let mut window: PistonWindow = WindowSettings::new(
         "test_window",

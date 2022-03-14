@@ -1,7 +1,7 @@
 use ninja_lang::{NlResult, make_intf, compile_and_write_generated_src};
 
 #[test]
-fn generate_intf() -> NlResult<()>{
+fn generate_siyou() -> NlResult<()>{
     //first()?;
     second()?;
 
@@ -13,7 +13,7 @@ fn generate_intf() -> NlResult<()>{
 fn second() -> NlResult<()>{
     make_intf("src/json/siyou",
                "src/testing/generate_intf_generated",
-         "src/generated_src",
+         "src/generated_src/siyou",
          crate::generated_src::generated_src::RootIntf::new,
 &crate::generated_src::generated_src_txt::GENERATED_SRC_TEXT)?;
     Ok(())

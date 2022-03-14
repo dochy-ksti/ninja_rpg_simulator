@@ -5,13 +5,17 @@ use std::io::Write;
 use crate::imp::generate::calc_const_str_src::calc_const_str_src;
 
 
-
-pub fn write_generated_src_files<P : AsRef<Path>>(target_dir : P, src : &str) -> NlResult<()>{
-    let dir = target_dir.as_ref();
-    let mut src_file = File::create(dir.join("generated_src.rs"))?;
+/// returns true when the files are changed
+pub fn write_generated_src_file<P : AsRef<Path>>(target_file_path : P, src : &str) -> NlResult<bool>{
+    let file_path = target_file_path.as_ref();
+    
+    if let Ok(content) = std::fs::read_to_string(&file_path){
+        if src == content{
+            return Ok(false);
+        }
+    }
+    
+    let mut src_file = File::create(&file_path)?;
     src_file.write_all(src.as_bytes())?;
-    let src_text = calc_const_str_src("pub(crate)","GENERATED_SRC_TEXT", src);
-    let mut src_txt_file = File::create(dir.join("generated_src_txt.rs"))?;
-    src_txt_file.write_all(src_text.as_bytes())?;
-    Ok(())
+    Ok(true)
 }

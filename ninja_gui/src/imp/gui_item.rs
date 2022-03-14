@@ -5,7 +5,8 @@ pub struct GuiItem{
 }
 
 pub struct GuiItems{
-    vec : Vec<GuiItem>
+    items: Vec<GuiItem>,
+    priority : Vec<usize>
 }
 
 impl GuiItem{
@@ -18,5 +19,7 @@ impl GuiItem{
 }
 
 impl GuiItems{
-    pub fn new(vec : Vec<GuiItem>) -> GuiItems{ GuiItems{ vec } }
+    pub fn new(items : Vec<GuiItem>, priority : Vec<usize>) -> GuiItems{ GuiItems{ items, priority } }
+    pub fn items(&self) -> &[GuiItem]{ &self.items }
+    pub fn priority(&self) -> &[usize]{ &self.priority }
 }
