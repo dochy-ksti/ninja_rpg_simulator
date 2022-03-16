@@ -1,1 +1,12 @@
-{}
+{
+  "initial_events": [
+    "Cil",
+    {
+      "Ref": {
+        "ev": "tarou_first"
+      }
+    }
+  ],
+  "listen": 10,
+  "spot": 10
+}

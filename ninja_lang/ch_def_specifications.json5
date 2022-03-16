@@ -17,4 +17,9 @@
       }]]
     }]],
   }]],
+  spot : 0,
+  listen : 0,
+  initial_events : ["CilDef",[{
+    Ref : { ev :  "" }
+  }]]
 }]]

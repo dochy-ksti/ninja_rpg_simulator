@@ -1,1 +1,7 @@
-{}
+{
+	spot : 10,
+	listen : 10,
+	initial_events : ["Cil",
+		{ Ref: { ev: "tarou_first" } }
+	],
+}

@@ -1,3 +1,4 @@
+
 use std::fs::File;
 use std::io::Write;
 use crate::NlResult;
@@ -5,7 +6,6 @@ use crate::imp::generate::calc_const_str_src::calc_const_str_src;
 
 ///test用ではなく実用上必要なソース生成
 /// defをアップデートしたら走らせるとヨロシ
-//#[test]
 #[allow(dead_code)]
 fn generate_def_specifications() -> NlResult<()>{
 
@@ -22,4 +22,9 @@ fn generate_def_specifications() -> NlResult<()>{
     let mut file = File::create("src/cv_def_specifications.rs")?;
     file.write_all(s.as_bytes())?;
     Ok(())
+}
+
+#[test]
+fn generate_def_test() -> NlResult<()>{
+    generate_def_specifications()
 }

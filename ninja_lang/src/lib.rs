@@ -20,6 +20,7 @@ mod generated_src;
 pub(crate) mod ev_def_specifications;
 pub(crate) mod ch_def_specifications;
 pub(crate) mod cv_def_specifications;
+
 pub(crate) mod generate_def_specifications;
 
 pub type NlResult<T> = Result<T, NlError>;

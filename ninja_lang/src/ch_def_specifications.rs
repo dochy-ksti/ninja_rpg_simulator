@@ -18,4 +18,9 @@ pub const CH_DEF_SPECIFICATIONS : &str = r#"["Table",    [{
       }]]
     }]],
   }]],
+  spot : 0,
+  listen : 0,
+  initial_events : ["CilDef",[{
+    Ref : { ev :  "" }
+  }]]
 }]]"#;

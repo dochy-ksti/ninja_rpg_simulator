@@ -48,6 +48,14 @@ impl EvTable {
 		let ptr = table::get_value(self.ptr, "required1").unwrap();
 		CItemConst::new(EvCItem::from(ptr), self)
 	}
+	pub unsafe fn tarou_first_us(&self) -> EvCItem {
+		let ptr = table::get_value(self.ptr, "tarou_first").unwrap();
+		EvCItem::from(ptr)
+	}
+	pub fn tarou_first(&self) -> CItemConst<EvCItem> {
+		let ptr = table::get_value(self.ptr, "tarou_first").unwrap();
+		CItemConst::new(EvCItem::from(ptr), self)
+	}
 	pub unsafe fn sample1_us(&self) -> EvCItem {
 		let ptr = table::get_value(self.ptr, "sample1").unwrap();
 		EvCItem::from(ptr)
@@ -59,6 +67,7 @@ impl EvTable {
 	pub unsafe fn get_by_id_us(&self, id : EvTableID) -> EvCItem{
 		match id{
 			EvTableID::Required1 => self.required1_us(),
+			EvTableID::TarouFirst => self.tarou_first_us(),
 			EvTableID::Sample1 => self.sample1_us(),
 		}
 	}
@@ -66,11 +75,12 @@ impl EvTable {
 		CItemConst::new(unsafe{ self.get_by_id_us(id) }, self)
 	}
 }
-#[repr(u64)] pub enum EvTableID{ Required1, Sample1, }
+#[repr(u64)] pub enum EvTableID{ Required1, TarouFirst, Sample1, }
 impl EvTableID{
 	pub fn from_str(id : &str) -> Option<Self>{
 		match id{
 			"required1" => Some(Self::Required1),
+			"tarou_first" => Some(Self::TarouFirst),
 			"sample1" => Some(Self::Sample1),
 			_ =>{ None }
 		}
@@ -78,19 +88,21 @@ impl EvTableID{
 	pub fn from_num(id : usize) -> Self{
 		match id{
 			0 => Self::Required1,
-			1 => Self::Sample1,
+			1 => Self::TarouFirst,
+			2 => Self::Sample1,
 			_ => panic!("invalid ID num {} EvTableID", id),
 		}
 	}
-	pub fn len() -> usize{ 2 }
+	pub fn len() -> usize{ 3 }
 	pub fn to_num(&self) -> usize{
 		match self{
 			EvTableID::Required1 => 0,
-			EvTableID::Sample1 => 1,
+			EvTableID::TarouFirst => 1,
+			EvTableID::Sample1 => 2,
 		}
 	}
 	pub fn metadata() -> &'static [&'static str]{
-		&["required1", "sample1", ]
+		&["required1", "tarou_first", "sample1", ]
 	}
 	pub fn to_str(&self) -> &'static str{
 		Self::metadata()[self.to_num()]
@@ -321,6 +333,28 @@ impl CvMItem {
 		let p = mitem::get_mil_mut(self.ptr, "events").unwrap();
 		MListMut::new(p, self)
 	}
+	pub fn spot(&self) -> i64{
+		let qv = mitem::get_int(self.ptr, "spot").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn spot_def_val(&self) -> i64{
+		let qv = mitem::get_int_def(self.ptr, "spot").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn set_spot(&mut self, spot : i64){
+		mitem::set_int(self.ptr, "spot", Qv::Val(spot));
+	}
+	pub fn listen(&self) -> i64{
+		let qv = mitem::get_int(self.ptr, "listen").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn listen_def_val(&self) -> i64{
+		let qv = mitem::get_int_def(self.ptr, "listen").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn set_listen(&mut self, listen : i64){
+		mitem::set_int(self.ptr, "listen", Qv::Val(listen));
+	}
 	pub fn ref_ch(&self) -> ChCItem{
 		let qv = mitem::get_ref(self.ptr, "ch").unwrap();
 		ChCItem::from(qv.into_value().unwrap())
@@ -416,6 +450,25 @@ impl From<CItemPtr> for ChCItem {
 impl ChCItem {
 	pub fn o(&self) -> CListConst<OCItem>{
 		CListConst::new(citem::get_cil(self.ptr, "o").unwrap(), self)
+	}
+	pub fn listen(&self) -> i64{
+		let qv = citem::get_int(self.ptr, "listen").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn listen_def_val(&self) -> i64{
+		let qv = citem::get_int_def(self.ptr, "listen").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn spot(&self) -> i64{
+		let qv = citem::get_int(self.ptr, "spot").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn spot_def_val(&self) -> i64{
+		let qv = citem::get_int_def(self.ptr, "spot").unwrap();
+		qv.into_value().unwrap()
+	}
+	pub fn initial_events(&self) -> CListConst<InitialEventsCItem>{
+		CListConst::new(citem::get_cil(self.ptr, "initial_events").unwrap(), self)
 	}
 	
 }
@@ -534,6 +587,23 @@ impl CcCItem {
 		let qv = citem::get_immutable_str(self.ptr, "txt").unwrap();
 		NullOr::from_qv(qv).unwrap()
 	}
+	pub fn ref_ev(&self) -> EvCItem{
+		let qv = citem::get_ref(self.ptr, "ev").unwrap();
+		EvCItem::from(qv.into_value().unwrap())
+	}
+	pub fn ref_id_ev(&self) -> &String{
+		let qv = citem::get_ref_id(self.ptr, "ev").unwrap();
+		qv.into_value().unwrap()
+	}
+}
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub struct InitialEventsCItem {
+	ptr : CItemPtr,
+}
+impl From<CItemPtr> for InitialEventsCItem {
+	fn from(ptr : CItemPtr) -> Self { Self{ ptr } }
+}
+impl InitialEventsCItem {
 	pub fn ref_ev(&self) -> EvCItem{
 		let qv = citem::get_ref(self.ptr, "ev").unwrap();
 		EvCItem::from(qv.into_value().unwrap())
