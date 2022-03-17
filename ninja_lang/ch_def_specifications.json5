@@ -17,8 +17,14 @@
       }]]
     }]],
   }]],
-  spot : 0,
+  name : "",
+  desc : "",,
+  observe : 0,
   listen : 0,
+  hp : 0,
+  san : 0,
+  atk : 0,
+  psi : 0,
   initial_events : ["CilDef",[{
     Ref : { ev :  "" }
   }]]
