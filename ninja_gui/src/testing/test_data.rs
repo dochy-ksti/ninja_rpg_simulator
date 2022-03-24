@@ -45,5 +45,5 @@ fn k(v : Vec<String>, nexts : &[(usize, BTreeSet<usize>)]) -> GuiItems{
                                 prevs.get(i).map(|p| p.iter().map(|i| *i).collect()).unwrap_or_else(|| vec![]));
         items.push(item);
     }
-    GuiItems::new(items, vec![])
+    GuiItems::new(items, 0)
 }
