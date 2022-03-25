@@ -7,18 +7,19 @@ pub(crate) struct GuiRect{
 }
 
 impl GuiRect{
+    pub(crate) fn new(x : usize, y : usize, w : usize, h : usize) -> GuiRect{
+        GuiRect{ x, y, w, h }
+    }
+
     pub(crate) fn x(&self) -> usize {
         self.x
     }
-
     pub(crate) fn y(&self) -> usize {
         self.y
     }
-
     pub(crate) fn w(&self) -> usize {
         self.w
     }
-
     pub(crate) fn h(&self) -> usize {
         self.h
     }
