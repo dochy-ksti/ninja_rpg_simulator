@@ -34,8 +34,9 @@ impl<'a> CharsIterator<'a>{
 
     fn next_char(&mut self, c : Option<char>) -> Option<char>{
         if let Some(c) = c{
+            let r = self.buffer;
             self.buffer = c;
-            Some(c)
+            Some(r)
         } else{
             if self.ended{
                 None
