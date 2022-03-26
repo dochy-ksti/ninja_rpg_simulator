@@ -1,3 +1,4 @@
+#[derive(Copy, Clone, Debug)]
 pub(crate) struct GuiSize{
     w : usize,
     h : usize,

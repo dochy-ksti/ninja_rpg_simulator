@@ -5,3 +5,5 @@ pub(crate) mod gui_color;
 pub(crate) mod gui_rect;
 pub(crate) mod text_box;
 pub(crate) mod gui_size;
+pub(crate) mod text_size_calculator;
+pub(crate) mod chars_iterator;
