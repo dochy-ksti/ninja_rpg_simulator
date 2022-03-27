@@ -1,6 +1,7 @@
 use crate::imp::calc_text_size::calc_text_size;
 use crate::imp::control::Control;
 use crate::imp::structs::gui_color::GuiColor;
+use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_rect::GuiRect;
 use crate::imp::structs::gui_size::GuiSize;
 
@@ -14,6 +15,7 @@ pub(crate) struct TextBox{
     back_color : GuiColor,
     hover_color : GuiColor,
     size : GuiSize,
+    location : GuiPoint,
 }
 
 impl TextBox{
@@ -36,25 +38,26 @@ impl TextBox{
             text_color,
             back_color,
             hover_color,
-            size
+            size,
+            location : GuiPoint::new(0,0),
         }
     }
 }
 
 impl Control for TextBox{
-    fn layout(&mut self) -> GuiSize {
+    fn size(&self) -> GuiSize {
         self.size
     }
 
-    fn set_rect(&mut self, rect: GuiRect) {
-        todo!()
+    fn set_location(&mut self, p: GuiPoint) {
+        self.location = p
     }
 
     fn back_color(&self) -> GuiColor {
-        todo!()
+        self.back_color
     }
 
     fn hover_color(&self) -> GuiColor {
-        todo!()
+        self.hover_color
     }
 }

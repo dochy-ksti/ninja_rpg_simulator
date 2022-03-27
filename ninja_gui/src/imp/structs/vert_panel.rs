@@ -1,34 +1,23 @@
 use crate::imp::control::Control;
 use crate::imp::structs::gui_color::GuiColor;
+use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_rect::GuiRect;
 use crate::imp::structs::gui_size::GuiSize;
 
 pub(crate) struct VertPanel {
-    rect : GuiRect,
     children : Vec<Box<dyn Control>>,
     back_color : GuiColor,
     hover_color : GuiColor,
     border : usize,
+    location : GuiPoint,
+    size : GuiSize,
 }
 
 impl Control for VertPanel {
-    fn layout(&mut self) -> GuiSize {
-        let x = self.border;
-        let mut y = self.border;
-        let mut w = 1;
-        for child in &mut self.children{
-            let size = child.layout();
-            child.set_rect(GuiRect::new(x, y, size.w(), size.h()));
-            y += size.h();
-            if w < size.w(){
-                w = size.w();
-            }
-        }
-        return GuiSize::new(w + x*2, y + x);
-    }
+    fn size(&self) -> GuiSize { self.size }
 
-    fn set_rect(&mut self, rect: GuiRect) {
-        self.rect = rect;
+    fn set_location(&mut self, p: GuiPoint) {
+        self.location = p;
     }
 
     fn back_color(&self) -> GuiColor {
@@ -41,5 +30,30 @@ impl Control for VertPanel {
 }
 
 impl VertPanel{
+    pub(crate) fn new(mut children : Vec<Box<dyn Control>>,
+                      back_color : GuiColor,
+                      hover_color : GuiColor,
+                      border : usize) -> VertPanel{
+        let x = border;
+        let mut y = border;
+        let mut w = 1;
+        for child in &mut children{
+            let size = child.size();
+            child.set_location(GuiPoint::new(x, y));
+            y += size.h();
+            if w < size.w(){
+                w = size.w();
+            }
+        }
+
+        VertPanel{
+            children,
+            back_color,
+            hover_color,
+            border,
+            location : GuiPoint::new(0,0),
+            size : GuiSize::new(w + x*2, y + x),
+        }
+    }
     pub(crate) fn border(&self) -> usize{ self.border }
 }
