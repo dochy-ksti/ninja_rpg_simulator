@@ -2,6 +2,7 @@ use std::path::Path;
 use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input};
 use piston_window::glyph_cache::rusttype::GlyphCache;
 use crate::GuiItems;
+use crate::imp::create_panels::create_panel;
 use crate::imp::structs::gui_output::GuiOutput;
 
 
@@ -18,6 +19,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
 
     let ts = TextureSettings::new();
     let mut glyphs = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
+    let mut panel = create_panel(&items);
 
     while let Some(e) = window.next() {
 
@@ -29,7 +31,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
                 //アップデート
             }
             Event::Input(i, _) => {
-                Input::Move()
+                //Input::Move()
                 //入力関係
             }
             _ => {}
@@ -47,4 +49,4 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
     }
 }
 
-fn write()
+fn write(){}
