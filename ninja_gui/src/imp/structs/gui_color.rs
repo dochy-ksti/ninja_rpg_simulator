@@ -7,7 +7,7 @@ pub(crate) struct GuiColor{
 }
 
 impl GuiColor{
-    pub(crate) fn new(a : u8, r : u8, g : u8, b : u8) -> GuiColor{ GuiColor{ a, r,g,b }}
+    pub(crate) const fn new(a : u8, r : u8, g : u8, b : u8) -> GuiColor{ GuiColor{ a, r,g,b }}
     pub(crate) fn a(&self) -> u8{ self.a }
     pub(crate) fn r(&self) -> u8{ self.r }
     pub(crate) fn g(&self) -> u8{ self.g }

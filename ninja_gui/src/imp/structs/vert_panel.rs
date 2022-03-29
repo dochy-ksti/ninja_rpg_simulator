@@ -11,21 +11,31 @@ pub(crate) struct VertPanel {
     border : usize,
     location : GuiPoint,
     size : GuiSize,
+    hover : bool,
 }
 
 impl Control for VertPanel {
     fn size(&self) -> GuiSize { self.size }
 
+    fn location(&self) -> GuiPoint {
+        self.location
+    }
+
     fn set_location(&mut self, p: GuiPoint) {
         self.location = p;
     }
 
-    fn back_color(&self) -> GuiColor {
-        self.back_color
+    fn is_hover(&self) -> bool {
+        self.hover
     }
 
-    fn hover_color(&self) -> GuiColor {
-        self.hover_color
+    fn set_hover(&mut self, b: bool) {
+        self.hover = b;
+    }
+
+
+    fn children(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
+        Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
     }
 }
 
@@ -34,13 +44,13 @@ impl VertPanel{
                       back_color : GuiColor,
                       hover_color : GuiColor,
                       border : usize) -> VertPanel{
-        let x = border;
-        let mut y = border;
+        let x = border as isize;
+        let mut y = border as isize;
         let mut w = 1;
         for child in &mut children{
             let size = child.size();
             child.set_location(GuiPoint::new(x, y));
-            y += size.h();
+            y += size.h() as isize;
             if w < size.w(){
                 w = size.w();
             }
@@ -52,7 +62,8 @@ impl VertPanel{
             hover_color,
             border,
             location : GuiPoint::new(0,0),
-            size : GuiSize::new(w + x*2, y + x),
+            size : GuiSize::new(w + x as usize * 2, (y + x) as usize),
+            hover : false,
         }
     }
     pub(crate) fn border(&self) -> usize{ self.border }

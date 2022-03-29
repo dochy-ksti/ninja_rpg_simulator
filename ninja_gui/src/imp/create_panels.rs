@@ -15,6 +15,7 @@ pub(crate) fn create_panel(items : &GuiItems) -> VertPanel{
             400,
             GuiColor::BLACK,
             GuiColor::WHITE,
+            GuiColor::WHITE,
         );
         vec.push(Box::new(tb));
     }

@@ -1,5 +1,5 @@
 use std::path::Path;
-use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input};
+use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input, Motion, MouseCursorEvent, MouseRelativeEvent};
 use piston_window::glyph_cache::rusttype::GlyphCache;
 use crate::GuiItems;
 use crate::imp::create_panels::create_panel;
@@ -19,23 +19,32 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
 
     let ts = TextureSettings::new();
     let mut glyphs = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
-    let mut panel = create_panel(&items);
+    let mut panel = create_panel(&gui_items);
 
     while let Some(e) = window.next() {
-
-        match e {
-            Event::Loop(Loop::Render(_)) => {
-                //レンダリング
-            }
-            Event::Loop(Loop::Update(_)) => {
-                //アップデート
-            }
-            Event::Input(i, _) => {
-                //Input::Move()
-                //入力関係
-            }
-            _ => {}
-        }
+        e.mouse_cursor(|p| println!("cursor {} {}",p[0], p[1]));
+        e.mouse_relative(|p| println!("relative {} {}",p[0], p[1]));
+        //
+        // }
+        // match e {
+        //     Event::Loop(Loop::Render(_)) => {
+        //         //レンダリング
+        //     }
+        //     Event::Loop(Loop::Update(_)) => {
+        //         //アップデート
+        //     }
+        //     Event::Input(i, _) => {
+        //         match i {
+        //             Input::Move(m) => {
+        //                 match m{
+        //                     Motion::MouseCursor()
+        //                 }
+        //             }
+        //         }
+        //         //入力関係
+        //     }
+        //     _ => {}
+        // }
         window.draw_2d(&e, |c, g, d| {
             clear([0.0, 0.0, 0.0, 1.0], g);
             text::Text::new_color([1.0, 1.0, 1.0, 1.0], 16).draw(

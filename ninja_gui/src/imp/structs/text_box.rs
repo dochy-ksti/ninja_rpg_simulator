@@ -16,6 +16,7 @@ pub(crate) struct TextBox{
     hover_color : GuiColor,
     size : GuiSize,
     location : GuiPoint,
+    hover : bool,
 }
 
 impl TextBox{
@@ -40,6 +41,7 @@ impl TextBox{
             hover_color,
             size,
             location : GuiPoint::new(0,0),
+            hover : false,
         }
     }
 }
@@ -49,15 +51,23 @@ impl Control for TextBox{
         self.size
     }
 
+    fn location(&self) -> GuiPoint {
+        self.location
+    }
+
     fn set_location(&mut self, p: GuiPoint) {
         self.location = p
     }
 
-    fn back_color(&self) -> GuiColor {
-        self.back_color
+    fn is_hover(&self) -> bool {
+        self.hover
     }
 
-    fn hover_color(&self) -> GuiColor {
-        self.hover_color
+    fn set_hover(&mut self, b: bool) {
+        self.hover = b;
+    }
+
+    fn children(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)>>> {
+        None
     }
 }
