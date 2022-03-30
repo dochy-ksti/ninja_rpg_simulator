@@ -67,7 +67,7 @@ impl Control for TextBox{
         self.hover = b;
     }
 
-    fn children(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
+    fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
         None
     }
 }

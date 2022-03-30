@@ -34,7 +34,7 @@ impl Control for VertPanel {
     }
 
 
-    fn children(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
+    fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
         Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
         //Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
     }

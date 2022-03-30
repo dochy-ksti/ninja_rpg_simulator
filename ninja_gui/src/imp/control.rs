@@ -8,5 +8,5 @@ pub(crate) trait Control{
     fn set_location(&mut self, p : GuiPoint);
     fn is_hover(&self) -> bool;
     fn set_hover(&mut self, b : bool);
-    fn children(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>>;
+    fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>>;
 }

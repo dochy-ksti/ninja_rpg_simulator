@@ -1,8 +1,9 @@
 use std::path::Path;
-use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input, Motion, MouseCursorEvent, MouseRelativeEvent};
+use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input, Motion, MouseCursorEvent, MouseRelativeEvent, ButtonEvent};
 use piston_window::glyph_cache::rusttype::GlyphCache;
-use crate::GuiItems;
+use crate::{GuiItems, PistonGlyph};
 use crate::imp::create_panels::create_panel;
+use crate::imp::set_hover::set_hover;
 use crate::imp::structs::gui_output::GuiOutput;
 
 
@@ -18,12 +19,15 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
     window.set_ups(60);
 
     let ts = TextureSettings::new();
-    let mut glyphs = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
+    let mut glyphs : PistonGlyph = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
     let mut panel = create_panel(&gui_items);
 
+
     while let Some(e) = window.next() {
-        e.mouse_cursor(|p| println!("cursor {} {}",p[0], p[1]));
-        e.mouse_relative(|p| println!("relative {} {}",p[0], p[1]));
+        e.mouse_cursor(|p| set_hover(&mut panel, p[0] as usize, p[1] as usize));
+        e.button(|a|{
+
+        });
         //
         // }
         // match e {
