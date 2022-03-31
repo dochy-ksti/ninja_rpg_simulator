@@ -49,7 +49,6 @@ impl Control for VertPanel {
 impl VertPanel{
     pub(crate) fn new(mut children : Vec<Box<dyn Control>>,
                       back_color : GuiColor,
-                      hover_color : GuiColor,
                       border : usize) -> VertPanel{
         let x = border as isize;
         let mut y = border as isize;
@@ -66,7 +65,7 @@ impl VertPanel{
         VertPanel{
             id : Arc::new(()),
             children,
-            back_color,
+            back_color : GuiColor::RED,
             border,
             location : GuiPoint::new(0,0),
             size : GuiSize::new(w + x as usize * 2, (y + x) as usize),

@@ -53,6 +53,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
                     clear([0.0, 0.0, 0.0, 1.0], g);
 
                     let mut dc = DrawContext::new( &c, g, &mut glyph,);
+
                     panel.draw(&mut dc);
                     // text::Text::new_color([1.0, 1.0, 1.0, 1.0], 16).draw(
                     //     "Hello World",
