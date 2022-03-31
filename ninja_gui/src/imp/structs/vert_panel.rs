@@ -38,10 +38,10 @@ impl Control for VertPanel {
         //Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
     }
 
-    fn draw(&self, dc: &mut DrawContext) {
-        dc.fill_rect(self.location, self.size, self.back_color);
+    fn draw(&self, dc: &mut DrawContext, rel_loc : GuiPoint) {
+        dc.fill_rect(rel_loc + self.location, self.size, self.back_color);
         for child in &self.children{
-            child.as_ref().draw(dc);
+            child.as_ref().draw(dc, rel_loc + self.location);
         }
     }
 }
@@ -56,7 +56,7 @@ impl VertPanel{
         for child in &mut children{
             let size = child.size();
             child.set_location(GuiPoint::new(x, y));
-            y += size.h() as isize;
+            y += (size.h() + border) as isize;
             if w < size.w(){
                 w = size.w();
             }

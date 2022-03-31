@@ -7,6 +7,7 @@ use crate::imp::create_panel::create_panel;
 use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::event_manager::EventManager;
 use crate::imp::structs::gui_output::GuiOutput;
+use crate::imp::structs::gui_point::GuiPoint;
 
 
 pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path : P, gui_items : GuiItems, choice : &mut F) {
@@ -54,7 +55,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
 
                     let mut dc = DrawContext::new( &c, g, &mut glyph,);
 
-                    panel.draw(&mut dc);
+                    panel.draw(&mut dc, GuiPoint::new(0,0));
                     // text::Text::new_color([1.0, 1.0, 1.0, 1.0], 16).draw(
                     //     "Hello World",
                     //     &mut glyph,

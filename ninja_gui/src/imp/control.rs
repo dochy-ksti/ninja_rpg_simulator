@@ -15,5 +15,5 @@ pub(crate) trait Control{
     fn children(&self) -> Option<Box<dyn Iterator<Item=&(dyn Control + 'static)> + '_>>;
     fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>>;
 
-    fn draw(&self, dc : &mut DrawContext);
+    fn draw(&self, dc : &mut DrawContext, rel_loc : GuiPoint);
 }
