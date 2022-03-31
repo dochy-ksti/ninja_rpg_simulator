@@ -1,8 +1,8 @@
 use std::sync::Arc;
 use crate::imp::control::Control;
+use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
-use crate::imp::structs::gui_rect::GuiRect;
 use crate::imp::structs::gui_size::GuiSize;
 
 pub(crate) struct VertPanel {
@@ -26,8 +26,8 @@ impl Control for VertPanel {
         self.location = p;
     }
 
-    fn on_mouse_enter(&mut self) {}
     fn on_mouse_leave(&mut self) {}
+    fn on_mouse_enter(&mut self) {}
     fn on_mouse_click(&mut self) {}
 
     fn children(&self) -> Option<Box<dyn Iterator<Item=&(dyn Control + 'static)> + '_>> {
@@ -36,6 +36,13 @@ impl Control for VertPanel {
     fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
         Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
         //Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
+    }
+
+    fn draw(&self, dc: &mut DrawContext) {
+        dc.fill_rect(self.location, self.size, self.back_color);
+        for child in &self.children{
+            child.as_ref().draw(dc);
+        }
     }
 }
 

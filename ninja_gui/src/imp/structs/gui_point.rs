@@ -1,3 +1,5 @@
+use crate::imp::structs::gui_size::GuiSize;
+
 #[derive(Copy, Clone, Debug)]
 pub(crate) struct GuiPoint{
     x : isize,
@@ -8,4 +10,5 @@ impl GuiPoint{
     pub(crate) fn new(x : isize, y : isize) -> GuiPoint{ GuiPoint{ x,y } }
     pub(crate) fn x(&self) -> isize{ self.x }
     pub(crate) fn y(&self) -> isize{ self.y }
+    pub(crate) fn rect(&self, size : GuiSize) -> [f64;4]{ [self.x as f64, self.y as f64, size.w() as f64, size.h() as f64] }
 }

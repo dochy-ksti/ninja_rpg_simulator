@@ -1,15 +1,15 @@
 use std::sync::Arc;
 use crate::imp::calc_text_size::calc_text_size;
 use crate::imp::control::Control;
+use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
-use crate::imp::structs::gui_rect::GuiRect;
 use crate::imp::structs::gui_size::GuiSize;
 
 pub(crate) struct TextBox{
     id : Arc<()>,
     text : String,
-    char_size : usize,
+    font_size: u32,
     char_width : usize,
     line_height : usize,
     max_width : usize,
@@ -23,7 +23,7 @@ pub(crate) struct TextBox{
 
 impl TextBox{
     pub(crate) fn new(text : String,
-                      char_size : usize,
+                      font_size : u32,
                       char_width : usize,
                       line_height : usize,
                       max_width : usize,
@@ -35,7 +35,7 @@ impl TextBox{
         TextBox{
             id : Arc::new(()),
             text,
-            char_size,
+            font_size,
             char_width,
             line_height,
             max_width,
@@ -63,12 +63,12 @@ impl Control for TextBox{
         self.location = p
     }
 
-    fn on_mouse_enter(&mut self) {
-        self.hover = true;
-    }
-
     fn on_mouse_leave(&mut self) {
         self.hover = false;
+    }
+
+    fn on_mouse_enter(&mut self) {
+        self.hover = true;
     }
 
     fn on_mouse_click(&mut self) {
@@ -80,5 +80,14 @@ impl Control for TextBox{
     }
     fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
         None
+    }
+
+    fn draw(&self, dc: &mut DrawContext) {
+        if self.hover {
+            dc.fill_rect(self.location, self.size, self.hover_color);
+        } else{
+            dc.fill_rect(self.location, self.size, self.back_color);
+        }
+        dc.draw_text(&self.text, self.text_color, self.font_size as u32)
     }
 }
