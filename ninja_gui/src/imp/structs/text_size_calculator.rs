@@ -24,7 +24,7 @@ impl TextSizeCalculator{
     
     fn move_carret(&mut self, width : usize){
         self.x += width;
-        if self.x < self.width{
+        if self.width < self.x{
             self.width = self.x;
         }
     }

@@ -88,6 +88,7 @@ impl Control for TextBox{
         } else{
             dc.fill_rect(self.location, self.size, self.back_color);
         }
-        dc.draw_text(&self.text, self.text_color, self.font_size as u32)
+        dc.draw_text(&self.text, GuiColor::RED, self.font_size as u32)
+        //dc.draw_text(&self.text, self.text_color, self.font_size as u32)
     }
 }

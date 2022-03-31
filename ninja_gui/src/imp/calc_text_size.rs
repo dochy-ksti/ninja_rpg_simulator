@@ -5,11 +5,13 @@ use crate::imp::structs::text_size_calculator::TextSizeCalculator;
 pub(crate) fn calc_text_size(s : &str, char_width : usize, line_height : usize, max_width : usize) -> GuiSize{
     let mut text_size_calculator = TextSizeCalculator::new(line_height, max_width);
 
-    let mut chars = if let Some(chars) = CharsIterator::new(s){ chars } else{
+
+    let chars = if let Some(chars) = CharsIterator::new(s){ chars } else{
         return text_size_calculator.get_size()
     };
 
     for c in chars {
+        eprintln!("{}", c);
         match calc_char_width(c, char_width) {
             CW::Char(w) => text_size_calculator.write(w),
             CW::NewLine => text_size_calculator.new_line(),
