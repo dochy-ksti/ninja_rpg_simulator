@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use crate::imp::control::Control;
 use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
@@ -5,16 +6,16 @@ use crate::imp::structs::gui_rect::GuiRect;
 use crate::imp::structs::gui_size::GuiSize;
 
 pub(crate) struct VertPanel {
+    id : Arc<()>,
     children : Vec<Box<dyn Control>>,
     back_color : GuiColor,
-    hover_color : GuiColor,
     border : usize,
     location : GuiPoint,
     size : GuiSize,
-    hover : bool,
 }
 
 impl Control for VertPanel {
+    fn id(&self) -> &Arc<()>{ &self.id }
     fn size(&self) -> GuiSize { self.size }
 
     fn location(&self) -> GuiPoint {
@@ -25,15 +26,13 @@ impl Control for VertPanel {
         self.location = p;
     }
 
-    fn is_hover(&self) -> bool {
-        self.hover
+    fn on_mouse_enter(&mut self) {}
+    fn on_mouse_leave(&mut self) {}
+    fn on_mouse_click(&mut self) {}
+
+    fn children(&self) -> Option<Box<dyn Iterator<Item=&(dyn Control + 'static)> + '_>> {
+        Some(Box::new(self.children.iter().map(|a| a.as_ref())))
     }
-
-    fn set_hover(&mut self, b: bool) {
-        self.hover = b;
-    }
-
-
     fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>> {
         Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
         //Some(Box::new(self.children.iter_mut().map(|c| c.as_mut())))
@@ -58,13 +57,12 @@ impl VertPanel{
         }
 
         VertPanel{
+            id : Arc::new(()),
             children,
             back_color,
-            hover_color,
             border,
             location : GuiPoint::new(0,0),
             size : GuiSize::new(w + x as usize * 2, (y + x) as usize),
-            hover : false,
         }
     }
     pub(crate) fn border(&self) -> usize{ self.border }

@@ -8,3 +8,5 @@ pub(crate) mod gui_size;
 pub(crate) mod text_size_calculator;
 pub(crate) mod chars_iterator;
 pub(crate) mod gui_point;
+pub(crate) mod event_manager;
+pub(crate) mod draw_context;
