@@ -3,14 +3,15 @@ use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSe
 use piston_window::glyph_cache::rusttype::GlyphCache;
 use crate::{GuiItems, PistonGlyph};
 use crate::imp::control::Control;
-use crate::imp::create_panel::create_panel;
+use crate::imp::structs::control_mgr::ControlManager;
 use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::event_manager::EventManager;
+use crate::imp::structs::gui_input::GuiInput;
 use crate::imp::structs::gui_output::GuiOutput;
 use crate::imp::structs::gui_point::GuiPoint;
 
 
-pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path : P, gui_items : GuiItems, choice : &mut F) {
+pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(font_path : P, gui_items : GuiItems, interaction : F) {
 
     let mut window: PistonWindow = WindowSettings::new(
         "test_window",
@@ -23,8 +24,9 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiItems>(font_path :
 
     let ts = TextureSettings::new();
     let mut glyph : PistonGlyph = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
-    let mut panel = create_panel(&gui_items);
+    let cmgr = ControlManager::new(&input, interaction);
     let mut event_manager = EventManager::new();
+    let mut input = GuiInput::Items(gui_items);
 
 
     while let Some(e) = window.next() {

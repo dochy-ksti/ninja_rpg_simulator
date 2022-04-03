@@ -9,3 +9,6 @@ pub(crate) mod chars_iterator;
 pub(crate) mod gui_point;
 pub(crate) mod event_manager;
 pub(crate) mod draw_context;
+pub(crate) mod gui_input;
+pub(crate) mod control_mgr;
+pub(crate) mod root_gui;
