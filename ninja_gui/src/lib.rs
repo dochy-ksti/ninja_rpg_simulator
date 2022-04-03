@@ -11,7 +11,7 @@ mod imp;
 mod testing;
 type PistonGlyph<'a> = GlyphCache<'a, TextureContext<gfx_device_gl::Factory, gfx_device_gl::Resources, gfx_device_gl::CommandBuffer>, Texture<gfx_device_gl::Resources>>;
 
-pub use imp::structs::gui_item::{GuiItem, GuiItems};
+pub use imp::structs::text_input::{TextItem, TextInput};
 pub use imp::structs::gui_output::GuiOutput;
 
 pub use crate::imp::start_loop::start_loop;

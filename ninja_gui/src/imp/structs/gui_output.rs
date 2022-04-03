@@ -1,3 +1,6 @@
+use crate::TextItem;
+
+#[derive(Debug, Clone)]
 pub enum GuiOutput{
-    SelectedIndex(usize)
+    Text(TextItem)
 }

@@ -5,8 +5,9 @@ use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_size::GuiSize;
+use crate::{GuiOutput, TextItem};
 
-pub(crate) struct TextBox<F : FnMut() + 'static>{
+pub(crate) struct TextBox{
     id : Arc<()>,
     text : String,
     font_size: u32,
@@ -19,10 +20,10 @@ pub(crate) struct TextBox<F : FnMut() + 'static>{
     size : GuiSize,
     location : GuiPoint,
     hover : bool,
-    on_click : F,
+    item : TextItem,
 }
 
-impl<F : FnMut() +'static> TextBox<F>{
+impl TextBox{
     pub(crate) fn new(text : String,
                       font_size : u32,
                       char_width : usize,
@@ -31,7 +32,7 @@ impl<F : FnMut() +'static> TextBox<F>{
                       text_color : GuiColor,
                       back_color : GuiColor,
                       hover_color : GuiColor,
-                      on_click : F) -> TextBox<F>{
+                      item : TextItem) -> TextBox{
         let size = calc_text_size(&text, char_width, line_height, max_width);
 
         TextBox{
@@ -47,12 +48,12 @@ impl<F : FnMut() +'static> TextBox<F>{
             size,
             location : GuiPoint::new(0,0),
             hover : false,
-            on_click,
+            item,
         }
     }
 }
 
-impl<F : FnMut() + 'static> Control for TextBox<F>{
+impl Control for TextBox{
     fn id(&self) -> &Arc<()>{ &self.id }
     fn size(&self) -> GuiSize {
         self.size
@@ -74,8 +75,8 @@ impl<F : FnMut() + 'static> Control for TextBox<F>{
         self.hover = true;
     }
 
-    fn on_mouse_click(&mut self) {
-        (self.on_click)();
+    fn on_mouse_click(&mut self) -> Option<GuiOutput>{
+        Some(GuiOutput::Text(self.item.clone()))
     }
 
     fn children(&self) -> Option<Box<dyn Iterator<Item=&(dyn Control + 'static)> + '_>> {

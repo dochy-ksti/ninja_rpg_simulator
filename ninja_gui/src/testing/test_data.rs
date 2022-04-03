@@ -1,8 +1,8 @@
 use std::collections::{BTreeSet, HashMap};
 use std::rc::Rc;
-use crate::{GuiItem, GuiItems};
+use crate::{TextItem, TextInput};
 
-pub(crate) fn test_data() -> GuiItems{
+pub(crate) fn test_data() -> TextInput {
     let v = vec![
         t("hoihoi"),
         t("haihai"),
@@ -24,7 +24,7 @@ fn p(i : usize, nexts : &[usize]) -> (usize, BTreeSet<usize>){
     (i, nexts.iter().map(|i| *i).collect())
 }
 
-fn k(v : Vec<String>, nexts : &[(usize, BTreeSet<usize>)]) -> GuiItems{
+fn k(v : Vec<String>, nexts : &[(usize, BTreeSet<usize>)]) -> TextInput {
     let mut prevs : HashMap<usize, BTreeSet<usize>> = HashMap::new();
 
     for (i, ns ) in nexts{
@@ -36,14 +36,14 @@ fn k(v : Vec<String>, nexts : &[(usize, BTreeSet<usize>)]) -> GuiItems{
     }
 
     let v = &v;
-    let mut items : Vec<GuiItem> = vec![];
+    let mut items : Vec<TextItem> = vec![];
 
     for (i, nexts) in nexts{
 
-        let item = GuiItem::new(v[*i].to_string(),
-                     nexts.iter().map(|i| *i).collect(),
-                                prevs.get(i).map(|p| p.iter().map(|i| *i).collect()).unwrap_or_else(|| vec![]));
+        let item = TextItem::new(v[*i].to_string(),
+                                 nexts.iter().map(|i| *i).collect(),
+                                 prevs.get(i).map(|p| p.iter().map(|i| *i).collect()).unwrap_or_else(|| vec![]));
         items.push(item);
     }
-    GuiItems::new(items, 0)
+    TextInput::new(items, 0)
 }

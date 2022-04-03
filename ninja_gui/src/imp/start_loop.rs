@@ -1,7 +1,7 @@
 use std::path::Path;
 use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input, Motion, MouseCursorEvent, MouseRelativeEvent, ButtonEvent, Button, MouseButton, ButtonState};
 use piston_window::glyph_cache::rusttype::GlyphCache;
-use crate::{GuiItems, PistonGlyph};
+use crate::{TextInput, PistonGlyph};
 use crate::imp::control::Control;
 use crate::imp::structs::control_mgr::ControlManager;
 use crate::imp::structs::draw_context::DrawContext;
@@ -11,7 +11,7 @@ use crate::imp::structs::gui_output::GuiOutput;
 use crate::imp::structs::gui_point::GuiPoint;
 
 
-pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(font_path : P, gui_items : GuiItems, interaction : F) {
+pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(font_path : P, input : GuiInput, interaction : F) {
 
     let mut window: PistonWindow = WindowSettings::new(
         "test_window",
@@ -24,25 +24,25 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
 
     let ts = TextureSettings::new();
     let mut glyph : PistonGlyph = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
-    let cmgr = ControlManager::new(&input, interaction);
+    let mut cmgr = ControlManager::new(input, interaction);
     let mut event_manager = EventManager::new();
-    let mut input = GuiInput::Items(gui_items);
-
 
     while let Some(e) = window.next() {
         e.mouse_cursor(|p| {
             event_manager.mouse_move(
-                &mut panel, p[0] as usize, p[1] as usize)
+                cmgr.root_mut(), p[0] as usize, p[1] as usize)
         });
         e.button(|b|{
             match b.button{
                 Button::Mouse(MouseButton::Left) =>{
                     match b.state{
                         ButtonState::Press =>{
-                            event_manager.mouse_press(&mut panel);
+                            if let Some(output) = event_manager.mouse_press(cmgr.root_mut()){
+                                cmgr.update(output);
+                            }
                         },
                         ButtonState::Release =>{
-                            event_manager.mouse_release(&mut panel);
+                            event_manager.mouse_release(cmgr.root_mut());
                         }
                     }
                 },
@@ -57,7 +57,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
 
                     let mut dc = DrawContext::new( &c, g, &mut glyph,);
 
-                    panel.draw(&mut dc, GuiPoint::new(0,0));
+                    cmgr.root_mut().draw(&mut dc, GuiPoint::new(0,0));
                     // text::Text::new_color([1.0, 1.0, 1.0, 1.0], 16).draw(
                     //     "Hello World",
                     //     &mut glyph,

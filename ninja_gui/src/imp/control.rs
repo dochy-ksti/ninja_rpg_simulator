@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use crate::GuiOutput;
 use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
@@ -11,7 +12,7 @@ pub(crate) trait Control{
     fn set_location(&mut self, p : GuiPoint);
     fn on_mouse_leave(&mut self);
     fn on_mouse_enter(&mut self);
-    fn on_mouse_click(&mut self);
+    fn on_mouse_click(&mut self) -> Option<GuiOutput>;
     fn children(&self) -> Option<Box<dyn Iterator<Item=&(dyn Control + 'static)> + '_>>;
     fn children_mut(&mut self) -> Option<Box<dyn Iterator<Item=&mut (dyn Control + 'static)> + '_>>;
 

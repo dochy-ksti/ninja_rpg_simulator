@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use crate::GuiOutput;
 use crate::imp::control::Control;
 use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::gui_color::GuiColor;
@@ -28,7 +29,7 @@ impl Control for VertPanel {
 
     fn on_mouse_leave(&mut self) {}
     fn on_mouse_enter(&mut self) {}
-    fn on_mouse_click(&mut self) {}
+    fn on_mouse_click(&mut self) -> Option<GuiOutput>{ None }
 
     fn children(&self) -> Option<Box<dyn Iterator<Item=&(dyn Control + 'static)> + '_>> {
         Some(Box::new(self.children.iter().map(|a| a.as_ref())))

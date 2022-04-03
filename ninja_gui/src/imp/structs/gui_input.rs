@@ -1,6 +1,6 @@
-use crate::GuiItems;
+use crate::TextInput;
 
 pub enum GuiInput{
-    Items(GuiItems)
+    Text(TextInput)
 }
 
