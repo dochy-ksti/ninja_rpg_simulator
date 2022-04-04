@@ -2,7 +2,7 @@ use std::sync::Arc;
 use crate::imp::control::Control;
 
 pub(crate) fn find_ctl_mut<'a, 'b>(c : &'a mut (dyn Control + 'static), id : &'b Arc<()>) -> Option<&'a mut (dyn Control + 'static)>{
-    if c.id().eq(id) {
+    if Arc::ptr_eq(c.id(),id) {
         return Some(c);
     }
     if let Some(mut children) = c.children_mut(){

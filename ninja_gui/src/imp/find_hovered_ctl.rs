@@ -1,13 +1,13 @@
 use std::sync::Arc;
 use crate::imp::control::Control;
 
-pub(crate) fn find_hoverd_ctl<C : Control + 'static + ?Sized>(c : &C, abs_x : usize, abs_y : usize) -> Option<&Arc<()>>{
+pub(crate) fn find_hoverd_ctl<'a>(c : &'a (dyn Control + 'static), abs_x : usize, abs_y : usize) -> Option<&'a Arc<()>>{
     let loc = c.location();
     rel_hover(c, abs_x as isize - loc.x() as isize,  abs_y as isize - loc.y() as isize)
 }
 
 // returns if the coordinate is in this control,
-fn rel_hover<C : Control + 'static + ?Sized>(c : &C, rel_x : isize, rel_y : isize) -> Option<&Arc<()>>{
+fn rel_hover<'a>(c : &'a (dyn Control + 'static), rel_x : isize, rel_y : isize) -> Option<&'a Arc<()>>{
     let mut b = false;
     if let Some(mut children) = c.children(){
         for child in children.as_mut(){

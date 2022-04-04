@@ -27,8 +27,10 @@ impl Control for VertPanel {
         self.location = p;
     }
 
-    fn on_mouse_leave(&mut self) {}
-    fn on_mouse_enter(&mut self) {}
+    fn on_mouse_leave(&mut self) {
+    }
+    fn on_mouse_enter(&mut self) {
+    }
     fn on_mouse_click(&mut self) -> Option<GuiOutput>{ None }
 
     fn children(&self) -> Option<Box<dyn Iterator<Item=&(dyn Control + 'static)> + '_>> {

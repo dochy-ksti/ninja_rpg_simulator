@@ -15,7 +15,6 @@ impl<'a, 'b, 'c> DrawContext<'a, 'b, 'c>{
         DrawContext{ glyph, context, g2d }
     }
     pub(crate) fn draw_text(&mut self, text : &str, abs_loc : GuiPoint, color : GuiColor, font_size : u32,){
-        eprintln!("{:?}", color.as_f32_array());
         text::Text::new_color(color.as_f32_array(), font_size).draw(
             text,
             self.glyph,
