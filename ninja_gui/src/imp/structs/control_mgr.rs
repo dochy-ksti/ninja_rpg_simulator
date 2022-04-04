@@ -20,8 +20,7 @@ impl<F: FnMut(GuiOutput) -> GuiInput + 'static> ControlManager<F> {
 
     pub(crate) fn new(input: GuiInput, interaction : F) -> ControlManager<F> {
         let root = Self::create_root_ctl(input);
-        let cmgr = ControlManager { root, interaction };
-        cmgr
+        ControlManager { root, interaction }
     }
 
     pub(crate) fn update(&mut self, output : GuiOutput){

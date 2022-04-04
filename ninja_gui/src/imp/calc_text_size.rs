@@ -11,7 +11,6 @@ pub(crate) fn calc_text_size(s : &str, char_width : usize, line_height : usize, 
     };
 
     for c in chars {
-        eprintln!("{}", c);
         match calc_char_width(c, char_width) {
             CW::Char(w) => text_size_calculator.write(w),
             CW::NewLine => text_size_calculator.new_line(),

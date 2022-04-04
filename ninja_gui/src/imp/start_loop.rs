@@ -1,5 +1,6 @@
 use std::path::Path;
-use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input, Motion, MouseCursorEvent, MouseRelativeEvent, ButtonEvent, Button, MouseButton, ButtonState};
+use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input, Motion, MouseCursorEvent, MouseRelativeEvent, ButtonEvent, Button, MouseButton, ButtonState, DrawState};
+use piston_window::draw_state::Blend;
 use piston_window::glyph_cache::rusttype::GlyphCache;
 use crate::{TextInput, PistonGlyph};
 use crate::imp::control::Control;
@@ -21,6 +22,8 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
         .unwrap();
     window.set_max_fps(60);
     window.set_ups(60);
+
+
 
     let ts = TextureSettings::new();
     let mut glyph : PistonGlyph = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
@@ -52,7 +55,8 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
 
         match e {
             Event::Loop(Loop::Render(_)) => {
-                window.draw_2d(&e, |c, g, d| {
+                window.draw_2d(&e, |mut c, g, d| {
+                    //c.draw_state.blend = Some(Blend::Alpha);
                     clear([0.0, 0.0, 0.0, 1.0], g);
 
                     let mut dc = DrawContext::new( &c, g, &mut glyph,);

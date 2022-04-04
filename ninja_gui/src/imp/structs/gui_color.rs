@@ -18,4 +18,5 @@ impl GuiColor{
     pub(crate) const WHITE : GuiColor = GuiColor::new(255, 255, 255, 255);
     pub(crate) const GRAY : GuiColor = GuiColor::new(128, 128, 128, 255);
     pub(crate) const RED : GuiColor = GuiColor::new(255, 0, 0, 255);
+    pub(crate) const DARK_GRAY : GuiColor = GuiColor::new(32, 32, 32, 255);
 }

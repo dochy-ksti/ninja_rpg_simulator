@@ -87,12 +87,15 @@ impl Control for TextBox{
     }
 
     fn draw(&self, dc: &mut DrawContext, rel_loc : GuiPoint) {
+        let loc = rel_loc + self.location;
         if self.hover {
-            dc.fill_rect(rel_loc + self.location, self.size, self.hover_color);
+            dc.fill_rect(loc, self.size, self.hover_color);
         } else{
-            dc.fill_rect(rel_loc + self.location, self.size, self.back_color);
+            dc.fill_rect(loc, self.size, self.back_color);
         }
-        dc.draw_text(&self.text, rel_loc + self.location, GuiColor::RED, self.font_size as u32)
+
+        println!("text {} x {} y {}", &self.text, loc.x(), loc.y());
+        dc.draw_text(&self.text, loc + GuiPoint::new(0, self.line_height as isize), self.text_color, self.font_size as u32)
         //dc.draw_text(&self.text, self.text_color, self.font_size as u32)
     }
 }
