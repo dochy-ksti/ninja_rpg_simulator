@@ -94,8 +94,6 @@ impl Control for TextBox{
             dc.fill_rect(loc, self.size, self.back_color);
         }
 
-        println!("text {} x {} y {}", &self.text, loc.x(), loc.y());
         dc.draw_text(&self.text, loc + GuiPoint::new(0, self.line_height as isize), self.text_color, self.font_size as u32)
-        //dc.draw_text(&self.text, self.text_color, self.font_size as u32)
     }
 }

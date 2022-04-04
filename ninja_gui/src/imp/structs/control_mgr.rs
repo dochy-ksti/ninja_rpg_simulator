@@ -36,9 +36,9 @@ impl<F: FnMut(GuiOutput) -> GuiInput + 'static> ControlManager<F> {
                 for item in items.into_items() {
                     let tb = TextBox::new(
                         item.title().to_string(),
-                        12,
-                        20,
-                        20,
+                        24,
+                        40,
+                        40,
                         400,
                         GuiColor::BLACK,
                         GuiColor::WHITE,

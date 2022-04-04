@@ -7,6 +7,7 @@ use crate::imp::control::Control;
 use crate::imp::structs::control_mgr::ControlManager;
 use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::event_manager::EventManager;
+use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_input::GuiInput;
 use crate::imp::structs::gui_output::GuiOutput;
 use crate::imp::structs::gui_point::GuiPoint;
@@ -57,7 +58,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
             Event::Loop(Loop::Render(_)) => {
                 window.draw_2d(&e, |mut c, g, d| {
                     //c.draw_state.blend = Some(Blend::Alpha);
-                    clear([0.0, 0.0, 0.0, 1.0], g);
+                    clear(GuiColor::WHITE.as_f32_array(), g);
 
                     let mut dc = DrawContext::new( &c, g, &mut glyph,);
 
