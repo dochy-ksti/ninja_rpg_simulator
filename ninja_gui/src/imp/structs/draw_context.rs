@@ -1,4 +1,4 @@
-use piston_window::{Context, DrawState, G2d, rectangle, Rectangle, text, Transformed};
+use piston_window::{Context, DrawState, G2d, Rectangle, text, Transformed};
 use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_size::GuiSize;

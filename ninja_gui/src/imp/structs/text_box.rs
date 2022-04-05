@@ -26,8 +26,6 @@ pub(crate) struct TextBox{
 impl TextBox{
     pub(crate) fn new(text : String,
                       font_size : u32,
-                      char_width : usize,
-                      line_height : usize,
                       max_width : usize,
                       text_color : GuiColor,
                       back_color : GuiColor,

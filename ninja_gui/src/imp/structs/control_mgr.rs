@@ -1,11 +1,7 @@
-use std::borrow::BorrowMut;
-use std::cell::RefCell;
-use std::rc::Rc;
-use crate::{TextInput, GuiOutput};
+use crate::{GuiOutput, PistonGlyph};
 use crate::imp::control::Control;
 use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_input::GuiInput;
-use crate::imp::structs::root_gui::RootGui;
 use crate::imp::structs::text_box::TextBox;
 use crate::imp::structs::vert_panel::VertPanel;
 
@@ -18,8 +14,8 @@ impl<F: FnMut(GuiOutput) -> GuiInput + 'static> ControlManager<F> {
     pub(crate) fn root(&self) -> &(dyn Control + 'static){ self.root.as_ref() }
     pub(crate) fn root_mut(&mut self) -> &mut (dyn Control + 'static){ self.root.as_mut() }
 
-    pub(crate) fn new(input: GuiInput, interaction : F) -> ControlManager<F> {
-        let root = Self::create_root_ctl(input);
+    pub(crate) fn new(input: GuiInput, interaction : F, glyph : &PistonGlyph) -> ControlManager<F> {
+        let root = Self::create_root_ctl(input, glyph);
         ControlManager { root, interaction }
     }
 
@@ -29,7 +25,7 @@ impl<F: FnMut(GuiOutput) -> GuiInput + 'static> ControlManager<F> {
         self.root = root;
     }
 
-    pub(crate) fn create_root_ctl(input : GuiInput) -> Box<dyn Control + 'static>{
+    pub(crate) fn create_root_ctl(input : GuiInput, glyph : &PistonGlyph) -> Box<dyn Control + 'static>{
         match input {
             GuiInput::Text(items) => {
                 let mut vec: Vec<Box<dyn Control>> = vec![];

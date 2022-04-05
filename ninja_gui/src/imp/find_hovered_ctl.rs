@@ -8,7 +8,6 @@ pub(crate) fn find_hoverd_ctl<'a>(c : &'a (dyn Control + 'static), abs_x : usize
 
 // returns if the coordinate is in this control,
 fn rel_hover<'a>(c : &'a (dyn Control + 'static), rel_x : isize, rel_y : isize) -> Option<&'a Arc<()>>{
-    let mut b = false;
     if let Some(mut children) = c.children(){
         for child in children.as_mut(){
             let loc = child.location();

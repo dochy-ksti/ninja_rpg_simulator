@@ -1,5 +1,5 @@
-use std::collections::{BTreeSet, HashMap};
-use std::rc::Rc;
+use std::collections::{ HashMap};
+use std::collections::btree_set::BTreeSet;
 use crate::{TextItem, TextInput};
 
 pub(crate) fn test_data() -> TextInput {

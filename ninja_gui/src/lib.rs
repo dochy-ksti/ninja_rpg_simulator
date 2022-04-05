@@ -1,7 +1,6 @@
 #![warn(unreachable_pub)]
 #![warn(unused_crate_dependencies)]
 
-use std::path::Path;
 use piston_window::glyph_cache::rusttype::GlyphCache;
 use piston_window::{Texture, TextureContext};
 

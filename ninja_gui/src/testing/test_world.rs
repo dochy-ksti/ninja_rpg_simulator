@@ -1,4 +1,4 @@
-use crate::{TextInput, GuiOutput};
+use crate::{GuiOutput};
 use crate::imp::structs::gui_input::GuiInput;
 use crate::testing::test_data::test_data;
 
@@ -13,7 +13,7 @@ impl TestWorld{
         GuiInput::Text(test_data())
     }
 
-    pub(crate) fn modify_and_get(&mut self, out : GuiOutput) -> GuiInput{
+    pub(crate) fn modify_and_get(&mut self, _out : GuiOutput) -> GuiInput{
         GuiInput::Text(test_data())
     }
 }

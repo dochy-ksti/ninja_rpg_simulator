@@ -1,7 +1,6 @@
 use std::sync::Arc;
 use crate::GuiOutput;
 use crate::imp::structs::draw_context::DrawContext;
-use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_size::GuiSize;
 

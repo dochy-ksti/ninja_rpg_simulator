@@ -3,7 +3,6 @@ use crate::GuiOutput;
 use crate::imp::control::Control;
 use crate::imp::find_ctl::find_ctl_mut;
 use crate::imp::find_hovered_ctl::find_hoverd_ctl;
-use crate::imp::structs::vert_panel::VertPanel;
 
 pub(crate) struct EventManager{
     ///whether the mouse left button is pushed or not
@@ -47,7 +46,7 @@ impl EventManager{
         return None;
     }
 
-    pub(crate) fn mouse_release<C : Control + 'static + ?Sized>(&mut self, panel : &mut C){
+    pub(crate) fn mouse_release<C : Control + 'static + ?Sized>(&mut self, _panel : &mut C){
         self.mlb = false;
     }
 }

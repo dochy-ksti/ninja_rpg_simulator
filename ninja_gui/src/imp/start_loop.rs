@@ -1,9 +1,6 @@
 use std::path::Path;
-use piston_window::{clear, Glyphs, PistonWindow, text, TextureSettings, WindowSettings, Transformed, TextureContext, EventLoop, Event, Loop, Input, Motion, MouseCursorEvent, MouseRelativeEvent, ButtonEvent, Button, MouseButton, ButtonState, DrawState};
-use piston_window::draw_state::Blend;
-use piston_window::glyph_cache::rusttype::GlyphCache;
-use crate::{TextInput, PistonGlyph};
-use crate::imp::control::Control;
+use piston_window::{clear, Glyphs, PistonWindow,  TextureSettings, WindowSettings, EventLoop, Event, Loop, MouseCursorEvent, ButtonEvent, Button, MouseButton, ButtonState};
+use crate::{ PistonGlyph};
 use crate::imp::structs::control_mgr::ControlManager;
 use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::event_manager::EventManager;
@@ -56,7 +53,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
 
         match e {
             Event::Loop(Loop::Render(_)) => {
-                window.draw_2d(&e, |mut c, g, d| {
+                window.draw_2d(&e, |c, g, d| {
                     //c.draw_state.blend = Some(Blend::Alpha);
                     clear(GuiColor::WHITE.as_f32_array(), g);
 
