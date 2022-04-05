@@ -5,7 +5,7 @@ use crate::{TextItem, TextInput};
 pub(crate) fn test_data() -> TextInput {
     let v = vec![
         t("hoihoi"),
-        t("haihai"),
+        t("ああああ"),
         t("hiihii"),
     ];
 

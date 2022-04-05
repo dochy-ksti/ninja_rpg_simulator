@@ -6,6 +6,7 @@ use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_size::GuiSize;
 
+
 pub(crate) struct VertPanel {
     id : Arc<()>,
     children : Vec<Box<dyn Control>>,
@@ -68,10 +69,10 @@ impl VertPanel{
         VertPanel{
             id : Arc::new(()),
             children,
-            back_color : GuiColor::RED,
+            back_color,
             border,
             location : GuiPoint::new(0,0),
-            size : GuiSize::new(w + x as usize * 2, (y + x) as usize),
+            size : GuiSize::new(w + x as usize * 2,y as usize),
         }
     }
     pub(crate) fn border(&self) -> usize{ self.border }
