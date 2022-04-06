@@ -1,16 +1,18 @@
 use crate::imp::structs::gui_size::GuiSize;
+use crate::PistonGlyph;
 
-pub(crate) struct TextSizeCalculator{
+pub(crate) struct TextSizeCalculator<'a>{
     x : usize,
     width : usize,
     height : usize,
-    line_height : usize,
     max_width : usize,
+    font_size : usize,
+    glyph : &'a PistonGlyph<'a>
 }
 
-impl TextSizeCalculator{
-    pub(crate) fn new(line_height : usize, max_width : usize) -> TextSizeCalculator{
-        TextSizeCalculator{ x : 0, width : 0, height : line_height, line_height, max_width }
+impl<'a> TextSizeCalculator<'a>{
+    pub(crate) fn new(max_width : usize, font_size : usize, glyph : &'a PistonGlyph<'a>) -> TextSizeCalculator{
+        TextSizeCalculator{ x : 0, width : 0, height : 0, max_width, font_size, glyph }
     }
 
     pub(crate) fn write(&mut self, width : usize){

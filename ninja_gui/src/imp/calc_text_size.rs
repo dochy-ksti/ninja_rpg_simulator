@@ -1,8 +1,9 @@
 use crate::imp::structs::chars_iterator::CharsIterator;
 use crate::imp::structs::gui_size::GuiSize;
 use crate::imp::structs::text_size_calculator::TextSizeCalculator;
+use crate::PistonGlyph;
 
-pub(crate) fn calc_text_size(s : &str, char_width : usize, line_height : usize, max_width : usize) -> GuiSize{
+pub(crate) fn calc_text_size(s : &str, font_size : usize, max_width : usize, glyph : &PistonGlyph) -> GuiSize{
     let mut text_size_calculator = TextSizeCalculator::new(line_height, max_width);
 
 

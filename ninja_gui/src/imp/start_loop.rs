@@ -25,7 +25,7 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
 
     let ts = TextureSettings::new();
     let mut glyph : PistonGlyph = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
-    let mut cmgr = ControlManager::new(input, interaction);
+    let mut cmgr = ControlManager::new(input, interaction, );
     let mut event_manager = EventManager::new();
 
     while let Some(e) = window.next() {

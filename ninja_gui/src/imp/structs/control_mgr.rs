@@ -7,7 +7,7 @@ use crate::imp::structs::vert_panel::VertPanel;
 
 pub(crate) struct ControlManager<F: FnMut(GuiOutput) -> GuiInput + 'static>{
     root : Box<dyn Control + 'static>,
-    interaction : F
+    interaction : F,
 }
 
 impl<F: FnMut(GuiOutput) -> GuiInput + 'static> ControlManager<F> {

@@ -6,18 +6,21 @@ use crate::imp::structs::gui_color::GuiColor;
 use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_size::GuiSize;
 use crate::{GuiOutput, TextItem};
+use crate::imp::structs::gui_id::GuiID;
+
+pub(crate) enum alignment{
+    Left, Center, Right
+}
 
 pub(crate) struct TextBox{
-    id : Arc<()>,
+    id : GuiID,
     text : String,
-    font_size: u32,
-    char_width : usize,
-    line_height : usize,
-    max_width : usize,
     text_color : GuiColor,
     back_color : GuiColor,
     hover_color : GuiColor,
     size : GuiSize,
+    text_size : GuiSize,
+    border : usize,
     location : GuiPoint,
     hover : bool,
     item : TextItem,
@@ -25,25 +28,22 @@ pub(crate) struct TextBox{
 
 impl TextBox{
     pub(crate) fn new(text : String,
-                      font_size : u32,
-                      max_width : usize,
                       text_color : GuiColor,
                       back_color : GuiColor,
                       hover_color : GuiColor,
+                      text_size : GuiSize,
+                      border : usize,
                       item : TextItem) -> TextBox{
-        let size = calc_text_size(&text, char_width, line_height, max_width);
 
         TextBox{
-            id : Arc::new(()),
+            id : GuiID::new(),
             text,
-            font_size,
-            char_width,
-            line_height,
-            max_width,
             text_color,
             back_color,
             hover_color,
-            size,
+            size : text_size + GuiSize::new(border * 2, border * 2),
+            text_size,
+            border,
             location : GuiPoint::new(0,0),
             hover : false,
             item,

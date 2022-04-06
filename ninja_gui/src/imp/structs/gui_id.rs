@@ -6,6 +6,10 @@ pub struct GuiID{
     id : Arc<()>
 }
 
+impl GuiID{
+    pub fn new() -> GuiID{ GuiID{ id : Arc::new(())}}
+}
+
 impl PartialEq for GuiID{
     fn eq(&self, other: &Self) -> bool {
         Arc::ptr_eq(&self.id, &other.id)
