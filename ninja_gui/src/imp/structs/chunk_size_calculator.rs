@@ -4,21 +4,24 @@ use crate::imp::structs::gui_size::GuiSize;
 use crate::imp::structs::text_chunk::TextChunk;
 use crate::PistonGlyph;
 
+// Other Letter(日本語？) Other Letter同士の間は改行できる Other letterとalphabetの間も開業できる
+// alphabet(lower/upper letter) space以外では改行不可。 alphabetとother letterの間は改行可
+// その他企業 日本語、日本語　のように、日本語と連続している記号と日本語の間は改行可能。
+// だから日本語→記号の間はくっついて、改行不可。記号→日本語は改行可、としてしまおう。
+// 英語→記号、記号→英語は改行不可。
+
 enum CharType{
-    Alpha(String),
-    Number(String),
-    JapaneseChar(String),
+    English(String),
+    Japanese(String),
     Symbol(String),
-    Other(char),
+    WhiteSpace(char),
     None,
 }
 
 impl CharType{
-    pub(crate) fn alpha(c : char) -> CharType{ CharType::Alpha(c.to_string()) }
-    pub(crate) fn number(c : char) -> CharType{ CharType::Number(c.to_string()) }
-    pub(crate) fn japanese_char(c : char) -> CharType{ CharType::JapaneseChar(c) }
-    pub(crate) fn symbol(c : char) -> CharType{ CharType::Symbol(c.to_string()) }
-    pub(crate) fn other(c : char) -> CharType{ CharType::Other(c) }
+    pub(crate) fn english(c : char) -> CharType{ CharType::English(c.to_string()) }
+    pub(crate) fn japanese(c : char) -> CharType{ CharType::Japanese(c.to_string()) }
+    pub(crate) fn white_space(c : char) -> CharType{ CharType::WhiteSpace(c) }
 }
 
 pub(crate) struct ChunkSizeCalculator{
@@ -29,13 +32,18 @@ pub(crate) struct ChunkSizeCalculator{
 }
 
 impl ChunkSizeCalculator{
-    pub(crate) fn new() -> ChunkSizeCalculator{ ChunkSizeCalculator{ width : 0, height : 0, buff : None } }
+    pub(crate) fn new(font_size : usize) -> ChunkSizeCalculator{ ChunkSizeCalculator{ width : 0, height : 0, font_size, buff : CharType::None } }
     pub(crate) fn write(&mut self, c : char, glyph : &mut PistonGlyph) -> Option<TextChunk>{
+        if c.is_whitespace(){
+            exit(&mut self.buff, CharType::white_space(c), self.font_size, glyph)
+        } else if c.is_ascii(){
+            if let
+        }
         if c.is_ascii_alphabetic(){
             if let CharType::Alpha(s) = &mut self.buff{
                 s.push(c);
             } else{
-                exit(&mut self.buff, CharType::alpha(c), self.font_size, glyph)
+
             }
         } else if c.is_numeric(){
             if let CharType::Number(s) = &mut self.buff{
