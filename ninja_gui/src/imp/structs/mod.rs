@@ -12,3 +12,5 @@ pub(crate) mod draw_context;
 pub(crate) mod gui_input;
 pub(crate) mod control_mgr;
 pub(crate) mod gui_id;
+pub(crate) mod chunk_size_calculator;
+pub(crate) mod text_chunk;
