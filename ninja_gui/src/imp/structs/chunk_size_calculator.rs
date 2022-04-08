@@ -4,23 +4,30 @@ use crate::imp::structs::gui_size::GuiSize;
 use crate::imp::structs::text_chunk::TextChunk;
 use crate::PistonGlyph;
 
-// Other Letter(日本語？) Other Letter同士の間は改行できる Other letterとalphabetの間も開業できる
-// alphabet(lower/upper letter) space以外では改行不可。 alphabetとother letterの間は改行可
-// その他企業 日本語、日本語　のように、日本語と連続している記号と日本語の間は改行可能。
-// だから日本語→記号の間はくっついて、改行不可。記号→日本語は改行可、としてしまおう。
-// 英語→記号、記号→英語は改行不可。
+//基本的には、英語と、スペースで区切る全言語と、日本語に対応する。韓国語や中国語にも対応できているかもしれないがわからない。
+//そもそも日本語の通常の改行法と違うのでヤヴァイ説がある。
 
+// Engligh : 基本的にspaceでしか改行されない。判定法はCJK,Open,Close,Whitespace以外全部。
+// CJK : 中国語日本語韓国語。改行可能文字またはスペースでしか改行されない。改行可能文字の連続は改行されない。is_cjkかつsymbol,whitespaceでないもの
+// Open 左側改行可能文字 (など。左側がCJKまたは右側改行可能文字なら改行可能。個別指定する。
+// CJK_Open 左側改行可能文字で、Openに加えて左側がEnglishであっても改行可能。個別指定。基本的には左側改行可能文字中ASCIIでないものになる
+// Close 右側改行可能文字)、。,.など 上を参照
+// CJK_Close 上を参照
+// WhiteSpace 両端に何が来ても改行可能。Spaceの連続の場合でもどこでも改行可能。
 enum CharType{
     English(String),
-    Japanese(String),
-    Symbol(String),
+    CJK(String),
+    Open(String),
+    CJK_Open(String),
+    Close(String),
+    CJK_Close(String),
     WhiteSpace(char),
     None,
 }
 
 impl CharType{
     pub(crate) fn english(c : char) -> CharType{ CharType::English(c.to_string()) }
-    pub(crate) fn japanese(c : char) -> CharType{ CharType::Japanese(c.to_string()) }
+    pub(crate) fn cjk(c : char) -> CharType{ CharType::CJK(c.to_string()) }
     pub(crate) fn white_space(c : char) -> CharType{ CharType::WhiteSpace(c) }
 }
 
