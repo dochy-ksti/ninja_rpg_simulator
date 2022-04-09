@@ -1,11 +1,12 @@
 use std::sync::Arc;
 use crate::GuiOutput;
 use crate::imp::structs::draw_context::DrawContext;
+use crate::imp::structs::gui_id::GuiID;
 use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_size::GuiSize;
 
 pub(crate) trait Control{
-    fn id(&self) -> &Arc<()>;
+    fn id(&self) -> &GuiID;
     fn size(&self) -> GuiSize;
     fn location(&self) -> GuiPoint;
     fn set_location(&mut self, p : GuiPoint);

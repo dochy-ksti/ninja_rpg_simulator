@@ -3,12 +3,13 @@ use crate::GuiOutput;
 use crate::imp::control::Control;
 use crate::imp::structs::draw_context::DrawContext;
 use crate::imp::structs::gui_color::GuiColor;
+use crate::imp::structs::gui_id::GuiID;
 use crate::imp::structs::gui_point::GuiPoint;
 use crate::imp::structs::gui_size::GuiSize;
 
 
 pub(crate) struct VertPanel {
-    id : Arc<()>,
+    id : GuiID,
     children : Vec<Box<dyn Control>>,
     back_color : GuiColor,
     border : usize,
@@ -17,7 +18,7 @@ pub(crate) struct VertPanel {
 }
 
 impl Control for VertPanel {
-    fn id(&self) -> &Arc<()>{ &self.id }
+    fn id(&self) -> &GuiID{ &self.id }
     fn size(&self) -> GuiSize { self.size }
 
     fn location(&self) -> GuiPoint {
@@ -67,7 +68,7 @@ impl VertPanel{
         }
 
         VertPanel{
-            id : Arc::new(()),
+            id : GuiID::new(),
             children,
             back_color,
             border,

@@ -21,8 +21,9 @@ impl<F: FnMut(GuiOutput) -> GuiInput + 'static> ControlManager<F> {
 
     pub(crate) fn update(&mut self, output : GuiOutput){
         let input = (self.interaction)(output);
-        let root = Self::create_root_ctl(input);
-        self.root = root;
+        unimplemented!()
+        // let root = Self::create_root_ctl(input);
+        // self.root = root;
     }
 
     pub(crate) fn create_root_ctl(input : GuiInput, glyph : &PistonGlyph) -> Box<dyn Control + 'static>{
@@ -30,18 +31,19 @@ impl<F: FnMut(GuiOutput) -> GuiInput + 'static> ControlManager<F> {
             GuiInput::Text(items) => {
                 let mut vec: Vec<Box<dyn Control>> = vec![];
                 for item in items.into_items() {
-                    let tb = TextBox::new(
-                        item.title().to_string(),
-                        24,
-                        40,
-                        40,
-                        400,
-                        GuiColor::BLACK,
-                        GuiColor::WHITE,
-                        GuiColor::GRAY,
-                        item,
-                    );
-                    vec.push(Box::new(tb));
+                    unimplemented!()
+                    // let tb = TextBox::new(
+                    //     item.title().to_string(),
+                    //     24,
+                    //     40,
+                    //     40,
+                    //     400,
+                    //     GuiColor::BLACK,
+                    //     GuiColor::WHITE,
+                    //     GuiColor::GRAY,
+                    //     item,
+                    // );
+                    // vec.push(Box::new(tb));
                 }
                 Box::new(VertPanel::new(vec, GuiColor::BLACK, 2))
             },

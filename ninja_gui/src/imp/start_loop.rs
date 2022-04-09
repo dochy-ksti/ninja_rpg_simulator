@@ -21,56 +21,56 @@ pub fn start_loop<P : AsRef<Path>, F : FnMut(GuiOutput) -> GuiInput + 'static>(f
     window.set_max_fps(60);
     window.set_ups(60);
 
-
-
-    let ts = TextureSettings::new();
-    let mut glyph : PistonGlyph = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
-    let mut cmgr = ControlManager::new(input, interaction, );
-    let mut event_manager = EventManager::new();
-
-    while let Some(e) = window.next() {
-        e.mouse_cursor(|p| {
-            event_manager.mouse_move(
-                cmgr.root_mut(), p[0] as usize, p[1] as usize)
-        });
-        e.button(|b|{
-            match b.button{
-                Button::Mouse(MouseButton::Left) =>{
-                    match b.state{
-                        ButtonState::Press =>{
-                            if let Some(output) = event_manager.mouse_press(cmgr.root_mut()){
-                                cmgr.update(output);
-                            }
-                        },
-                        ButtonState::Release =>{
-                            event_manager.mouse_release(cmgr.root_mut());
-                        }
-                    }
-                },
-                _ =>{}
-            }
-        });
-
-        match e {
-            Event::Loop(Loop::Render(_)) => {
-                window.draw_2d(&e, |c, g, d| {
-                    //c.draw_state.blend = Some(Blend::Alpha);
-                    clear(GuiColor::WHITE.as_f32_array(), g);
-
-                    let mut dc = DrawContext::new( &c, g, &mut glyph,);
-
-                    cmgr.root_mut().draw(&mut dc, GuiPoint::new(0,0));
-                    // text::Text::new_color([1.0, 1.0, 1.0, 1.0], 16).draw(
-                    //     "Hello World",
-                    //     &mut glyph,
-                    //     &c.draw_state,
-                    //     c.transform.trans(100., 100.), g
-                    // ).unwrap();
-                    glyph.factory.encoder.flush(d);
-                });
-            },
-            _ =>{}
-        }
-    }
+    unimplemented!()
+    //
+    // let ts = TextureSettings::new();
+    // let mut glyph : PistonGlyph = Glyphs::new(font_path, window.create_texture_context(), ts).unwrap();
+    // let mut cmgr = ControlManager::new(input, interaction, );
+    // let mut event_manager = EventManager::new();
+    //
+    // while let Some(e) = window.next() {
+    //     e.mouse_cursor(|p| {
+    //         event_manager.mouse_move(
+    //             cmgr.root_mut(), p[0] as usize, p[1] as usize)
+    //     });
+    //     e.button(|b|{
+    //         match b.button{
+    //             Button::Mouse(MouseButton::Left) =>{
+    //                 match b.state{
+    //                     ButtonState::Press =>{
+    //                         if let Some(output) = event_manager.mouse_press(cmgr.root_mut()){
+    //                             cmgr.update(output);
+    //                         }
+    //                     },
+    //                     ButtonState::Release =>{
+    //                         event_manager.mouse_release(cmgr.root_mut());
+    //                     }
+    //                 }
+    //             },
+    //             _ =>{}
+    //         }
+    //     });
+    //
+    //     match e {
+    //         Event::Loop(Loop::Render(_)) => {
+    //             window.draw_2d(&e, |c, g, d| {
+    //                 //c.draw_state.blend = Some(Blend::Alpha);
+    //                 clear(GuiColor::WHITE.as_f32_array(), g);
+    //
+    //                 let mut dc = DrawContext::new( &c, g, &mut glyph,);
+    //
+    //                 cmgr.root_mut().draw(&mut dc, GuiPoint::new(0,0));
+    //                 // text::Text::new_color([1.0, 1.0, 1.0, 1.0], 16).draw(
+    //                 //     "Hello World",
+    //                 //     &mut glyph,
+    //                 //     &c.draw_state,
+    //                 //     c.transform.trans(100., 100.), g
+    //                 // ).unwrap();
+    //                 glyph.factory.encoder.flush(d);
+    //             });
+    //         },
+    //         _ =>{}
+    //     }
+    //}
 }
 
