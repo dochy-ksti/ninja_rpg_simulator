@@ -1,8 +1,9 @@
 use std::sync::Arc;
 use crate::imp::control::Control;
+use crate::imp::structs::gui_id::GuiID;
 
-pub(crate) fn find_ctl_mut<'a, 'b>(c : &'a mut (dyn Control + 'static), id : &'b Arc<()>) -> Option<&'a mut (dyn Control + 'static)>{
-    if Arc::ptr_eq(c.id(),id) {
+pub(crate) fn find_ctl_mut<'a, 'b>(c : &'a mut (dyn Control + 'static), id : &'b GuiID) -> Option<&'a mut (dyn Control + 'static)>{
+    if c.id() == id {
         return Some(c);
     }
     if let Some(mut children) = c.children_mut(){

@@ -4,7 +4,7 @@ pub(crate) enum CharType{
     CJK(String),
     Open(String),
     Close(String),
-    WhiteSpace(char),
+    WhiteSpace(String),
     None,
 }
 
@@ -13,7 +13,29 @@ impl CharType{
     pub(crate) fn cjk(c : char) -> CharType{ CharType::CJK(c.to_string()) }
     pub(crate) fn open(c : char) -> CharType{ CharType::Open(c.to_string()) }
     pub(crate) fn close(c : char) -> CharType{ CharType::Close(c.to_string()) }
-    pub(crate) fn white_space(c : char) -> CharType{ CharType::WhiteSpace(c) }
+    pub(crate) fn white_space(c : char) -> CharType{ CharType::WhiteSpace(c.to_string()) }
+
+    ///rhsのenum variantにし、lhsの文字列の後にrhsの文字列をくっつける
+    pub(crate) fn replace_and_concat(&mut self, rhs : CharType){
+        let lhs = std::mem::replace(self, rhs);
+        if let Some(lhs) = lhs.into_string() {
+            match self {
+                CharType::English(s) | CharType::CJK(s) |
+                CharType::Open(s) | CharType::Close(s) |
+                CharType::WhiteSpace(s) => s.insert_str(0, &lhs),
+                CharType::None =>{},
+            }
+        }
+    }
+
+    pub(crate) fn into_string(self) -> Option<String> {
+        match self {
+            CharType::English(s) | CharType::CJK(s)  |
+            CharType::Open(s) | CharType::Close(s) |
+            CharType::WhiteSpace(s) => Some(s),
+            CharType::None => None,
+        }
+    }
 
     pub(crate) fn to_open(c : char) -> Option<CharType>{
         match c{
@@ -41,7 +63,7 @@ impl CharType{
 
     pub(crate) fn to_whitespace(c : char) -> Option<CharType>{
         if c.is_whitespace(){
-            Some(CharType::WhiteSpace(c))
+            Some(CharType::white_space(c))
         } else{
             None
         }

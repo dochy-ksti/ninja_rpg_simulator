@@ -26,15 +26,46 @@ impl ChunkSizeCalculator{
         if let Some(c) = CharType::to_whitespace(c){
             return exit(&mut self.buff, c, self.font_size, glyph);
         }
-        if let Some(c) = CharType::to_open(c){
+        else if let Some(c) = CharType::to_open(c){
             match &mut self.buff {
-                CharType::CJK(_c) => {
+                CharType::CJK(_s) | CharType::WhiteSpace(_s) |
+                CharType::Close(_s) => {
                     return exit(&mut self.buff, c, self.font_size, glyph);
                 }
-                _ => {}
+                CharType::None | CharType::English(_) |
+                CharType::Open(_) => self.buff.replace_and_concat(c)
             }
         }
-        unimplemented!()
+        else if let Some(c) = CharType::to_close(c){
+            match &mut self.buff {
+                CharType::WhiteSpace(_s) => {
+                    return exit(&mut self.buff, c, self.font_size, glyph);
+                }
+                CharType::English(_) | CharType::CJK(_) |
+                CharType::Open(_) | CharType::Close(_) |
+                CharType::None => self.buff.replace_and_concat(c),
+            }
+        }
+        else if let Some(c) = CharType::to_cjk(c){
+            match &mut self.buff{
+                CharType::CJK(_s) | CharType::Close(_s) | CharType::WhiteSpace(_s) =>{
+                    return exit(&mut self.buff, c, self.font_size, glyph);
+                },
+                CharType::English(_) | CharType::Open(_) | CharType::None =>{
+                    self.buff.replace_and_concat(c);
+                }
+            }
+        } else{
+            match &mut self.buff{
+                CharType::WhiteSpace(_s) => {
+                    return exit(&mut self.buff, CharType::english(c), self.font_size, glyph);
+                }
+                CharType::English(_) | CharType::CJK(_) |
+                CharType::Open(_) | CharType::Close(_) |
+                CharType::None => self.buff.replace_and_concat(CharType::english(c)),
+            }
+        }
+        return None;
     }
 
 
@@ -42,15 +73,15 @@ impl ChunkSizeCalculator{
 
 fn exit(old_buff : &mut CharType, new_buff : CharType, font_size : usize, glyph : &mut PistonGlyph) -> Option<TextChunk> {
     let buff = std::mem::replace(old_buff, new_buff);
-    match buff {
-        CharType::Number(s) | CharType::Alpha(s) => { Some(calc_chunk(s, font_size, glyph)) },
-        CharType::JapaneseChar(c) | CharType::Other(c) =>{ Some(calc_chunk(c.to_string(), font_size, glyph)) },
-        CharType::None =>{ None }
+    if let Some(s) = buff.into_string(){
+        Some(calc_chunk(s, font_size, glyph))
+    } else{
+        None
     }
 }
 
 fn calc_chunk(s : String, font_size : usize, glyph : &mut PistonGlyph) -> TextChunk{
-    let width = glyph.width(font_size as u32, &s).unwrap_or(0);
+    let width = glyph.width(font_size as u32, &s).unwrap_or(0.);
     let height = point_to_pixel(font_size);
     TextChunk::new(s, GuiSize::new(width as usize, height))
 }
