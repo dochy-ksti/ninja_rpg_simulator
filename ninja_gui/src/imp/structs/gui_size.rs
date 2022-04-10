@@ -1,4 +1,4 @@
-use std::ops::Add;
+use std::ops::{Add, Sub};
 
 #[derive(Copy, Clone, Debug)]
 pub(crate) struct GuiSize{
@@ -17,5 +17,13 @@ impl Add for GuiSize{
 
     fn add(self, rhs: Self) -> Self::Output {
         GuiSize::new(self.w + rhs.w, self.h + rhs.h)
+    }
+}
+
+impl Sub for GuiSize{
+    type Output = GuiSize;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        GuiSize::new(self.w - rhs.w, self.h - rhs.h)
     }
 }

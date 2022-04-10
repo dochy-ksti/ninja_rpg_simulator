@@ -3,10 +3,10 @@ use crate::imp::structs::gui_size::GuiSize;
 #[derive(Debug, Clone)]
 pub(crate) struct TextChunk{
     text : String,
-    size : GuiSize,
+    width : usize,
 }
 
 impl TextChunk{
-    pub(crate) fn new(text : String, size : GuiSize) -> TextChunk{ TextChunk{ text, size } }
-    pub(crate) fn deconstruct(self) -> (String, GuiSize){ (self.text, self.size) }
+    pub(crate) fn new(text : String, width : usize) -> TextChunk{ TextChunk{ text, width } }
+    pub(crate) fn deconstruct(self) -> (String, usize){ (self.text, self.width) }
 }

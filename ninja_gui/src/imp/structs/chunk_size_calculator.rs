@@ -14,76 +14,88 @@ use crate::PistonGlyph;
 // WhiteSpace 両端に何が来ても改行可能。Spaceの連続の場合でもどこでも改行可能。
 
 pub(crate) struct ChunkSizeCalculator{
-    width : usize,
-    height : usize,
     font_size : usize,
-    buff : CharType,
+    buff : String,
+    last : CharType,
 }
 
 impl ChunkSizeCalculator{
-    pub(crate) fn new(font_size : usize) -> ChunkSizeCalculator{ ChunkSizeCalculator{ width : 0, height : 0, font_size, buff : CharType::None } }
+    pub(crate) fn new(font_size : usize) -> ChunkSizeCalculator{ ChunkSizeCalculator{ font_size, buff : String::new(), last : CharType::None } }
     pub(crate) fn write(&mut self, c : char, glyph : &mut PistonGlyph) -> Option<TextChunk>{
         if let Some(c) = CharType::to_whitespace(c){
-            return exit(&mut self.buff, c, self.font_size, glyph);
+            return self.exit( c, glyph);
         }
         else if let Some(c) = CharType::to_open(c){
-            match &mut self.buff {
-                CharType::CJK(_s) | CharType::WhiteSpace(_s) |
-                CharType::Close(_s) => {
-                    return exit(&mut self.buff, c, self.font_size, glyph);
+            match &self.last {
+                CharType::CJK(_) | CharType::Whitespace(_) |
+                CharType::Close(_) => {
+                    return self.exit(c, glyph);
                 }
                 CharType::None | CharType::English(_) |
-                CharType::Open(_) => self.buff.replace_and_concat(c)
+                CharType::Open(_) => self.concat(c)
             }
         }
         else if let Some(c) = CharType::to_close(c){
-            match &mut self.buff {
-                CharType::WhiteSpace(_s) => {
-                    return exit(&mut self.buff, c, self.font_size, glyph);
+            match &self.last{
+                CharType::Whitespace(_) => {
+                    return self.exit(c, glyph);
                 }
                 CharType::English(_) | CharType::CJK(_) |
                 CharType::Open(_) | CharType::Close(_) |
-                CharType::None => self.buff.replace_and_concat(c),
+                CharType::None => self.concat(c),
             }
         }
         else if let Some(c) = CharType::to_cjk(c){
-            match &mut self.buff{
-                CharType::CJK(_s) | CharType::Close(_s) | CharType::WhiteSpace(_s) =>{
-                    return exit(&mut self.buff, c, self.font_size, glyph);
+            match &self.last{
+                CharType::CJK(_) | CharType::Close(_) | CharType::Whitespace(_) =>{
+                    return self.exit(c, glyph);
                 },
                 CharType::English(_) | CharType::Open(_) | CharType::None =>{
-                    self.buff.replace_and_concat(c);
+                    self.concat(c);
                 }
             }
         } else{
-            match &mut self.buff{
-                CharType::WhiteSpace(_s) => {
-                    return exit(&mut self.buff, CharType::english(c), self.font_size, glyph);
+            match &self.last{
+                CharType::Whitespace(_) => {
+                    return self.exit( CharType::English(c), glyph);
                 }
                 CharType::English(_) | CharType::CJK(_) |
                 CharType::Open(_) | CharType::Close(_) |
-                CharType::None => self.buff.replace_and_concat(CharType::english(c)),
+                CharType::None => self.concat(CharType::English(c)),
             }
         }
         return None;
     }
 
+    fn exit(&mut self, new_buff : CharType, glyph : &mut PistonGlyph) -> Option<TextChunk>{
+        let buff = std::mem::replace(&mut self.buff,
+                                     new_buff.get_char().map_or(String::new(), |c| c.to_string()));
+        self.last = new_buff;
 
-}
+        if !buff.is_empty(){
+            Some(calc_chunk(buff, self.font_size, glyph))
+        } else{
+            None
+        }
+    }
 
-fn exit(old_buff : &mut CharType, new_buff : CharType, font_size : usize, glyph : &mut PistonGlyph) -> Option<TextChunk> {
-    let buff = std::mem::replace(old_buff, new_buff);
-    if let Some(s) = buff.into_string(){
-        Some(calc_chunk(s, font_size, glyph))
-    } else{
-        None
+    fn concat(&mut self, c : CharType){
+        if let Some(c) = c.get_char() {
+            self.buff.push(c);
+        }
+        self.last = c;
+    }
+
+    pub(crate) fn flush(&mut self, glyph : &mut PistonGlyph) -> Option<TextChunk>{
+        self.exit(CharType::None, glyph)
     }
 }
 
+
 fn calc_chunk(s : String, font_size : usize, glyph : &mut PistonGlyph) -> TextChunk{
     let width = glyph.width(font_size as u32, &s).unwrap_or(0.);
-    let height = point_to_pixel(font_size);
-    TextChunk::new(s, GuiSize::new(width as usize, height))
+
+    TextChunk::new(s, width as usize)
 }
 
 pub(crate) fn point_to_pixel(point : usize) -> usize{
