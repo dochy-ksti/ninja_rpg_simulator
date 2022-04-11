@@ -10,6 +10,7 @@ pub(crate) trait Control{
     fn size(&self) -> GuiSize;
     fn location(&self) -> GuiPoint;
     fn set_location(&mut self, p : GuiPoint);
+    fn set_size(&mut self, s : GuiSize);
     fn on_mouse_leave(&mut self);
     fn on_mouse_enter(&mut self);
     fn on_mouse_click(&mut self) -> Option<GuiOutput>;

@@ -28,6 +28,7 @@ impl Control for VertPanel {
     fn set_location(&mut self, p: GuiPoint) {
         self.location = p;
     }
+    fn set_size(&mut self, s : GuiSize){ self.size = s; }
 
     fn on_mouse_leave(&mut self) {
     }
@@ -52,9 +53,9 @@ impl Control for VertPanel {
 }
 
 impl VertPanel{
-    pub(crate) fn new(mut children : Vec<Box<dyn Control>>,
-                      back_color : GuiColor,
-                      border : usize) -> VertPanel{
+    pub(crate) fn construct(mut children : Vec<Box<dyn Control>>,
+                            back_color : GuiColor,
+                            border : usize) -> VertPanel{
         let x = border as isize;
         let mut y = border as isize;
         let mut w = 1;
@@ -65,6 +66,11 @@ impl VertPanel{
             if w < size.w(){
                 w = size.w();
             }
+        }
+
+        for child in &mut children{
+            let size = child.size();
+            child.set_size(GuiSize::new(w, size.h()))
         }
 
         VertPanel{

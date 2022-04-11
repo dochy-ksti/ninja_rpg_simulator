@@ -8,7 +8,9 @@ use crate::PistonGlyph;
 //基本的には、英語と、スペースで区切る全言語と、日本語に対応する。韓国語や中国語にも対応できているかもしれないがわからない。
 
 // Engligh : 基本的にspaceでしか改行されない。判定法はCJK,Open,Close,Whitespace以外全部。
-// CJK : 中国語日本語韓国語。改行可能文字、スペース、CJK同士の間で改行される。EnglishとCJKの間では改行されない。改行可能文字の連続は改行されない。is_cjkかつsymbol,whitespaceでないもの
+// CJK : 中国語日本語韓国語。改行可能文字、スペース、CJK同士の間で改行される。EnglishとCJKの間では改行されない。
+// 改行可能文字の連続は改行されない。is_cjkかつopen,close,whitespaceでないもの
+//
 // Open 左側改行可能文字 (など。左側がCJKまたは右側改行可能文字なら改行可能。個別指定する。
 // Close 右側改行可能文字)、。,.など 上を参照
 // WhiteSpace 両端に何が来ても改行可能。Spaceの連続の場合でもどこでも改行可能。

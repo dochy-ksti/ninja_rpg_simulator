@@ -47,7 +47,7 @@ fn create_root_ctl(input : GuiInput, glyph : &mut PistonGlyph) -> Box<dyn Contro
                 );
                 vec.push(Box::new(tb));
             }
-            Box::new(VertPanel::new(vec, GuiColor::BLACK, 4))
+            Box::new(VertPanel::construct(vec, GuiColor::BLACK, 4))
         },
     }
 }

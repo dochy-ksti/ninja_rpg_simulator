@@ -69,8 +69,9 @@ impl Control for TextBox{
     }
 
     fn set_location(&mut self, p: GuiPoint) {
-        self.location = p
+        self.location = p;
     }
+    fn set_size(&mut self, s : GuiSize){ self.size = s; }
 
     fn on_mouse_leave(&mut self) {
         self.hover = false;

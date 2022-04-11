@@ -12,6 +12,7 @@ type PistonGlyph<'a> = GlyphCache<'a, TextureContext<gfx_device_gl::Factory, gfx
 
 pub use imp::structs::text_input::{TextItem, TextInput};
 pub use imp::structs::gui_output::GuiOutput;
+pub use imp::structs::gui_id::GuiID;
 
 pub use crate::imp::start_loop::start_loop;
 pub use crate::testing::test_open_window::test_open_window;
