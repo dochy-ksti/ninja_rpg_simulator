@@ -17,6 +17,7 @@ documentation = "https://docs.rs/ninja_rpg_simulator"
 members=[
     "ninja_lang",
     "ninja_core",
+    "ninja_ai",
     "ninja_src",
     "ninja_gui",
     "ninja_gui_test"
