@@ -1,5 +1,10 @@
+use crate::imp::structs::nj_chain::NjChain;
+use crate::imp::structs::nj_wall::NjWalls;
+
 pub struct NjEvent{
-    id : String
+    id : String,
+    walls : NjWalls,
+    chain : NjChain,
 }
 
 impl NjEvent{
