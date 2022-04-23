@@ -5,3 +5,5 @@ pub(crate) mod dstring;
 pub(crate) mod nj_barrier;
 pub(crate) mod nj_cond;
 pub(crate) mod nj_chain;
+pub(crate) mod nj_own;
+pub(crate) mod nj_goal;

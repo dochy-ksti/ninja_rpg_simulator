@@ -7,10 +7,15 @@ pub struct NjWalls{
 }
 
 pub struct NjWall{
-    name : Option<DString>,
     desc : Option<String>,
-    wall : Option<NjBarrier>,
+    wall : Option<WallVal>,
     cond : Option<NjCond>,
     reserve : Option<String>,
     run : Option<String>,
+    is_any : bool,
+}
+
+pub enum WallVal{
+    Barrier(NjBarrier),
+    Camouflage(DString),
 }
