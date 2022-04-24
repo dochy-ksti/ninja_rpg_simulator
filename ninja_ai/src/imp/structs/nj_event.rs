@@ -1,4 +1,3 @@
-use crate::imp::structs::ev_id::EvID;
 use crate::imp::structs::nj_chain::NjChain;
 use crate::imp::structs::nj_own::NjOwn;
 use crate::imp::structs::nj_wall::NjWalls;
