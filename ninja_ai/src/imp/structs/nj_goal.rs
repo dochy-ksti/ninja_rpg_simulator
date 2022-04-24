@@ -14,5 +14,5 @@ pub struct NjGoal{
 
 pub enum GoalVal{
     Camouflage(DString),
-    Event(String),
+    Event(u32),
 }

@@ -10,8 +10,8 @@ pub struct NjWall{
     desc : Option<String>,
     wall : Option<WallVal>,
     cond : Option<NjCond>,
-    reserve : Option<String>,
-    run : Option<String>,
+    reserve : Option<u32>,
+    run : Option<u32>,
     is_any : bool,
 }
 

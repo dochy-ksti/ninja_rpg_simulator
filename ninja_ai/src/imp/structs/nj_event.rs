@@ -1,9 +1,10 @@
+use crate::imp::structs::ev_id::EvID;
 use crate::imp::structs::nj_chain::NjChain;
 use crate::imp::structs::nj_own::NjOwn;
 use crate::imp::structs::nj_wall::NjWalls;
 
 pub struct NjEvent{
-    id : String,
+    id : u32,
     name : String,
     et : EventType,
 }
@@ -28,5 +29,5 @@ pub struct FlagEvent{
 }
 
 impl NjEvent{
-    pub fn id(&self) -> &str{ &self.id }
+    pub fn id(&self) -> u32{ self.id }
 }

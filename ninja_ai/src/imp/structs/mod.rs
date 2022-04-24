@@ -7,3 +7,4 @@ pub(crate) mod nj_cond;
 pub(crate) mod nj_chain;
 pub(crate) mod nj_own;
 pub(crate) mod nj_goal;
+pub(crate) mod chara_id;

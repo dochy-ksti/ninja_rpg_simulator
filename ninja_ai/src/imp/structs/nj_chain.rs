@@ -1,5 +1,7 @@
+use crate::imp::structs::ev_id::EvID;
+
 pub struct ChainAnd{
-    vec : Vec<String>,
+    vec : Vec<EvID>,
 }
 
 pub struct ChainOr{
