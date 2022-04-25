@@ -1,4 +1,5 @@
 use crate::imp::structs::dstring::DString;
+use crate::imp::structs::event_id::EventID;
 use crate::imp::structs::nj_cond::NjCond;
 
 pub struct NjGoals{
@@ -14,5 +15,5 @@ pub struct NjGoal{
 
 pub enum GoalVal{
     Camouflage(DString),
-    Event(u32),
+    Event(EventID),
 }

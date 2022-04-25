@@ -1,9 +1,6 @@
-
-///スキルはスキル番号を入れる感じに
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct NjSkill(pub u32);
+use crate::imp::structs::skill_id::SkillID;
 
 pub struct NjBarrier{
-    skill : NjSkill,
+    skill : SkillID,
     val : u32,
 }

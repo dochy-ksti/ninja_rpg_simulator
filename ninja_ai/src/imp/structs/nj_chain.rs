@@ -1,6 +1,7 @@
+use crate::imp::structs::event_id::EventID;
 
 pub struct ChainAnd{
-    vec : Vec<u32>,
+    vec : Vec<EventID>,
 }
 
 pub struct ChainOr{

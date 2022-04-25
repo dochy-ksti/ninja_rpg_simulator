@@ -1,4 +1,5 @@
 use crate::imp::structs::dstring::DString;
+use crate::imp::structs::event_id::EventID;
 use crate::imp::structs::nj_barrier::NjBarrier;
 use crate::imp::structs::nj_cond::NjCond;
 
@@ -10,8 +11,9 @@ pub struct NjWall{
     desc : Option<String>,
     wall : Option<WallVal>,
     cond : Option<NjCond>,
-    reserve : Option<u32>,
-    run : Option<u32>,
+    reserve : Vec<EventID>,
+    reserve_fail : EventID>,
+    run : Vec<EventID>,
     is_any : bool,
 }
 

@@ -8,3 +8,6 @@ pub(crate) mod nj_chain;
 pub(crate) mod nj_own;
 pub(crate) mod nj_goal;
 pub(crate) mod chara_id;
+pub(crate) mod event_id;
+pub(crate) mod skill_id;
+pub(crate) mod train_skill;

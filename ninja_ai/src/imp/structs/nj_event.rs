@@ -1,9 +1,11 @@
+use crate::imp::structs::event_id::EventID;
 use crate::imp::structs::nj_chain::NjChain;
 use crate::imp::structs::nj_own::NjOwn;
 use crate::imp::structs::nj_wall::NjWalls;
+use crate::imp::structs::train_skill::TrainSkill;
 
 pub struct NjEvent{
-    id : u32,
+    id : EventID,
     name : String,
     et : EventType,
 }
@@ -20,13 +22,15 @@ pub struct WallEvent{
 }
 
 /// FlagEventは条件を満たした場合にsetされる。
-/// 可視性は、デフォルトでは、setされるまで見えないが、setされると見えるようになる
+/// 可視性は、見える形でreserveされたり、見えるイベントからsetやcondで見える形で参照されれば、見えるようになる
 pub struct FlagEvent{
     description : Option<String>,
-    visible : Option<NjChain>,
     set : NjChain,
+    run : Vec<EventID>,
+    train_skill : Option<TrainSkill>,
+    own : NjOwn,
 }
 
 impl NjEvent{
-    pub fn id(&self) -> u32{ self.id }
+    pub fn id(&self) -> EventID{ self.id }
 }
