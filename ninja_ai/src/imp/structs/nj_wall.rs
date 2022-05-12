@@ -12,9 +12,8 @@ pub struct NjWall{
     wall : Option<WallVal>,
     cond : Option<NjCond>,
     reserve : Vec<EventID>,
-    reserve_fail : EventID>,
-    run : Vec<EventID>,
-    is_any : bool,
+    reserve_fail : Vec<EventID>,
+    view : Vec<EventID>,
 }
 
 pub enum WallVal{
