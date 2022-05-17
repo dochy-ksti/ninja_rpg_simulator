@@ -1,8 +1,8 @@
-use crate::imp::structs::nj_barrier::NjSkill;
-use crate::imp::structs::nj_chara::NjChara;
-use crate::imp::structs::nj_event::NjEvent;
+use crate::imp::structs::barrier::NjSkill;
+use crate::imp::structs::chara::Chara;
+use crate::imp::structs::event::Event;
 
-pub fn think(charas : &[NjChara], evs : &[NjEvent], pc_id : u32) -> u32{
+pub fn think(charas : &[Chara], evs : &[Event], pc_id : u32) -> u32{
     let hoge = NjSkill::new(2);
     hoge.val()
 

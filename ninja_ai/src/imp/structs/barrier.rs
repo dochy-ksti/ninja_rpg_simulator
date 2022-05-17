@@ -1,6 +1,6 @@
 use crate::imp::structs::skill_id::SkillID;
 
-pub struct NjBarrier{
+pub struct Barrier {
     skill : SkillID,
     val : u32,
 }

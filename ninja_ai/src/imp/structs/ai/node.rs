@@ -1,7 +1,7 @@
-use crate::imp::structs::ai::node_id::NodeID;
+use crate::imp::structs::ai::line::Line;
+use crate::imp::structs::event_id::EventID;
 
 pub(crate) struct Node{
-    id : NodeID,
-    to : Vec<NodeID>,
-    from : Vec<NodeID>,
+    id : EventID,
+    lines : Vec<Line>,
 }
