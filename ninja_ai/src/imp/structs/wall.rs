@@ -11,7 +11,6 @@ pub struct Wall {
     desc : Option<String>,
     wall : Option<WallVal>,
     cond : Option<Cond>,
-    view : Vec<EventID>,
 }
 
 pub enum WallVal{
