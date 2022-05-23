@@ -3,7 +3,6 @@ use crate::imp::structs::barrier::Barrier;
 
 pub(crate) enum LineItem{
     ID(EventID),
-    InvisibleWall(EventID),
     WithBarrier(WithBarrier)
 }
 
