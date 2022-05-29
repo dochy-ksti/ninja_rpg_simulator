@@ -5,11 +5,7 @@ pub(crate) struct SkillMap{
     map : BTreeMap<u32, SkillMapItem>
 }
 
-impl SkillMap{
-    pub(crate) fn cost(&self, sp : u32) -> u32{
 
-    }
-}
 
 
 
