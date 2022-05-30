@@ -7,6 +7,18 @@ pub(crate) struct AvailableTrainings{
     bh : BinaryHeap<AvailableTraining>,
 }
 
+impl AvailableTrainings{
+    pub(crate) fn new() -> AvailableTrainings{
+
+    }
+    pub(crate) fn peek(&self) -> Option<&AvailableTraining>{
+        self.bh.peek()
+    }
+    pub(crate) fn pop(&mut self) -> Option<AvailableTraining>{
+        self.bh.pop()
+    }
+}
+
 #[derive(Debug)]
 pub(crate) struct AvailableTraining{
     slope : Slope,
@@ -33,12 +45,3 @@ impl Ord for AvailableTraining{
     }
 }
 
-impl AvailableTrainings{
-    pub(crate) fn peek(&self) -> Option<&AvailableTraining>{
-        self.bh.peek()
-    }
-
-    pub(crate) fn pop(&mut self) -> Option<AvailableTraining>{
-        self.bh.pop()
-    }
-}
