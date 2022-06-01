@@ -30,9 +30,14 @@ impl Training{
         self.event_id
     }
     pub(crate) fn slope(&self) -> Option<Slope>{
-        if self.distance == 0{ None }
-        else{
-            Some(Slope::new(self.increase, self.distance))
+        if self.repeatable{
+            let distance = u32::max(self.distance, 1);
+            if distance == 1{ Some(Slope::new(self.increase, 1)) }
+            else{ Some(Slope::new(self.increase ))}
+        } else {
+            if self.distance == 0 { None } else {
+                Some(Slope::new(self.increase, self.distance))
+            }
         }
     }
 

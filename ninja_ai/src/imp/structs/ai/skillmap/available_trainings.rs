@@ -38,6 +38,14 @@ pub(crate) struct AvailableTraining{
     training : Training,
 }
 
+impl AvailableTraining{
+    pub(crate) fn from_training(training : Training) -> AvailableTraining{
+        if training.repeatable(){
+
+        }
+    }
+}
+
 impl PartialEq for AvailableTraining{
     fn eq(&self, other: &Self) -> bool {
         self.training == other.training
