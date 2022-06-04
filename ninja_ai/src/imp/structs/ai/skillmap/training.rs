@@ -14,6 +14,12 @@ pub(crate) struct Training{
 
 
 impl Training{
+    pub(crate) fn new(repeatable : bool, increase : u32, required : u32, distance : u32) -> Training{
+        //increaseが0のtrainingは存在してはいけない
+        assert_ne!(increase, 0);
+        //distanceは1が最小で、何もなくても実行には1かかると考える。実際そうだし
+        assert_ne!(distance, 0);
+    }
     pub(crate) fn required(&self) -> u32{
         self.required
     }
@@ -29,13 +35,18 @@ impl Training{
     pub(crate) fn event_id(&self) -> EventID{
         self.event_id
     }
-    pub(crate) fn slope(&self, avg_distance : u32) -> Option<Slope>{
-        if self.repeatable{
-            if self.distance == 0{ Some(Slope::new(self.increase, 1)) }
-            else{ Some(Slope::new(u32::max(self.increase * avg_distance, self.distance + avg_distance), 1 ))}
+
+
+    pub(crate) fn calc_slope(repeatable : bool, increase : u32, distance : u32, avg_increase: u32) -> Option<Slope> {
+        if repeatable {
+            if distance == 0 { Some(Slope::new(increase, 1)) }
+            else {
+                let burden = f32::floor(avg_increase / increase as f32) as u32;
+                Some(Slope::new(avg_increase, distance + burden))
+            }
         } else {
-            if self.distance == 0 { None } else {
-                Some(Slope::new(self.increase, self.distance))
+            if distance == 0 { None } else {
+                Some(Slope::new(increase, distance))
             }
         }
     }
