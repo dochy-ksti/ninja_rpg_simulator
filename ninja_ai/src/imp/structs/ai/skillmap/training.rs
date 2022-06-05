@@ -14,21 +14,28 @@ pub(crate) struct Training{
 
 
 impl Training{
-    pub(crate) fn new(repeatable : bool, increase : u32, required : u32, distance : u32) -> Training{
+    pub(crate) fn new(repeatable : bool, increase : u32, required : u32, distance : u32, event_id : EventID) -> Training{
         //increaseが0のtrainingは存在してはいけない
         assert_ne!(increase, 0);
         //distanceは1が最小で、何もなくても実行には1かかると考える。実際そうだし
         assert_ne!(distance, 0);
+
+        Training{ repeatable, increase, required, distance, event_id }
     }
+    ///このトレーニングで上がるスキルポイントが、このトレーニングを行うまでにいくつ必要か
     pub(crate) fn required(&self) -> u32{
         self.required
     }
     pub(crate) fn repeatable(&self) -> bool{
         self.repeatable
     }
+    /// このトレーニングを行ったときのスキルポイントの上がり幅
+    /// 1より大きい
     pub(crate) fn increase(&self) -> u32{
         self.increase
     }
+    /// このトレーニングまでに必要なイベント数+このトレーニングで上がるスキルポイント以外のスキルポイントを必要量まで上げるために必要な概算の手数
+    /// 1より大きい
     pub(crate) fn distance(&self) -> u32{
         self.distance
     }
@@ -36,21 +43,14 @@ impl Training{
         self.event_id
     }
 
-
-    pub(crate) fn calc_slope(repeatable : bool, increase : u32, distance : u32, avg_increase: u32) -> Option<Slope> {
-        if repeatable {
-            if distance == 0 { Some(Slope::new(increase, 1)) }
+    pub(crate) fn calc_slope(&self, avg_increase: u32) -> Slope {
+        if self.repeatable {
+            if self.distance <= 1 { Slope::new(self.increase, 1) }
             else {
-                let burden = f32::floor(avg_increase / increase as f32) as u32;
-                Some(Slope::new(avg_increase, distance + burden))
+                Slope::new(avg_increase, self.distance + (avg_increase / self.increase))
             }
-        } else {
-            if distance == 0 { None } else {
-                Some(Slope::new(increase, distance))
-            }
-        }
+        } else { Slope::new(self.increase, self.distance) }
     }
-
 }
 
 impl PartialOrd<Self> for Training {
