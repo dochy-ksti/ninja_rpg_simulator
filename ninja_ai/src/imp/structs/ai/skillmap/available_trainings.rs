@@ -34,13 +34,13 @@ impl AvailableTrainings{
 
 #[derive(Debug)]
 pub(crate) struct AvailableTraining{
-    slope : Slope,
     training : Training,
+    slope : Slope,
 }
 
 impl AvailableTraining {
-    pub(crate) fn from_training(training: Training) -> AvailableTraining {
-        if training.repeatable() {}
+    pub(crate) fn new(training: Training, slope : Slope) -> AvailableTraining {
+        AvailableTraining{ training, slope }
     }
 
 
