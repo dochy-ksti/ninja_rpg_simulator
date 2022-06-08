@@ -6,3 +6,4 @@ pub(crate) mod training;
 pub(crate) mod available_trainings;
 pub(crate) mod training_drainer;
 pub(crate) mod trainings;
+pub(crate) mod waiting_training;

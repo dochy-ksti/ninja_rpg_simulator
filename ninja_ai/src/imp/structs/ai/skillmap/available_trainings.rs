@@ -1,5 +1,5 @@
 use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::collections::binary_heap::BinaryHeap;
 use crate::imp::structs::ai::skillmap::slope::Slope;
 use crate::imp::structs::ai::skillmap::training::Training;
 
@@ -18,8 +18,11 @@ impl AvailableTrainings{
     pub(crate) fn current_repeatable(&mut self) -> Option<&AvailableTraining>{
         self.current_repeatable.as_ref()
     }
-    pub(crate) fn set_current_repeatable(&mut self, at : AvailableTraining){
-        self.current_repeatable = Some(at);
+    pub(crate) fn set_current_repeatable(&mut self, t : Training){
+        self.current_repeatable = Some({
+            let slope = Slope::new(t.increase(), 1);
+            AvailableTraining::new(t, slope)
+        });
     }
     pub(crate) fn peek(&self) -> Option<&AvailableTraining>{
         self.bh.peek()
@@ -42,13 +45,14 @@ impl AvailableTraining {
     pub(crate) fn new(training: Training, slope : Slope) -> AvailableTraining {
         AvailableTraining{ training, slope }
     }
-
-
+    pub(crate) fn slope(&self) -> Slope{ self.slope }
+    pub(crate) fn training(self) -> Training{ self.training }
+    pub(crate) fn repeatable(&self) -> bool{ self.training.repeatable() }
 }
 
 impl PartialEq for AvailableTraining{
     fn eq(&self, other: &Self) -> bool {
-        self.training == other.training
+        self.training.cmp(othe) == Ordering::Equal
     }
 }
 

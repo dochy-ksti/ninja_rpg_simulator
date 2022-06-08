@@ -68,7 +68,7 @@ impl Ord for Training{
 
 impl PartialEq for Training{
     fn eq(&self, other: &Self) -> bool {
-        self.event_id == other.event_id
+        self.cmp(other) == Ordering::Equal
     }
 }
 

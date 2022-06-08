@@ -6,11 +6,18 @@ use crate::imp::structs::ai::skillmap::trainings::Trainings;
 pub(crate) fn calc_skill_map(mut trainings : Trainings) -> SkillMap{
     let mut skillmap = SkillMap::new();
     let mut availables = AvailableTrainings::new();
-    while let Some(mut drainer) = trainings.drain(){
-        while let Some(training) = drainer.next(){
-            let slope = training.calc_slope(trainings.average_increase());
-            availables.push(AvailableTraining::new(training, slope))
-        }
+    let mut achieved : Option<u32> = Some(0);
+    loop{
+        if trainings.move_items(&mut availables, achieved) == false{ break; }
 
+        if let Some(item) = availables.pop(){
+            if item.training().repeatable(){
+                //repeatableより低いslopeのトレーニングはもう全くやる必要がないので削除
+                availables.clear_heap();
+                achieved = None;
+                skillmap.set_repeatable(item.t)
+            }
+        }
     }
+
 }

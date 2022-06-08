@@ -1,5 +1,6 @@
 use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::collections::binary_heap::BinaryHeap;
+use crate::imp::structs::ai::skillmap::available_trainings::{AvailableTraining, AvailableTrainings};
 use crate::imp::structs::ai::skillmap::training::Training;
 use crate::imp::structs::ai::skillmap::training_drainer::TrainingDrainer;
 use crate::imp::structs::event_id::EventID;
@@ -11,8 +12,8 @@ pub(crate) struct Trainings{
 }
 
 impl Trainings {
-    pub(crate) fn new(trainings : impl Iterator<Item=Training>) -> Option<Trainings>{
-        let mut bh : BinaryHeap<Training> = BinaryHeap::with_capacity(trainings.size_hint().0);
+    pub(crate) fn new(trainings : Vec<Training>) -> Option<Trainings>{
+        let mut bh : BinaryHeap<Training> = BinaryHeap::with_capacity(trainings.len());
         let mut sum_inc : u64 = 0;
         let mut count : usize = 0;
         for t in trainings{
@@ -54,12 +55,27 @@ impl Trainings {
         self.bh.pop()
     }
 
-    pub(crate) fn drain(&mut self) -> Option<TrainingDrainer>{
-        if let Some(req) = self.peek_req(){
-            Some(TrainingDrainer::new(self, req))
-        } else{
-            None
+    /// achieved 以下のアイテムを availableに全部移す
+    /// achievedがない場合、req値最小のアイテムをうつす。複数あれば複数。 achievedがない場合というのはつまりrepeatableで限度がない状態
+    pub(crate) fn move_items(&mut self, availables : &mut AvailableTrainings, achieved : Option<u32>) -> bool {
+        let req = if let Some(req) = achieved { req } else {
+            if let Some(req) = self.peek_req() {
+                req
+            } else {
+                return false;
+            }
+        };
+        let mut modified = false;
+        while let Some(r) = self.peek_req() {
+            if r <= req {
+                let tr = self.pop().unwrap();
+                let slope = tr.calc_slope(self.average_increase);
+                let av = AvailableTraining::new(tr, slope);
+                availables.push(av);
+                modified = true;
+            }
         }
+        modified
     }
 }
 
