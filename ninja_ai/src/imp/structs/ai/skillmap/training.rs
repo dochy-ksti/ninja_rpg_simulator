@@ -3,7 +3,7 @@ use std::collections::BinaryHeap;
 use crate::imp::structs::ai::skillmap::slope::Slope;
 use crate::imp::structs::event_id::EventID;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(crate) struct Training{
     repeatable : bool,
     increase : u32,

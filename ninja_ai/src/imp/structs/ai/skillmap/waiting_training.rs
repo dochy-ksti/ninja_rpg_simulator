@@ -32,7 +32,7 @@ impl PartialOrd<Self> for WaitingTraining {
 impl Ord for WaitingTraining{
     fn cmp(&self, other: &Self) -> Ordering {
         //requiredは小さい順、 slopeは大きい順に出てきてほしい
-        let ord = other.training.required().cmp(&self.training.required())
+        let ord = other.training.required().cmp(&self.training.required());
         if ord != Ordering::Equal{ return ord; }
         self.slope.cmp(&other.slope)
     }

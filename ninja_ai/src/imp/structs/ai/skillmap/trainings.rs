@@ -1,6 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::binary_heap::BinaryHeap;
 use crate::imp::structs::ai::skillmap::available_trainings::{AvailableTraining, AvailableTrainings};
+use crate::imp::structs::ai::skillmap::slope::Slope;
 use crate::imp::structs::ai::skillmap::training::Training;
 use crate::imp::structs::ai::skillmap::training_drainer::TrainingDrainer;
 use crate::imp::structs::event_id::EventID;
@@ -57,14 +58,7 @@ impl Trainings {
 
     /// achieved 以下のアイテムを availableに全部移す
     /// achievedがない場合、req値最小のアイテムをうつす。複数あれば複数。 achievedがない場合というのはつまりrepeatableで限度がない状態
-    pub(crate) fn move_items(&mut self, availables : &mut AvailableTrainings, achieved : Option<u32>) -> bool {
-        let req = if let Some(req) = achieved { req } else {
-            if let Some(req) = self.peek_req() {
-                req
-            } else {
-                return false;
-            }
-        };
+    pub(crate) fn move_items(&mut self, availables : &mut AvailableTrainings, req : u32) -> bool {
         let mut modified = false;
         while let Some(r) = self.peek_req() {
             if r <= req {
@@ -73,9 +67,24 @@ impl Trainings {
                 let av = AvailableTraining::new(tr, slope);
                 availables.push(av);
                 modified = true;
+            } else{
+                break;
             }
         }
         modified
+    }
+
+    pub(crate) fn move_sloped(&mut self, availables : &mut AvailableTrainings, needed : Slope) -> bool{
+        while let Some(t) = self.peek() {
+            let slope = t.calc_slope(self.average_increase);
+            if needed < slope{
+                let required = t.required();
+                return move_items(self, availables, required);
+            } else{
+                self.pop();
+            }
+        }
+        return false;
     }
 }
 

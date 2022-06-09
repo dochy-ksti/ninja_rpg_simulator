@@ -12,8 +12,14 @@ impl AvailableTrainings{
     pub(crate) fn new() -> AvailableTrainings{
         AvailableTrainings{ bh : BinaryHeap::new(), current_repeatable : None }
     }
-    pub(crate) fn push(&mut self, at : AvailableTraining){
-        self.bh.push(at)
+
+    /// repeatableよりslopeが小さい場合、pushは意味ないからしない
+    pub(crate) fn push(&mut self, at : AvailableTraining) -> bool{
+        if let Some(repeatable) = &self.current_repeatable{
+            if at.slope <= repeatable.slope{ return false; }
+        }
+        self.bh.push(at);
+        return true;
     }
     pub(crate) fn current_repeatable(&mut self) -> Option<&AvailableTraining>{
         self.current_repeatable.as_ref()
@@ -35,7 +41,7 @@ impl AvailableTrainings{
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(crate) struct AvailableTraining{
     training : Training,
     slope : Slope,
@@ -47,6 +53,7 @@ impl AvailableTraining {
     }
     pub(crate) fn slope(&self) -> Slope{ self.slope }
     pub(crate) fn training(self) -> Training{ self.training }
+    pub(crate) fn training_ref(&self) -> &Training{ &self.training }
     pub(crate) fn repeatable(&self) -> bool{ self.training.repeatable() }
 }
 
