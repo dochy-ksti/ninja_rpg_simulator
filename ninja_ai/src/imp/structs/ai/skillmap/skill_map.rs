@@ -1,5 +1,7 @@
+use std::num::NonZeroU32;
 use crate::imp::structs::ai::skillmap::available_trainings::AvailableTraining;
 use crate::imp::structs::ai::skillmap::skill_map_item::SkillMapItem;
+use crate::imp::structs::ai::skillmap::training::Training;
 
 pub(crate) struct SkillMap{
     map : Vec<SkillMapItem>,
@@ -32,19 +34,31 @@ impl SkillMap{
     }
 
     ///同じrepeatable trainingを二度連続で突っ込もうとすると失敗する
-    pub(crate) fn set_repeatable_training(&mut self, at : AvailableTraining) -> bool{
-        if let Some(last) = self.last(){
-            if last.event_id() == at.training_ref().event_id(){
+    pub(crate) fn set_repeatable_training(&mut self, t : Training) -> bool{
+        let stacked_skill_point = if let Some(last) = self.last(){
+            if last.event_id() == t.event_id(){
                 return false;
             }
-        }
+            if let Some(inc) = last.repeatable_increase(){
+                let inc = inc.get();
+                //repeatableの連続。ここには調節が必要になる
+                debug_assert!(last.stacked_skill_point() < t.required());
+                let diff = t.required() - last.stacked_skill_point();
+                let count = diff / inc + if diff % inc == 0{ 0 } else { 1 };
+                last.stacked_skill_point() + inc * count
+            } else{
+                last.stacked_skill_point()
+            }
+        } else{ 0 };
+
         let item = SkillMapItem::new(
-            self.stacked_skill_point(),
-            self.stacked_distance(),
-            Some(at.training_ref().increase()),
-            at.training_ref().event_id(),
+            stacked_skill_point,
+            self.stacked_distance() + t.distance(),
+            Some(NonZeroU32::new(t.increase()).unwrap()),
+            t.event_id(),
         );
         self.map.push(item);
+        return true;
     }
 
     pub(crate) fn set_training(&mut self, at : AvailableTraining) -> u32{

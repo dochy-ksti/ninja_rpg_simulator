@@ -59,7 +59,7 @@ impl AvailableTraining {
 
 impl PartialEq for AvailableTraining{
     fn eq(&self, other: &Self) -> bool {
-        self.training.cmp(othe) == Ordering::Equal
+        self.cmp(other) == Ordering::Equal
     }
 }
 

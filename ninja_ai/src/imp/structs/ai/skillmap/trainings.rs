@@ -1,10 +1,7 @@
-use std::cmp::Ordering;
 use std::collections::binary_heap::BinaryHeap;
 use crate::imp::structs::ai::skillmap::available_trainings::{AvailableTraining, AvailableTrainings};
 use crate::imp::structs::ai::skillmap::slope::Slope;
 use crate::imp::structs::ai::skillmap::training::Training;
-use crate::imp::structs::ai::skillmap::training_drainer::TrainingDrainer;
-use crate::imp::structs::event_id::EventID;
 
 
 pub(crate) struct Trainings{
@@ -79,7 +76,7 @@ impl Trainings {
             let slope = t.calc_slope(self.average_increase);
             if needed < slope{
                 let required = t.required();
-                return move_items(self, availables, required);
+                return self.move_items(availables, required);
             } else{
                 self.pop();
             }

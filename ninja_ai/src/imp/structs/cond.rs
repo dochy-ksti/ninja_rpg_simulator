@@ -1,4 +1,4 @@
-use crate::imp::structs::dstring::{DString, Visib};
+use crate::imp::structs::dstring::{DString};
 use crate::imp::structs::event_id::EventID;
 
 pub struct Cond {

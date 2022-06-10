@@ -1,5 +1,4 @@
 use crate::imp::structs::dstring::DString;
-use crate::imp::structs::event_id::EventID;
 use crate::imp::structs::barrier::Barrier;
 use crate::imp::structs::cond::Cond;
 

@@ -1,8 +1,4 @@
-use std::cmp::Ordering;
 use std::num::NonZeroU32;
-use ordered_float::NotNan;
-use crate::imp::structs::ai::required_skills::RequiredSkills;
-use crate::imp::structs::ai::skillmap::skill_map::SkillMap;
 use crate::imp::structs::event_id::EventID;
 
 pub(crate) struct SkillMapItem {
