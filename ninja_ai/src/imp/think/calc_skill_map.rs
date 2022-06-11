@@ -25,7 +25,7 @@ pub(crate) fn calc_skill_map(mut trainings : Trainings, current_skill_point : u3
                 skillmap.set_repeatable_training(item.training());
                 state = State::Slope(availables.current_repeatable().unwrap().slope())
             } else{
-                state = State::Achieved(skillmap.set_training(item));
+                state = State::Achieved(skillmap.set_training(item.training()));
             }
         } else{
             if let Some(current_repeatable) = availables.current_repeatable(){
