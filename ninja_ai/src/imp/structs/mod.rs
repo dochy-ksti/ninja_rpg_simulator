@@ -13,3 +13,4 @@ pub(crate) mod train_skill;
 pub(crate) mod ai;
 pub(crate) mod run;
 pub(crate) mod skill_points;
+pub(crate) mod owned_events;
