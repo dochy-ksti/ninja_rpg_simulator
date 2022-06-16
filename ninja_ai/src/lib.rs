@@ -3,4 +3,7 @@
 
 mod imp;
 
-pub use imp::think::events_to_nodes::events_to_nodes;
+#[cfg(test)]#[allow(dead_code)]
+mod testing;
+
+pub use imp::think::think::think;

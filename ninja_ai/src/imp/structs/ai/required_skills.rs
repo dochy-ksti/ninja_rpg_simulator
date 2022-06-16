@@ -5,7 +5,14 @@ pub(crate) struct RequiredSkills{
 }
 
 impl RequiredSkills{
-    pub(crate) fn new() -> RequiredSkills{ RequiredSkills{ map : Vec::with_capacity(SkillID::len()) } }
+    pub(crate) fn empty() -> RequiredSkills{ RequiredSkills{ map : Vec::new() } }
+    pub(crate) fn new() -> RequiredSkills{
+        RequiredSkills{
+            map : std::iter::repeat(0 as u32).take(SkillID::len()).collect()
+        }
+    }
+    pub(crate) fn is_empty(&self) -> bool{ self.map.is_empty() }
+
     pub(crate) fn overwrite(&mut self, r : &RequiredSkills){
         self.map.copy_from_slice(&r.map);
     }
