@@ -9,8 +9,17 @@ pub(crate) struct CostItem{
     skills : RequiredSkills,
 }
 
+impl CostMapItem{
+    pub(crate) fn no_data() -> CostMapItem{ CostMapItem{ item : None } }
+    pub(crate) fn reached() -> CostMapItem{ CostMapItem{ item : Some(CostItem::empty()) } }
+}
+
 impl CostItem{
     pub(crate) fn new(distance : u32) -> CostItem{
         CostItem{ distance, skills : RequiredSkills::new() }
+    }
+
+    pub(crate) fn empty() -> CostItem{
+        CostItem{ distance : 0, skills : RequiredSkills::empty() }
     }
 }
