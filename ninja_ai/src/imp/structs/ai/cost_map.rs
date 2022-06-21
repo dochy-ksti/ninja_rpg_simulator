@@ -15,4 +15,12 @@ impl CostMap{
     pub(crate) fn reached(&mut self, id : EventID){
         self.vec[id.num() as usize] = CostMapItem::reached();
     }
+
+    pub(crate) fn get(&self, id : EventID) -> &CostmapItem{
+        self.vec.get(id.num() as usize).unwrap()
+    }
+
+    pub(crate) fn accessble(&mut self, id : EventID) -> bool{
+        self.get(id).accessible()
+    }
 }

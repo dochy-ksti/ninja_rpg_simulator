@@ -5,3 +5,4 @@ pub(crate) mod training;
 pub(crate) mod available_trainings;
 pub(crate) mod trainings;
 pub(crate) mod skill_table;
+pub(crate) mod training_collection;
