@@ -12,7 +12,7 @@ pub(crate) struct CostItem{
 impl CostMapItem{
     pub(crate) fn no_data() -> CostMapItem{ CostMapItem{ item : None } }
     pub(crate) fn reached() -> CostMapItem{ CostMapItem{ item : Some(CostItem::empty()) } }
-    pub(crate) fn accessible(&self) -> bool{ self.item.is_some() }
+    pub(crate) fn reachable(&self) -> bool{ self.item.is_some() }
 }
 
 impl CostItem{

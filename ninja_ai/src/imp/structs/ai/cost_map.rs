@@ -16,11 +16,11 @@ impl CostMap{
         self.vec[id.num() as usize] = CostMapItem::reached();
     }
 
-    pub(crate) fn get(&self, id : EventID) -> &CostmapItem{
+    pub(crate) fn get(&self, id : EventID) -> &CostMapItem{
         self.vec.get(id.num() as usize).unwrap()
     }
 
-    pub(crate) fn accessble(&mut self, id : EventID) -> bool{
-        self.get(id).accessible()
+    pub(crate) fn reachable(&mut self, id : EventID) -> bool{
+        self.get(id).reachable()
     }
 }

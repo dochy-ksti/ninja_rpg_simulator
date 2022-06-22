@@ -8,11 +8,22 @@ pub struct Walls {
 
 pub struct Wall {
     desc : Option<String>,
-    wall : Option<WallVal>,
+    wall : WallVal,
     cond : Option<Cond>,
 }
 
 pub enum WallVal{
     Barrier(Barrier),
     Camouflage(DString),
+    None
+}
+
+impl Walls{
+    pub fn walls(&self) -> &[Wall]{ &self.vec }
+}
+
+impl Wall{
+    pub fn desc(&self) -> Option<&str>{ self.desc.as_deref() }
+    pub fn wall(&self) -> &WallVal{ &self.wall }
+    pub fn cond(&self) -> Option<&Cond>{ self.cond.as_ref() }
 }
