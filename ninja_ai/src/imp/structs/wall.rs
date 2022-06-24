@@ -25,5 +25,11 @@ impl Walls{
 impl Wall{
     pub fn desc(&self) -> Option<&str>{ self.desc.as_deref() }
     pub fn wall(&self) -> &WallVal{ &self.wall }
+    pub fn barrier(&self) -> Option<&Barrier>{
+        match &self.wall{
+            WallVal::Barrier(b) => Some(b),
+            _ => None,
+        }
+    }
     pub fn cond(&self) -> Option<&Cond>{ self.cond.as_ref() }
 }

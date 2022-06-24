@@ -22,8 +22,8 @@ pub fn think(charas : &Charas, evs : &Events, pc_id : CharaID) -> EventID{
     }
     for i in 0..evs.len(){
         let id = EventID::new(i as u32);
-        if costs.reachable(id){
-            visit
+        if costs.reached(id){
+            //visit()
         }
     }
 
