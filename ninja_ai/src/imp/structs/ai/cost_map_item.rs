@@ -4,8 +4,6 @@ pub(crate) struct CostMapItem{
     item : Option<CostItem>,
 }
 
-
-
 pub(crate) struct CostItem{
     distance : u32,
     iteration : u32,
@@ -18,14 +16,31 @@ impl CostMapItem{
     pub(crate) fn reached() -> CostMapItem{ CostMapItem{ item : Some(CostItem::empty()) } }
     //pub(crate) fn reachable(&self) -> bool{ self.item.is_some() }
     pub(crate) fn item(&self) -> Option<&CostItem>{ self.item.as_ref() }
-    pub(crate) fn set_unreachable(&mut self, iteration: u32) {
-        self.item = Some(CostItem::unreachable())
+    pub(crate) fn set_guard(&mut self, iteration: u32) {
+        if self.item.is_none() {
+            self.item = Some(CostItem::unreachable(iteration))
+        } else{
+            self.item.unwrap().iteration = iteration;
+        }
+    }
+
+    /// Not Unreachable nor NoData
+    pub(crate) fn reachable(&self) -> bool {
+        if let Some(item) = self.item{
+            if item.is_unreachable(){
+                false
+            } else{
+                true
+            }
+        } e3lse{
+            false
+        }
     }
 }
 
 impl CostItem{
-    pub(crate) fn new(distance : u32, iteration : u32) -> CostItem{
-        CostItem{ distance, iteration, skills : RequiredSkills::new() }
+    pub(crate) fn new(distance : u32, iteration : u32, total_cost : u32, skills : RequiredSkills) -> CostItem{
+        CostItem{ distance, iteration, skills, total_cost }
     }
 
     pub(crate) fn empty() -> CostItem{
@@ -39,5 +54,7 @@ impl CostItem{
     pub(crate) fn distance(&self) -> u32{ self.distance }
     pub(crate) fn iteration(&self) -> u32{ self.iteration }
 
-    pub(crate) fn is_reached(&self) -> bool{ self.skills.is_empty() }
+    pub(crate) fn is_reached(&self) -> bool{ self.distance == 0 }
+    pub(crate) fn is_unreachable(&self) -> bool{ self.distance == u32::MAX }
+
 }

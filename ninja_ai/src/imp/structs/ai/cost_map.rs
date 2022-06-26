@@ -1,12 +1,13 @@
 use std::iter;
 use crate::imp::structs::ai::cost_map_item::CostMapItem;
+use crate::imp::structs::ai::skillmap::skill_map::SkillMap;
+use crate::imp::structs::ai::skillmap::training_collection::TrainingCollection;
 use crate::imp::structs::event_id::EventID;
+use crate::imp::structs::skill_id::SkillID;
 
 pub(crate) struct CostMap{
     vec : Vec<CostMapItem>
 }
-
-
 
 impl CostMap{
     pub(crate) fn new(num_events : usize) -> CostMap{
@@ -26,7 +27,22 @@ impl CostMap{
         self.vec.get_mut(id.num() as usize).unwrap()
     }
 
-    pub(crate) fn set_unreachable(&mut self, id: EventID, iteration : u32) {
-        self.get_mut(id).set_unreachable(iteration);
+    pub(crate) fn reachable(&self, id : EventID) -> bool{
+        self.get(id).reachable()
+    }
+
+    /// 無限ループを避けるためにフラグを立てる
+    pub(crate) fn set_guard(&mut self, id: EventID, iteration : u32) {
+        self.get_mut(id).set_guard(iteration);
+    }
+
+    pub(crate) fn update_cost(&mut self,
+                              skill_id : SkillID,
+                              val : u32,
+                              current_id : EventID,
+                              from_id: Option<EventID>,
+                              skill_map: &SkillMap,
+                              tcol : &mut TrainingCollection) {
+        todo!()
     }
 }
