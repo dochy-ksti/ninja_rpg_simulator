@@ -4,10 +4,15 @@ use crate::imp::structs::ai::skillmap::available_trainings::AvailableTraining;
 use crate::imp::structs::ai::skillmap::skill_map_item::SkillMapItem;
 use crate::imp::structs::ai::skillmap::training::Training;
 use crate::imp::structs::event_id::EventID;
+use crate::imp::structs::skill_id::SkillID;
 
 pub(crate) struct SkillMap{
     map : Vec<SkillMapItem>,
     current_skill_point : u32,
+}
+
+impl SkillMap {
+
 }
 
 impl SkillMap{
@@ -88,6 +93,8 @@ impl SkillMap{
         self.map.push(item);
         self.stacked_skill_point()
     }
+
+
 
     pub(crate) fn get_cost(&self, required_skill_point : u32) -> SkillMapCost{
         if required_skill_point <= self.current_skill_point{ SkillMapCost::Reached }

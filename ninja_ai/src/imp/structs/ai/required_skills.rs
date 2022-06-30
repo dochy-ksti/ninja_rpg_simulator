@@ -22,5 +22,11 @@ impl RequiredSkills{
             *self.map.get_unchecked_mut(id.num() as usize) = val;
         }
     }
+
+    pub(crate) fn get(&self, id : SkillID) -> u32{
+        unsafe {
+            *self.map.get_unchecked(id.num() as usize)
+        }
+    }
 }
 
