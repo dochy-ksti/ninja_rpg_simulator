@@ -42,7 +42,7 @@ pub(crate) fn visit(ev : &Event,
 
 fn update_cost(b: &Barrier, skill_map: &SkillMap, cost_map: &mut CostMap, current_id: EventID, from: Option<EventID>) {
     if let Some(from_id) = from{
-        cost_map.update_cost(b.id(), b.val(), current_id, from_id, skill_map)
+        cost_map.update_cost(b.id(), b.val(), current_id, Some(from_id), skill_map)
     } else{
         unimplemented!()
     }

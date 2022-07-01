@@ -150,6 +150,14 @@ pub(crate) enum SkillMapCost{
     Unreachable
 }
 
-
+impl SkillMapCost{
+    pub(crate) fn less_than(&self, total_cost : u32) -> bool{
+        match self{
+            SkillMapCost::Reached => 0 < total_cost,
+            SkillMapCost::Reachable(c, _) => *c < total_cost,
+            SkillMapCost::Unreachable => total_cost < u32::MAX,
+        }
+    }
+}
 
 

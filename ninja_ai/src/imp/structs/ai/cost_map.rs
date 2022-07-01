@@ -59,10 +59,17 @@ impl CostMap{
         }
     }
 
-    fn apply_move(&mut self, current_id : EventID, from_id: EventID, skill_id : SkillID, val : u32){
+    fn apply_move(&mut self, current_id : EventID, from_id: EventID, skill_id : SkillID, val : u32, skill_map : &SkillMap){
         let (current, from) = get_two(&mut self.vec, current_id.num() as usize, from_id.num() as usize);
-
+        match from.state(){
+            State::Reached => unimplemented!(),
+            _ => unimplemented!(),
+        }
     }
+}
+
+fn apply_move_from_reached(current : &mut CostMapItem, skill_id : SkillID,val : u32, skill_map : &SkillMap){
+
 }
 
 fn get_two<T>(vec : &mut Vec<T>, i1 : usize, i2 : usize) -> (&mut T, &mut T){
@@ -71,7 +78,7 @@ fn get_two<T>(vec : &mut Vec<T>, i1 : usize, i2 : usize) -> (&mut T, &mut T){
     let (_left, right) = vec.split_at_mut(min);
     let (left2, right2) = right.split_at_mut(max - min);
     let left = left2.get_mut(0).unwrap();
-    let right = right2.get_mut(0).unwrap())
+    let right = right2.get_mut(0).unwrap();
     if i1 < i2{ (left, right) }
     else{ (right, left) }
 }

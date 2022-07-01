@@ -1,4 +1,5 @@
 use crate::imp::structs::ai::required_skills::RequiredSkills;
+use crate::imp::structs::skill_id::SkillID;
 
 pub(crate) struct CostMapItem{
     item : Option<CostItem>,
@@ -57,15 +58,22 @@ impl CostMapItem{
             } else{
                 true
             }
-        } e3lse{
+        } else{
             false
         }
     }
 }
 
 impl CostItem{
-    pub(crate) fn new(distance : u32, iteration : u32, total_cost : u32, skills : RequiredSkills) -> CostItem{
-        CostItem{ distance, iteration, skills, total_cost }
+    pub(crate) fn first(total_cost : u32, iteration : u32, skill_id : SkillID, val : u32) -> CostItem{
+        let mut skills = RequiredSkills::maxed();
+        skills.set(skill_id, val);
+        CostItem{
+            distance : 1,
+            iteration, skills,
+            total_cost,
+            skills,
+        }
     }
 
     pub(crate) fn empty() -> CostItem{
@@ -73,7 +81,7 @@ impl CostItem{
     }
 
     pub(crate) fn unreachable(iteration : u32) -> CostItem{
-        CostItem{ distance : u32::MAX, iteration, total_cost : U32::MAX, skills : RequiredSkills::empty() }
+        CostItem{ distance : u32::MAX, iteration, total_cost : u32::MAX, skills : RequiredSkills::empty() }
     }
 
     pub(crate) fn distance(&self) -> u32{ self.distance }

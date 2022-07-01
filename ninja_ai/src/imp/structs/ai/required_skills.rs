@@ -6,9 +6,9 @@ pub(crate) struct RequiredSkills{
 
 impl RequiredSkills{
     pub(crate) fn empty() -> RequiredSkills{ RequiredSkills{ map : Vec::new() } }
-    pub(crate) fn new() -> RequiredSkills{
+    pub(crate) fn maxed() -> RequiredSkills{
         RequiredSkills{
-            map : std::iter::repeat(0 as u32).take(SkillID::len()).collect()
+            map : std::iter::repeat(u32::MAX).take(SkillID::len()).collect()
         }
     }
     pub(crate) fn is_empty(&self) -> bool{ self.map.is_empty() }
