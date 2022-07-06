@@ -7,6 +7,7 @@ use crate::imp::structs::charas::Charas;
 use crate::imp::structs::event::Event;
 use crate::imp::structs::event_id::EventID;
 use crate::imp::structs::events::Events;
+use crate::imp::think::visit::visit;
 
 pub fn think(charas : &Charas, evs : &Events, pc_id : CharaID) -> EventID{
     let pc = charas.get(pc_id);
@@ -22,8 +23,8 @@ pub fn think(charas : &Charas, evs : &Events, pc_id : CharaID) -> EventID{
     }
     for i in 0..evs.len(){
         let id = EventID::new(i as u32);
-        if costs.reached(id){
-            //visit()
+        if costs.is_reached(id){
+            visit()
         }
     }
 

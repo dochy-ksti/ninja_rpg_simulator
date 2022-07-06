@@ -70,7 +70,7 @@ impl CostItem{
         skills.set(skill_id, val);
         CostItem{
             distance : 1,
-            iteration, skills,
+            iteration,
             total_cost,
             skills,
         }

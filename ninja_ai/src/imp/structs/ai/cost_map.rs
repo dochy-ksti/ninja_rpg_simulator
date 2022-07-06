@@ -19,6 +19,10 @@ impl CostMap{
         self.vec[id.num() as usize] = CostMapItem::reached();
     }
 
+    pub(crate) fn is_reached(&mut self, id : EventID) -> bool{
+        self.vec[id.num() as usize].state() == State::Reached
+    }
+
     pub(crate) fn get(&self, id : EventID) -> &CostMapItem{
         self.vec.get(id.num() as usize).unwrap()
     }
@@ -50,7 +54,7 @@ impl CostMap{
                 State::Unreachable | State::NoData => unreachable!(),
                 State::Reached =>{
                     let cost = skill_map.get_cost(val);
-                    if cost < self.get(current_id).total_cost(){
+                    if cost.less_than(self.get(current_id).total_cost()){
 
                     }
                 }
