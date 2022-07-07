@@ -1,5 +1,5 @@
 use std::iter;
-use crate::imp::structs::ai::cost_map_item::{CostMapItem, State};
+use crate::imp::structs::ai::cost_map_item::{CostItem, CostMapItem, State};
 use crate::imp::structs::ai::skillmap::skill_map::SkillMap;
 use crate::imp::structs::ai::skillmap::training_collection::TrainingCollection;
 use crate::imp::structs::event_id::EventID;
@@ -45,8 +45,8 @@ impl CostMap{
                               val : u32,
                               current_id : EventID,
                               from_id: Option<EventID>,
-                              skill_map: &SkillMap,
-                              tcol : &mut TrainingCollection) {
+                              iteration : u32,
+                              skill_map: &SkillMap) -> bool{
         if let Some(from_id) = from_id{
             debug_assert!(current_id != from_id);
             let state = self.get(from_id).state();
@@ -55,7 +55,7 @@ impl CostMap{
                 State::Reached =>{
                     let cost = skill_map.get_cost(val);
                     if cost.less_than(self.get(current_id).total_cost()){
-
+                        cost.
                     }
                 }
             }
@@ -63,17 +63,17 @@ impl CostMap{
         }
     }
 
-    fn apply_move(&mut self, current_id : EventID, from_id: EventID, skill_id : SkillID, val : u32, skill_map : &SkillMap){
+    fn apply_move(&mut self, current_id : EventID, from_id: EventID, total_cost : u32, skill_id : SkillID, val : u32, skill_map : &SkillMap){
         let (current, from) = get_two(&mut self.vec, current_id.num() as usize, from_id.num() as usize);
         match from.state(){
-            State::Reached => unimplemented!(),
+            State::Reached => apply_move_from_reached(current, skill_id, val, skill_map),
             _ => unimplemented!(),
         }
     }
 }
 
-fn apply_move_from_reached(current : &mut CostMapItem, skill_id : SkillID,val : u32, skill_map : &SkillMap){
-
+fn apply_move_from_reached(current : &mut CostMapItem, skill_id : SkillID,val : u32, iteration : u32){
+    *current = CostMapItem::new(Some(CostItem::first(total_cost, iteration, skill_id, val)))
 }
 
 fn get_two<T>(vec : &mut Vec<T>, i1 : usize, i2 : usize) -> (&mut T, &mut T){

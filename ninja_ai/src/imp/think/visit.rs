@@ -13,22 +13,30 @@ pub(crate) fn visit(ev : &Event,
                     skill_map : &SkillMap,
                     iteration : u32,
                     from : Option<EventID>,
+                    first : bool,
                     tcol : &mut TrainingCollection){
-    if should_visit(iteration, cost_map.get(ev.id())) == false{ return; }
-    //無限ループを避けるため、とりあえず"使用中"みたいなフラグをセット
-    cost_map.set_guard(ev.id(), iteration);
+    //first は reached である。reachedにも一回だけvisitする必要があるので、firstではtestしない
+    if first == false {
+        //reached は should_visitで弾かれる。
+        if should_visit(iteration, cost_map.get(ev.id())) == false { return; }
+        //無限ループを避けるため、とりあえず"使用中"みたいなフラグをセット。
+        // 無限ループしようとしてもshould_visitで弾かれる。
+        cost_map.set_guard(ev.id(), iteration);
+    }
+
 
     for w in ev.walls(){
         let mut from = from;
         for wall in w.walls(){
-            if let Some(b) = wall.barrier(){
-                update_cost(b, skill_map, cost_map, ev.id(), from);
-            }
-
             if let Some(cond) = wall.cond(){
                 let next = evs.get(cond.id());
                 visit(next, evs, cost_map, skill_map, iteration, from);
                 if cost_map.reachable(cond.id()){
+                    if let Some(b) = wall.barrier(){
+                        if update_cost(b, skill_map, cost_map, ev.id(), from){
+                            tcol.push();
+                        }
+                    }
                     from = Some(cond.id());
                 } else{
                     break;
@@ -40,7 +48,8 @@ pub(crate) fn visit(ev : &Event,
     }
 }
 
-fn update_cost(b: &Barrier, skill_map: &SkillMap, cost_map: &mut CostMap, current_id: EventID, from: Option<EventID>) {
+fn update_cost(b: &Barrier, skill_map: &SkillMap, cost_map: &mut CostMap,
+               current_id: EventID, from: Option<EventID>) -> bool {
     if let Some(from_id) = from{
         cost_map.update_cost(b.id(), b.val(), current_id, Some(from_id), skill_map)
     } else{

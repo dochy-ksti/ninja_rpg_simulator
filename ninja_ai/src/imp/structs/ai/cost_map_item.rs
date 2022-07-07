@@ -5,8 +5,6 @@ pub(crate) struct CostMapItem{
     item : Option<CostItem>,
 }
 
-
-
 pub(crate) struct CostItem{
     distance : u32,
     iteration : u32,
@@ -19,6 +17,7 @@ pub(crate) enum State{
 }
 
 impl CostMapItem{
+    pub(crate) fn new(item : Option<CostItem>) -> CostMapItem{ CostMapItem{ item } }
     pub(crate) fn no_data() -> CostMapItem{ CostMapItem{ item : None } }
     pub(crate) fn reached() -> CostMapItem{ CostMapItem{ item : Some(CostItem::empty()) } }
     pub(crate) fn state(&self) -> State{
