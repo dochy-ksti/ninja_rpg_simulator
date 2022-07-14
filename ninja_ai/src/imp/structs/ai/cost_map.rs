@@ -46,35 +46,43 @@ impl CostMap{
                               current_id : EventID,
                               from_id: Option<EventID>,
                               iteration : u32,
-                              skill_map: &SkillMap) -> bool{
+                              skill_map: &SkillMap,
+                              trainings : &mut TrainingCollection) -> bool{
         if let Some(from_id) = from_id{
             debug_assert!(current_id != from_id);
             let state = self.get(from_id).state();
             match state{
                 State::Unreachable | State::NoData => unreachable!(),
                 State::Reached =>{
-                    let cost = skill_map.get_cost(val);
-                    if cost.less_than(self.get(current_id).total_cost()){
-                        cost.
-                    }
+
                 }
             }
 
         }
     }
 
-    fn apply_move(&mut self, current_id : EventID, from_id: EventID, total_cost : u32, skill_id : SkillID, val : u32, skill_map : &SkillMap){
+    fn first_move(&mut self, trainings : &mut TrainingCollection){
+        let cost = skill_map.get_cost(val);
+        if cost.less_than(self.get(current_id).total_cost()){
+            trainings.push()
+        }
+    }
+
+    fn apply_move_first(&mut self, current_id : EventID, skill_id : SkillID,val : u32, iteration : u32){
+        let current = self.get_mut(current_id);
+        *current = CostMapItem::new(Some(CostItem::first(total_cost, iteration, skill_id, val)))
+    }
+
+    fn apply_move(&mut self, current_id : EventID, from_id: EventID, total_cost : u32, skill_id : SkillID, val : u32, iteration : u32, skill_map : &SkillMap){
         let (current, from) = get_two(&mut self.vec, current_id.num() as usize, from_id.num() as usize);
         match from.state(){
-            State::Reached => apply_move_from_reached(current, skill_id, val, skill_map),
+            State::Reached => apply_move_from_reached(current, skill_id, val, iteration),
             _ => unimplemented!(),
         }
     }
 }
 
-fn apply_move_from_reached(current : &mut CostMapItem, skill_id : SkillID,val : u32, iteration : u32){
-    *current = CostMapItem::new(Some(CostItem::first(total_cost, iteration, skill_id, val)))
-}
+
 
 fn get_two<T>(vec : &mut Vec<T>, i1 : usize, i2 : usize) -> (&mut T, &mut T){
     let min = i1.min(i2);
